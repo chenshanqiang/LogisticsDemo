@@ -6,14 +6,12 @@
  * Time: 10:04
  */
 
-namespace app\UserManager\controller;
-
-
+namespace app\UserManage\controller;
 use think\Controller;
 
-class UserManange extends Controller
+class Usermanage extends Controller
 {
-    public function UserManage(){
+    public function usermanage(){
         return $this->fetch();
     }
 }

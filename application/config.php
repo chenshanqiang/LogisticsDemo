@@ -237,6 +237,6 @@ return [
         'list_rows' => 15,
     ],
 
-    //"web_root"   => "/LogisticsOrder/public/static/",
+    "web_root"   => "/LogisticsDemo/public/static/",
     //"web"    => "/LogisticsOrder/public/index.php/",
 ];
