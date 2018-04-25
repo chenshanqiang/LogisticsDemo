@@ -8,76 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
 	</head>
 	<body>
-		<div style="margin:20px 10px;min-height: 180px;border: 2px solid #C7C7C7;">
-			<form class="layui-form" style="padding-top:20px;">
-				<div class="layui-form-item">
-				    <div class="layui-inline">
-				      <label class="layui-form-label">日期：</label>
-				      <div class="layui-input-inline" style="width: 200px;">
-				         <input type="text" name="startdate" id="startdate" lay-filter="startdate" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-				      </div>
-				      <div class="layui-form-mid">至</div>
-				      <div class="layui-input-inline" style="width: 200px;">
-				         <input type="text" name="enddate" id="enddate" lay-filter="enddate" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-				      </div>
-				    </div>
-					
-					<div class="layui-inline">
-						<label class="layui-form-label">流水号：</label>
-						<div class="layui-input-inline" style="width: 200px;">
-							<input type="text" name="serialnumber" lay-filter="serialnumber" placeholder="请输入流水号" autocomplete="off" class="layui-input">
-						</div>
-					</div>
-					
-					<div class="layui-inline">
-						<label class="layui-form-label">状态：</label>
-						<div class="layui-input-inline">
-					      <select name="orderstate" lay-filter="orderstate">
-					        <option value="">请选择</option>
-					        <option value="0" selected>已完成</option>
-					        <option value="1">处理中</option>
-					        <option value="2">取消</option>
-					        <option value="3">备货</option>
-					      </select>
-					    </div>
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<div class="layui-inline">
-						<label class="layui-form-label">收货人：</label>
-						<div class="layui-input-inline" style="width: 435px;">
-							<input type="text" name="recvpeople" lay-filter="recvpeople" placeholder="请输入收货人" autocomplete="off" class="layui-input">
-						</div>
-					</div>
-
-	 				<div class="layui-inline">
-						<label class="layui-form-label">部门：</label>
-						<div class="layui-input-inline" style="width: 200px;">
-					      <select name="department" lay-filter="department">
-					        <option value="">请选择</option>
-					        <option value="0" selected>营销一部</option>
-					        <option value="1">营销二部</option>
-					        <option value="2">营销三部</option>
-					        <option value="3">营销四部</option>
-					      </select>
-					    </div>
-					</div> 
-
-					<div class="layui-inline">
-						<label class="layui-form-label">区域经理：</label>
-						<div class="layui-input-inline" style="width: 200px;">
-							<input type="text" name="areamanger" lay-filter="areamanger" placeholder="请输入区域经理" autocomplete="off" class="layui-input">
-						</div>
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<button class="layui-btn" lay-submit="" lay-filter="query" style="float: right;margin-right: 10px;">查询</button>
-				</div>
-			</form>
-		</div>
-
+		{include file="publictemplate/approveserachcondtion"/}
 		<div style="margin:20px 10px;">
 			<div><h2>配件待审批订单</h2></div>
 			<table class="layui-hide" id="partsorder" lay-filter="partsorder"></table>

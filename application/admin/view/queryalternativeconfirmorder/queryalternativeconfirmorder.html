@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>更换确认单审批</title>
+		<title>查询代用确认单</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 		<link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
 	</head>
 	<body>
-		{include file="publictemplate/approveserachcondtion"/}
+		{include file="publictemplate/querysearchcondition"/}
 		<div style="margin:20px 10px;">
-			<div><h2>更换待审批订单</h2></div>
-			<table class="layui-hide" id="replaceorder" lay-filter="replaceorder"></table>
+			<div><h2>代用单查询</h2></div>
+			<table class="layui-hide" id="queryalternativeorder" lay-filter="queryalternativeorder"></table>
 			<script type="text/html" id="operatebar">
 			  <a class="layui-btn layui-btn-xs" lay-event="detail">查看详情</a>
 			</script>
@@ -47,9 +47,9 @@
 
 				/*表格渲染*/
 				table.render({
-				    elem: '#replaceorder'
-				    ,url:"{:url('admin/addreplaceconfirmorder/getexamineorder')}"     //动态获取数据
-				    ,cols: [[ 
+				    elem: '#queryalternativeorder'
+				    ,url:"{:url('admin/queryalternativeconfirmorder/getexamineorder')}"     //动态获取数据
+				    ,cols: [[
 				       {type:'checkbox'}
 				      ,{field: 'date', title: '下单日期', width: 150, sort: true}
 				      ,{field: 'serialnumber', title: '流水号', minWidth: 150}
@@ -71,7 +71,7 @@
 				  });
 
 				/*监听工具条*/
-				table.on('tool(replaceorder)', function(obj){
+				table.on('tool(queryalternativeorder)', function(obj){
 				    var data = obj.data;
 				    if(obj.event === 'detail'){
 				    	layer.msg('下单日期：'+ data.date + ' 的查看操作');
