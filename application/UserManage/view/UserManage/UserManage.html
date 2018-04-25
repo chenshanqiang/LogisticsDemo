@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
+</head>
+<body>
+    <div ><h1>用户管理</h1></div>
+    <div>
+        <form>
+            <div class="form-inline-item">
+                <div class="form-inline">
+                    <button>部门架构</button>
+                </div>
+                <div class="form-inline">
+                    <button>新增</button>
+                </div>
+                <div class="form-inline">
+                    <button>角色管理</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div style="margin:20px 10px;">
+        <table class="layui-hide" id="usertable" lay-filter="usertable"></table>
+        <script type="text/html" id="operatebar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
+        </script>
+    </div>
+    <script src="/static/layui/layui.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer','jquery','laydate','form','table'],function(){
+            var form = layui.form ,layer = layui.layer,jq = layui.jquery,laydate = layui.laydate,table = layui.table;
+            /*时间控件渲染*/
+            laydate.render({
+                elem: '#startdate'
+            });
+
+            laydate.render({
+                elem: '#enddate'
+            });
+
+            /*监听查询按钮*/
+            form.on('submit(query)',function(data){
+                var queryInfo = data.field;
+
+                table.reload('querytable', {
+                    page: {
+                        curr: 1
+                    }
+                    ,where: {
+                        queryInfo: queryInfo
+                    }
+                });
+                return false;
+            });
+
+            /*表格渲染*/
+            table.render({
+                elem: '#usertable'
+                ,url:"{:url('admin/addgoodsconfirmorder/getexamineorder')}"     //动态获取数据
+                ,cols: [[
+                    ,{field: 'serialnumber', title: '序号', width: 150, sort: true}
+                    ,{field: 'fullname', title: '用户名/账号', minWidth: 150}
+                    ,{field: 'recvpeople', title: '总部门', minWidth: 100}
+                    ,{field: 'state', title: '子部门', minWidth: 100}
+                    ,{field: 'department', title: '职位', minWidth: 150}
+                    ,{field: 'areamanger', title: '联系电话', minWidth: 100}
+                    ,{field: 'totalnumber', title: '角色', width: 80}
+                    ,{fixed: 'right', title:'操作', width:150, align:'center', toolbar: '#operatebar'}
+                ]]
+                ,id: 'querytable'
+                ,data:[]
+                ,even: true
+                ,page: true //是否显示分页
+                ,limit: 10 //每页默认显示的数量
+                ,done: function(res){
+                    console.log(res);    //res为接口返回的数据
+                }
+            });
+
+            /*监听工具条*/
+            table.on('tool(goodsorder)', function(obj){
+                var data = obj.data;
+                if(obj.event === 'detail'){
+                    layer.msg('下单日期：'+ data.date + ' 的查看操作');
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
