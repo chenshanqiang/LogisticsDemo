@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>代用确认单审批</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
+	</head>
+	<body>
+		<div style="margin:20px 10px;min-height: 180px;border: 2px solid #C7C7C7;">
+			<form class="layui-form" style="padding-top:20px;">
+				<div class="layui-form-item">
+				    <div class="layui-inline">
+				      <label class="layui-form-label">日期：</label>
+				      <div class="layui-input-inline" style="width: 200px;">
+				         <input type="text" name="startdate" id="startdate" lay-filter="startdate" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+				      </div>
+				      <div class="layui-form-mid">至</div>
+				      <div class="layui-input-inline" style="width: 200px;">
+				         <input type="text" name="enddate" id="enddate" lay-filter="enddate" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+				      </div>
+				    </div>
+					
+					<div class="layui-inline">
+						<label class="layui-form-label">流水号：</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="serialnumber" lay-filter="serialnumber" placeholder="请输入流水号" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					
+					<div class="layui-inline">
+						<label class="layui-form-label">状态：</label>
+						<div class="layui-input-inline">
+					      <select name="orderstate" lay-filter="orderstate">
+					        <option value="">请选择</option>
+					        <option value="0" selected>已完成</option>
+					        <option value="1">处理中</option>
+					        <option value="2">取消</option>
+					        <option value="3">备货</option>
+					      </select>
+					    </div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">收货人：</label>
+						<div class="layui-input-inline" style="width: 435px;">
+							<input type="text" name="recvpeople" lay-filter="recvpeople" placeholder="请输入收货人" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+	 				<div class="layui-inline">
+						<label class="layui-form-label">部门：</label>
+						<div class="layui-input-inline" style="width: 200px;">
+					      <select name="department" lay-filter="department">
+					        <option value="">请选择</option>
+					        <option value="0" selected>营销一部</option>
+					        <option value="1">营销二部</option>
+					        <option value="2">营销三部</option>
+					        <option value="3">营销四部</option>
+					      </select>
+					    </div>
+					</div> 
+
+					<div class="layui-inline">
+						<label class="layui-form-label">区域经理：</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="areamanger" lay-filter="areamanger" placeholder="请输入区域经理" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<button class="layui-btn" lay-submit="" lay-filter="query" style="float: right;margin-right: 10px;">查询</button>
+				</div>
+			</form>
+		</div>
+
+		<div style="margin:20px 10px;">
+			<div><h2>代用待审批订单</h2></div>
+			<table class="layui-hide" id="alternativeorder" lay-filter="alternativeorder"></table>
+			<script type="text/html" id="operatebar">
+			  <a class="layui-btn layui-btn-xs" lay-event="detail">查看详情</a>
+			</script>
+		</div>
+		<script src="/static/layui/layui.js"></script>
+		<script type="text/javascript">
+			layui.use(['layer','jquery','laydate','form','table'],function(){
+				var form = layui.form ,layer = layui.layer,jq = layui.jquery,laydate = layui.laydate,table = layui.table;
+
+				/*时间控件渲染*/
+				laydate.render({
+				    elem: '#startdate'
+				});
+				
+				laydate.render({
+				    elem: '#enddate'
+				});
+
+				/*监听查询按钮*/
+				form.on('submit(query)',function(data){
+					var queryInfo = data.field;
+
+  			      	table.reload('querytable', {
+				        page: {
+				          curr: 1
+				        }
+				        ,where: {
+				            queryInfo: queryInfo
+				        }
+			      	});
+		  			return false;
+				});
+
+				/*表格渲染*/
+				table.render({
+				    elem: '#alternativeorder'
+				    ,url:"{:url('admin/approvealternativeconfirmorder/getexamineorder')}"     //动态获取数据
+				    ,cols: [[ 
+				       {type:'checkbox'}
+				      ,{field: 'date', title: '下单日期', width: 150, sort: true}
+				      ,{field: 'serialnumber', title: '流水号', minWidth: 150}
+				      ,{field: 'recvpeople', title: '收件人', minWidth: 100}
+				      ,{field: 'state', title: '状态', minWidth: 100}
+				      ,{field: 'department', title: '部门', minWidth: 150}
+				      ,{field: 'areamanger', title: '区域经理', minWidth: 100}
+				      ,{field: 'totalnumber', title: '项数', width: 80}
+				      ,{fixed: 'right', title:'操作', width:150, align:'center', toolbar: '#operatebar'}
+				    ]]
+				    ,id: 'querytable'
+				    ,data:[]
+				    ,even: true
+				    ,page: true //是否显示分页
+				    ,limit: 10 //每页默认显示的数量
+				    ,done: function(res){
+				    	console.log(res);    //res为接口返回的数据
+				    }
+				  });
+
+				/*监听工具条*/
+				table.on('tool(alternativeorder)', function(obj){
+				    var data = obj.data;
+				    if(obj.event === 'detail'){
+				    	layer.msg('下单日期：'+ data.date + ' 的查看操作');
+				    }
+			  	});
+			});
+		</script>
+	</body>
+</html>
