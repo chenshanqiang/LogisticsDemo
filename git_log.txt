@@ -1,0 +1,7 @@
+1.git使用常用指令:
+  git init ---初始化一个本地仓库,一定要进入指定的项目文件夹内;
+  git remote add origin git@github.com:PythonSun/LogisticsOrder.git  ---表示本地仓库与github上仓库的连接
+  git push origin master --建立第一次连接后，后面的上传文件到github都可以使用该条命令
+  git add filename/dirname  ---表示添加个文件或者文件夹
+  git commit -m "注释"  ----表示提交刚才add的文件，及添加说明
+  git rm -r --cached filename/dirname  ---删除本地仓库文件/文件夹

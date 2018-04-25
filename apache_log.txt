@@ -1,0 +1,17 @@
+# LogisticsOrder
+apache2配置隐藏thinkphp中index.php入口文件方法：
+(1)找到httpd.conf中
+  # Virtual hosts
+  #Include conf/extra/httpd-vhosts.conf 去掉该行的注释
+（2）找到httpd-vhosts.conf文件 ,增加如下配置，这里是重开个端口做测试
+  <VirtualHost localhost:8081>
+	  ServerName localhost
+	  DocumentRoot F:/website/Apache24/htdocs/LogisticsOrder/public
+	  <Directory  "F:/website/Apache24/htdocs/LogisticsOrder/public/">
+		  Options +Indexes +FollowSymLinks +MultiViews
+		  AllowOverride All
+		  Require local
+	  </Directory>
+  </VirtualHost>
+（3）apache 的httpd.conf中增加Listen 8081;
+ (4)重启apache即可；

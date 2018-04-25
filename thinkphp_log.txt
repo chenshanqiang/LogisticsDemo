@@ -1,0 +1,5 @@
+# LogisticsOrder
+物流订单系统
+1.隐藏url后面参数的方法
+  在application下找到route.php,修改'index'=>'index/index/index', 增加这行就可以缩写成对应控制器即可
+  
