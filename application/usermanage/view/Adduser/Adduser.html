@@ -39,7 +39,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">子部门：</label>
                     <div class="layui-input-inline">
-                        <select id = "department_id" name="department_name" lay-filter="department_name" id="department_name">
+                        <select id = "department_id" name="department_name" lay-filter="department_name">
                             <option value = "" selected>请选择</option>
                         </select>
                     </div>
@@ -84,7 +84,7 @@
         layui.use(['layer','jquery','form','table'],function(){
             var form = layui.form ,layer = layui.layer,jq = layui.jquery,table = layui.table;
             //layui.form.render();
-            /*监听查询按钮*/
+            /*监听总部门选择*/
             form.on('select(company_name)',function(data){
                 jq.post("{:url('usermanage/adduser/getdepartmentinfo')}",{'param':data.value},function(data){
                     for(var  item in data){
@@ -102,7 +102,7 @@
         function SaveUser() {
             var jq = layui.jquery;
             var user = new Object();
-             user.fullname= jq("#fullname").val();
+            user.fullname= jq("#fullname").val();
             user.password= jq("#password").val();
             user.company_id= jq("#company_id").val();
             user.department_id= jq("#department_id").val();

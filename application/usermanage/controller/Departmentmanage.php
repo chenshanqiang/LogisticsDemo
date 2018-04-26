@@ -14,9 +14,8 @@ class Departmentmanage extends Controller
 {
     public function departmentmanage()
     {
-//        $roletable = \app\index\model\Admin::queryroleinfo();
-//        if(!empty($roletable))
-//            $this->assign("rolelist",$roletable);
+
         return $this->fetch();
     }
+
 }

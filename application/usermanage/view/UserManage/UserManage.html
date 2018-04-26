@@ -83,7 +83,30 @@
 
 
             jq('#rolemanage').click(function(){
-                layer.msg('12');
+                // 触发事件
+                // 多窗口模式，层叠置顶
+                layer.open({
+                    type: 2 //此处以iframe举例
+                    , title: '角色管理'
+                    , area: ['800px', '90%']
+                    , shade: 0
+                    , maxmin: false
+                    , content: "{:url('usermanage/Rolemanage/Rolemanage')}"
+                    , btn: ['保存', '退出'] //只是为了演示
+                    , yes: function (index, layero) {
+
+                        var iframeWin = window[layero.find('iframe')[0]['name']];
+                        var role = iframeWin.SaveRole();
+                        console.log(role);
+                         // jq.post("{:url('usermanage/rolemanage/setrolepermisson')}",{'param':role} ,function(data){
+                         //     console.log(data);
+                         // });
+                        // layer.closeAll();
+                    }
+                    , btn2: function () {
+                        layer.closeAll();
+                    }
+                });
                 return false;
             });
             /*表格渲染*/
