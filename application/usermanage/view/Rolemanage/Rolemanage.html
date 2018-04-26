@@ -16,6 +16,9 @@
                   <div class="layui-input-inline">
                        <select id = "rolelist" name="role_name" lay-filter="role_name">
                            <option value = "" selected>请选择</option>
+                           {volist name="rolelist" id="vo"}
+                           <option value={$vo.role_id}>{$vo.role_name}</option>
+                           {/volist}
                        </select>
                   </div>
               </div>
@@ -24,7 +27,7 @@
     </div>
     <div>
       <form class="layui-form">
-          <div class="layui-form-item" style="margin: 10px 10px">
+          <div class="layui-form-item" style="margin: 10px 10px 5px 10px">
               <div class="layui-inline">
                   <label class="layui-form-label">权限管理：</label>
               </div>
@@ -72,12 +75,12 @@
               <div class="layui-inline">
                   <label class="layui-form-label" style="width: 150px">退货确认订单权限：</label>
                   <div class="layui-input-inline" style="width: 450px">
-                      <input type="checkbox" id="return_goods_permission_add" name="return_goods_permission_add" lay-skin="primary" title="增加" >
-                      <input type="checkbox" id="return_goods_permission_edit" name="return_goods_permission_edit" lay-skin="primary" title="修改">
-                      <input type="checkbox" id="return_goods_permission_delete" name="return_goods_permission_delete" lay-skin="primary" title="删除" >
-                      <input type="checkbox" id="return_goods_permission_print" name="return_goods_permission_print" lay-skin="primary" title="打印" >
-                      <input type="checkbox" id="return_goods_permission_export" name="return_goods_permission_export" lay-skin="primary" title="导出" >
-                      <input type="checkbox" id="return_goods_permission_examine" name="return_goods_permission_examine" lay-skin="primary" title="审批" >
+                      <input type="checkbox" id="return_goods_permission_add" name="return_goods_permission" lay-skin="primary" title="增加" >
+                      <input type="checkbox" id="return_goods_permission_edit" name="return_goods_permission" lay-skin="primary" title="修改">
+                      <input type="checkbox" id="return_goods_permission_delete" name="return_goods_permission" lay-skin="primary" title="删除" >
+                      <input type="checkbox" id="return_goods_permission_print" name="return_goods_permission" lay-skin="primary" title="打印" >
+                      <input type="checkbox" id="return_goods_permission_export" name="return_goods_permission" lay-skin="primary" title="导出" >
+                      <input type="checkbox" id="return_goods_permission_examine" name="return_goods_permission" lay-skin="primary" title="审批" >
                   </div>
               </div>
           </div>
@@ -85,12 +88,12 @@
               <div class="layui-inline">
                   <label class="layui-form-label" style="width: 150px">维修确认订单权限：</label>
                   <div class="layui-input-inline" style="width: 450px">
-                      <input type="checkbox" id="fixing_permission_add" name="fixing_permission_add" lay-skin="primary" title="增加" >
-                      <input type="checkbox" id="fixing_permission_edit" name="fixing_permission_edit" lay-skin="primary" title="修改">
-                      <input type="checkbox" id="fixing_permission_delete" name="fixing_permission_delete" lay-skin="primary" title="删除" >
-                      <input type="checkbox" id="fixing_permission_print" name="fixing_permission_print" lay-skin="primary" title="打印" >
-                      <input type="checkbox" id="fixing_permission_export" name="fixing_permission_export" lay-skin="primary" title="导出" >
-                      <input type="checkbox" id="fixing_permission_examine" name="fixing_permission_examine" lay-skin="primary" title="审批" >
+                      <input type="checkbox" id="fixing_permission_add" name="fixing_permission" lay-skin="primary" title="增加" >
+                      <input type="checkbox" id="fixing_permission_edit" name="fixing_permission" lay-skin="primary" title="修改">
+                      <input type="checkbox" id="fixing_permission_delete" name="fixing_permission" lay-skin="primary" title="删除" >
+                      <input type="checkbox" id="fixing_permission_print" name="fixing_permission" lay-skin="primary" title="打印" >
+                      <input type="checkbox" id="fixing_permission_export" name="fixing_permission" lay-skin="primary" title="导出" >
+                      <input type="checkbox" id="fixing_permission_examine" name="fixing_permission" lay-skin="primary" title="审批" >
                   </div>
               </div>
           </div>
@@ -98,12 +101,12 @@
               <div class="layui-inline">
                   <label class="layui-form-label" style="width: 150px">配件确认订单权限：</label>
                   <div class="layui-input-inline" style="width: 450px">
-                      <input type="checkbox" id="maintain_permission_add" name="maintain_permission_add" lay-skin="primary" title="增加" >
-                      <input type="checkbox" id="maintain_permission_edit" name="maintain_permission_edit" lay-skin="primary" title="修改">
-                      <input type="checkbox" id="maintain_permission_delete" name="maintain_permission_delete" lay-skin="primary" title="删除" >
-                      <input type="checkbox" id="maintain_permission_print" name="maintain_permission_print" lay-skin="primary" title="打印" >
-                      <input type="checkbox" id="maintain_permission_export" name="maintain_permission_export" lay-skin="primary" title="导出" >
-                      <input type="checkbox" id="maintain_permission_examine" name="maintain_permission_examine" lay-skin="primary" title="审批" >
+                      <input type="checkbox" id="maintain_permission_add" name="maintain_permission" lay-skin="primary" title="增加" >
+                      <input type="checkbox" id="maintain_permission_edit" name="maintain_permission" lay-skin="primary" title="修改">
+                      <input type="checkbox" id="maintain_permission_delete" name="maintain_permission" lay-skin="primary" title="删除" >
+                      <input type="checkbox" id="maintain_permission_print" name="maintain_permission" lay-skin="primary" title="打印" >
+                      <input type="checkbox" id="maintain_permission_export" name="maintain_permission" lay-skin="primary" title="导出" >
+                      <input type="checkbox" id="maintain_permission_examine" name="maintain_permission" lay-skin="primary" title="审批" >
                   </div>
               </div>
           </div>
@@ -112,12 +115,12 @@
               <div class="layui-inline">
                   <label class="layui-form-label" style="width: 150px">代用确认订单权限：</label>
                   <div class="layui-input-inline" style="width: 450px">
-                      <input type="checkbox" id="substitute_permission_add" name="substitute_permission_add" lay-skin="primary" title="增加" >
-                      <input type="checkbox" id="substitute_permission_edit" name="substitute_permission_edit" lay-skin="primary" title="修改">
-                      <input type="checkbox" id="substitute_permission_delete" name="substitute_permission_delete" lay-skin="primary" title="删除" >
-                      <input type="checkbox" id="substitute_permission_print" name="substitute_permission_print" lay-skin="primary" title="打印" >
-                      <input type="checkbox" id="substitute_permission_export" name="substitute_permission_export" lay-skin="primary" title="导出" >
-                      <input type="checkbox" id="substitute_permission_examine" name="substitute_permission_examine" lay-skin="primary" title="审批" >
+                      <input type="checkbox" id="substitute_permission_add" name="substitute_permission" lay-skin="primary" title="增加" >
+                      <input type="checkbox" id="substitute_permission_edit" name="substitute_permission" lay-skin="primary" title="修改">
+                      <input type="checkbox" id="substitute_permission_delete" name="substitute_permission" lay-skin="primary" title="删除" >
+                      <input type="checkbox" id="substitute_permission_print" name="substitute_permission" lay-skin="primary" title="打印" >
+                      <input type="checkbox" id="substitute_permission_export" name="substitute_permission" lay-skin="primary" title="导出" >
+                      <input type="checkbox" id="substitute_permission_examine" name="substitute_permission" lay-skin="primary" title="审批" >
                   </div>
               </div>
           </div>
@@ -136,14 +139,41 @@
         layui.use(['layer','jquery','form','table'],function(){
             var form = layui.form ,layer = layui.layer,jq = layui.jquery,table = layui.table;
             //layui.form.render();
-            /*监听查询按钮*/
-            form.on('select(company_name)',function(data){
-                jq.post("{:url('usermanage/adduser/getdepartmentinfo')}",{'param':data.value},function(data){
-                    for(var  item in data){
-                        //console.log(data[item]['organize_name']);
-                        jq("#department_id").append("<option value='"+data[item]['organize_id']+"'>"+data[item]['organize_name']+"</option>");
-                    }
-                    form.render('select');
+            /*监听角色选择*/
+            form.on('select(role_name)',function(data){
+                jq.post("{:url('usermanage/rolemanage/getrolepermission')}",{'param':data.value},function(data){
+                    console.log(data);
+
+                    // jq("input[name='onechoose']").each(function(){
+                    //     if((parseInt(data.order_goods_permission))&1){
+                    //         jq("this").prop('checked',true);
+                    //     }
+                    //     if((parseInt(timinginfo.week))&2){
+                    //         var weekinfo = "mon";
+                    //         jq("input[value=" +weekinfo + "]").prop('checked',true);
+                    //     }
+                    //     if((parseInt(timinginfo.week))&4){
+                    //         var weekinfo = "tue";
+                    //         jq("input[value=" +weekinfo + "]").prop('checked',true);
+                    //     }
+                    //     if((parseInt(timinginfo.week))&8){
+                    //         var weekinfo = "thr";
+                    //         jq("input[value=" +weekinfo + "]").prop('checked',true);
+                    //     }
+                    //     if((parseInt(timinginfo.week))&16){
+                    //         var weekinfo = "thu";
+                    //         jq("input[value=" +weekinfo + "]").prop('checked',true);
+                    //     }
+                    //     if((parseInt(timinginfo.week))&32){
+                    //         var weekinfo = "fri";
+                    //         jq("input[value=" +weekinfo + "]").prop('checked',true);
+                    //     }
+                    //     if((parseInt(timinginfo.week))&64){
+                    //         var weekinfo = "sat";
+                    //         jq("input[value=" +weekinfo + "]").prop('checked',true);
+                    //     }
+                    // });
+
                 });
                 return false;
             });
@@ -153,15 +183,94 @@
         });
         function SaveRole() {
             var jq = layui.jquery;
-            var user = new Object();
-            user.fullname= jq("#fullname").val();
-            user.password= jq("#password").val();
-            user.company_id= jq("#company_id").val();
-            user.department_id= jq("#department_id").val();
-            user.job_id= jq("#job_id").val();
-            user.role_id= jq("#role_id").val();
-            user.phone= jq("#phone").val();
-            return user;
+            var role = new Object();
+            role.role_id= jq("#rolelist").val();
+            if(role.role_id == "")
+                return null;
+            role.role_name=  jq("#rolelist").find("option:selected").text();
+            var order_goods_permission = 0x0000;
+            var pos = 0;
+            jq("input[name='order_goods_permission']").each(function(){
+                if(jq(this).prop('checked')){
+                    order_goods_permission = order_goods_permission|(1<<pos);
+                }
+                pos++;
+            });
+            role.order_goods_permission = order_goods_permission;
+
+            var replace_permission = 0x0000;
+            pos = 0;
+            jq("input[name='replace_permission']").each(function(){
+                if(jq(this).prop('checked')){
+                    replace_permission = replace_permission|(1<<pos);
+                }
+                pos++;
+            });
+            role.replace_permission = replace_permission;
+
+            var borrow_sample_permission = 0x0000;
+            pos = 0;
+            jq("input[name='borrow_sample_permission']").each(function(){
+                if(jq(this).prop('checked')){
+                    borrow_sample_permission = borrow_sample_permission|(1<<pos);
+                }
+                pos++;
+            });
+            role.borrow_sample_permission = borrow_sample_permission;
+
+            var return_goods_permission = 0x0000;
+            pos = 0;
+            jq("input[name='return_goods_permission']").each(function(){
+                if(jq(this).prop('checked')){
+                    return_goods_permission = return_goods_permission|(1<<pos);
+                }
+                pos++;
+            });
+            role.return_goods_permission = return_goods_permission;
+
+            var fixing_permission = 0x0000;
+            pos = 0;
+            jq("input[name='fixing_permission']").each(function(){
+                if(jq(this).prop('checked')){
+                    fixing_permission = fixing_permission|(1<<pos);
+                }
+                pos++;
+            });
+            role.fixing_permission = fixing_permission;
+
+            var maintain_permission = 0x0000;
+            pos = 0;
+            jq("input[name='maintain_permission']").each(function(){
+                if(jq(this).prop('checked')){
+                    maintain_permission = maintain_permission|(1<<pos);
+                }
+                pos++;
+            });
+            role.maintain_permission = maintain_permission;
+
+            var substitute_permission = 0x0000;
+            pos = 0;
+
+            jq("input[name='substitute_permission']").each(function(){
+
+                if(jq(this).prop('checked')){
+                    substitute_permission = substitute_permission|(1<<pos);
+                }
+                pos++;
+            });
+            role.substitute_permission = substitute_permission;
+
+            var user_manage_permission_manage = 0x0000;
+            pos = 0;
+            jq("input[name='user_manage_permission_manage']").each(function(){
+                if(jq(this).prop('checked')){
+                    user_manage_permission_manage = user_manage_permission_manage|(1<<pos);
+                }
+                pos++;
+            });
+            role.user_manage_permission_manage = user_manage_permission_manage;
+
+            return role;
         }
     </script>
 </body>
