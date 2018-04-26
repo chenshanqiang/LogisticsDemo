@@ -35,23 +35,43 @@
 					<!--总监，物流部-->
 		            <ul class="layui-nav layui-nav-tree" lay-filter="leaderOrder">
 					  <li class="layui-nav-item layui-nav-itemed">
-					  	<a href="javascript:void(0);"><span style="color: red;">新增订单</span></a>
+					  	<a href="javascript:void(0);"><span style="color: red;">新增订单(物流部)</span></a>
 					  	<dl class="layui-nav-child">
-							<dd><a href="{:url('admin/addgoodsconfirmorder/addgoodsconfirmorder')}" target="main" >订货确认单</a></dd>
+							<dd><a href="{:url('admin/addgoodsconfirmorder/addgoodsconfirmorder')}" target="main" class="layui-this">订货确认单</a></dd>
 					  	</dl>
 					  </li>
+
+  		              <li class="layui-nav-item layui-nav-itemed">
+		                <a href="javascript:void(0);"><span style="color: red;">新增订单(销售部)</span></a>
+		                  <dl class="layui-nav-child">
+							<dd><a href="{:url('manager/addreplaceconfirmorder/addreplaceconfirmorder')}" target="main">更换确认单</a></dd>
+							<dd><a href="{:url('manager/addborrowconfirmorder/addborrowconfirmorder')}" target="main">借样确认单</a></dd>
+							<dd><a href="{:url('manager/addreturnconfirmorder/addreturnconfirmorder')}" target="main">退货确认单</a></dd>
+							<dd><a href="{:url('manager/addrepairconfirmorder/addrepairconfirmorder')}" target="main">维修确认单</a></dd>
+							<dd><a href="{:url('manager/addpartsconfirmorder/addpartsconfirmorder')}" target="main">配件确认单</a></dd>
+							<dd><a href="{:url('manager/addalternativeconfirmorder/addalternativeconfirmorder')}" target="main">代用确认单</a></dd>
+		                  </dl>
+		              </li>
+
 		              <li class="layui-nav-item layui-nav-itemed">
 		                <a href="javascript:void(0);"><span style="color: red;">订单审批</span></a>
 		                  <dl class="layui-nav-child">
-							<dd><a href="{:url('admin/approvereplaceconfirmorder/approvereplaceconfirmorder')}" target="main" class="layui-this">更换确认单</a></dd>
+							<dd><a href="{:url('admin/approvereplaceconfirmorder/approvereplaceconfirmorder')}" target="main">更换确认单</a></dd>
 							<dd><a href="{:url('admin/approveborrowconfirmorder/approveborrowconfirmorder')}" target="main">借样确认单</a></dd>
 							<dd><a href="{:url('admin/approvereturnconfirmorder/approvereturnconfirmorder')}" target="main">退货确认单</a></dd>
 							<dd><a href="{:url('admin/approverepairconfirmorder/approverepairconfirmorder')}" target="main">维修确认单</a></dd>
 							<dd><a href="{:url('admin/approvepartsconfirmorder/approvepartsconfirmorder')}" target="main">配件确认单<span class="layui-badge">1</span></a></dd>
 							<dd><a href="{:url('admin/approvealternativeconfirmorder/approvealternativeconfirmorder')}" target="main">代用确认单</a></dd>
-							<dd><a href="{:url('admin/inputlogisticsorder/inputlogisticsorder')}" target="main">物流单号输入</a></dd>
 		                  </dl>
 		              </li>
+
+		              <li class="layui-nav-item layui-nav-itemed">
+		              	<a href="javascript:void(0);"><span style="color: red;">物流单号</span></a>
+		              		<dl class="layui-nav-child">
+		              			<dd><a href="{:url('admin/inputlogisticsorder/inputlogisticsorder')}" target="main">物流单号输入</a></dd>
+		              		</dl>
+		              </li>
+		              
 		              <li class="layui-nav-item layui-nav-itemed">
 		                <a href="javascript:void(0);"><span style="color: red;">确认单查询</span></a>
 		                  <dl class="layui-nav-child">
