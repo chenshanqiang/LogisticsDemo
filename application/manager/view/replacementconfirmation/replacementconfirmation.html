@@ -80,11 +80,31 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <div class="layui-inline">
+                <!--<div class="layui-inline">
                     <label class="layui-form-label Wheat">部门</label>
                     <div class="layui-input-inline">
                         <input type="text" name="department" id="department" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                </div>-->
+                <div class="layui-inline">
+                    <label class="layui-form-label">总部门：</label>
+                    <div class="layui-input-inline">
+                        <select id="company_id" name="company_name" lay-filter="company_name">
+                            <option value="" selected>请选择</option>
+                            {volist name="companylist" id="vo"}
+                                <option value="{$vo.organize_id}">{$vo.organize_name}</option>
+                            {/volist}
+                        </select>
+                    </div>
                 </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">子部门：</label>
+                    <div class="layui-input-inline">
+                        <select id="dapartment_id" name="dapartment_name" lay-filter="dapartment_name">
+                            <option value="" selected>请选择</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">区域经理</label>
                     <div class="layui-input-inline">
@@ -528,12 +548,13 @@
                         }else if(!e){
                             console.log('订单提交失败！');
                         }
-
                     }
                 })
-
                 return false;
             });
+
+            //监听选择部门
+            form.on('select(company_name)')
           });
         </script>
     </body>
