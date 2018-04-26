@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>你好</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
+	</head>
+	<body>
+		<div style="margin:20px 10px;min-height: 180px;border: 2px solid #C7C7C7;">
+			<form class="layui-form" style="padding-top:20px;">
+				<div class="layui-form-item">
+				    <div class="layui-inline">
+				      <label class="layui-form-label">日期：</label>
+				      <div class="layui-input-inline" style="width: 200px;">
+				         <input type="text" name="startdate" id="startdate" lay-filter="startdate" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+				      </div>
+				      <div class="layui-form-mid">至</div>
+				      <div class="layui-input-inline" style="width: 200px;">
+				         <input type="text" name="enddate" id="enddate" lay-filter="enddate" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+				      </div>
+				    </div>
+
+	 				<div class="layui-inline">
+						<label class="layui-form-label">部门：</label>
+						<div class="layui-input-inline" style="width: 200px;">
+					      <select name="department" lay-filter="department">
+					        <option value="">请选择</option>
+					        <option value="0" selected>营销一部</option>
+					        <option value="1">营销二部</option>
+					        <option value="2">营销三部</option>
+					        <option value="3">营销四部</option>
+					      </select>
+					    </div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">区域经理：</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="areamanger" lay-filter="areamanger" placeholder="请输入区域经理" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">状态：</label>
+						<div class="layui-input-inline">
+					      <select name="orderstate" lay-filter="orderstate">
+					        <option value="">请选择</option>
+					        <option value="0" selected>已完成</option>
+					        <option value="1">处理中</option>
+					        <option value="2">取消</option>
+					        <option value="3">备货</option>
+					      </select>
+					    </div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">流水号：</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="serialnumber" lay-filter="serialnumber" placeholder="请输入流水号" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">收货人：</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="recvpeople" lay-filter="recvpeople" placeholder="请输入收货人" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">货场：</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="yard" lay-filter="yard" placeholder="请输入货场" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">运单号：</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="couriernumber" lay-filter="couriernumber" placeholder="请输入运单号" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">运费方式：</label>
+						<div class="layui-input-inline">
+					      <select name="freightmode" lay-filter="freightmode">
+					        <option value="">请选择</option>
+					        <option value="0" selected>到付</option>
+					        <option value="1">现金</option>
+					        <option value="2">代付</option>
+					        <option value="3">公司付</option>
+					      </select>
+					    </div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">产品分类：</label>
+						<div class="layui-input-inline">
+					      <select name="productclass" lay-filter="productclass">
+					        <option value="">请选择</option>
+					        <option value="0" selected>公共广播</option>
+					        <option value="1">会议系统</option>
+					        <option value="2">地铁事业</option>
+					        <option value="3">奥斯迪</option>
+					        <option value="4">录播</option>
+					      </select>
+					    </div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">品牌：</label>
+						<div class="layui-input-inline">
+					      <select name="brand" lay-filter="brand">
+					        <option value="">请选择</option>
+					        <option value="0" selected>DSPPA</option>
+					        <option value="1">ZABKZ</option>
+					        <option value="2">OTEWA</option>
+					        <option value="3">AUXDI</option>
+					        <option value="4">外购</option>
+					      </select>
+					    </div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">产品型号：</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="producttype" lay-filter="producttype" placeholder="请输入产品型号" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">生产地：</label>
+						<div class="layui-input-inline">
+					      <select name="productarea" lay-filter="productarea">
+					        <option value="">请选择</option>
+					        <option value="0" selected>总厂</option>
+					        <option value="1">盛葆</option>
+					        <option value="2">乐坊</option>
+					        <option value="3">AUXDI</option>
+					        <option value="4">智慧科技</option>
+					      </select>
+					    </div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label" style="width: 100px;">非常规产品：</label>
+						<div class="layui-input-inline">
+					      <select name="customproduct" lay-filter="customproduct">
+					        <option value="">请选择</option>
+					        <option value="0" selected>研发</option>
+					        <option value="1">特殊</option>
+					        <option value="2">网络化</option>
+					        <option value="3">智能化</option>
+					        <option value="4">网络化软件</option>
+					      </select>
+					    </div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<button class="layui-btn" lay-submit="" lay-filter="query" style="float: right;margin-right: 10px;">查询</button>
+				</div>
+			</form>
+		</div>
+
+		<script src="/static/layui/layui.js"></script>
+		<script type="text/javascript">
+			layui.use(['layer','jquery','laydate','form'],function(){
+				var form = layui.form;
+			});
+		</script>
+	</body>
+</html>
