@@ -205,6 +205,14 @@
             return $result;
         }
 
+        /*获取用户信息根据id*/
+        public  static function getloginuserinfo($userid)
+        {
+            $sql = "SELECT * FROM dsp_logistic.user WHEN user_id = '{$userid}'";
+            $retsql = Db::query($sql);
+            return $retsql;
+        }
+
         /*查询单号是否存在 hjh*/
         public  function queryhasconfirmorder($orderis)
         {

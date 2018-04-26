@@ -16,6 +16,10 @@ class Replacementconfirmation extends  Controller
 {
     public function replacementconfirmation()
     {
+        $dep_info = \app\index\model\Admin::querydepartmentinfo();
+        if(!empty($dep_info))
+            $this->assign("companylist",$dep_info);
+        //$userinfo = \app\index\model\Admin::getloginuserinfo()
         //var_dump('******************1');
         return $this->fetch();
     }
