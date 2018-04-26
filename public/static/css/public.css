@@ -1,0 +1,39 @@
+form {
+	padding-left: 1%;
+	padding-right: 1%;
+}
+h2, h3 {
+	text-align: center;
+	margin-bottom: 20px;
+}
+.lightblue {
+	background-color: #6495ED!important;
+}
+.lightgreen {
+	background-color: #90EE90!important;
+}
+.Wheat, .Wheat th {
+	background-color: #F5DEB3!important;
+}
+button[lay-filter="save"], button[lay-filter="deliver"], button[lay-filter="cancel"] {
+	margin-left: 40%;
+}
+.label_change {
+	min-width: 120px!important;
+}
+.input_change {
+	min-width: 250px;
+}
+.toph2 {
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+.toph2 h2 {
+	display: inline-block;
+	margin: 0 auto;
+}
+.fa {
+	float: right;
+	cursor: pointer;
+}

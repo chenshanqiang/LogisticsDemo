@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>你好</title>
+		<title>查询条件搜索</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
@@ -27,10 +27,6 @@
 						<div class="layui-input-inline" style="width: 200px;">
 					      <select name="department" lay-filter="department">
 					        <option value="">请选择</option>
-					        <option value="0" selected>营销一部</option>
-					        <option value="1">营销二部</option>
-					        <option value="2">营销三部</option>
-					        <option value="3">营销四部</option>
 					      </select>
 					    </div>
 					</div>
@@ -105,11 +101,9 @@
 						<div class="layui-input-inline">
 					      <select name="productclass" lay-filter="productclass">
 					        <option value="">请选择</option>
-					        <option value="0" selected>公共广播</option>
-					        <option value="1">会议系统</option>
-					        <option value="2">地铁事业</option>
-					        <option value="3">奥斯迪</option>
-					        <option value="4">录播</option>
+							{volist name="productlist" id="vo"}
+								<option value={$vo.type_id}>{$vo.type_name}</option>
+							{/volist}
 					      </select>
 					    </div>
 					</div>
@@ -119,11 +113,9 @@
 						<div class="layui-input-inline">
 					      <select name="brand" lay-filter="brand">
 					        <option value="">请选择</option>
-					        <option value="0" selected>DSPPA</option>
-					        <option value="1">ZABKZ</option>
-					        <option value="2">OTEWA</option>
-					        <option value="3">AUXDI</option>
-					        <option value="4">外购</option>
+							{volist name="brandlist" id="vo"}
+								<option value={$vo.brand_id}>{$vo.brand_name}</option>
+							{/volist}
 					      </select>
 					    </div>
 					</div>
@@ -140,11 +132,9 @@
 						<div class="layui-input-inline">
 					      <select name="productarea" lay-filter="productarea">
 					        <option value="">请选择</option>
-					        <option value="0" selected>总厂</option>
-					        <option value="1">盛葆</option>
-					        <option value="2">乐坊</option>
-					        <option value="3">AUXDI</option>
-					        <option value="4">智慧科技</option>
+							{volist name="placelist" id="vo"}
+								<option value={$vo.place_id}>{$vo.place_name}</option>
+							{/volist}
 					      </select>
 					    </div>
 					</div>
