@@ -97,6 +97,105 @@
         	header('Cache-Control: max-age=0');
         	$objWriter->save("php://output");
 		}
-	}
+
+        /*根据条件查询用户信息*/
+        public static function queryuserinfo($pagenum,$length)
+        {
+            $sql = "select count(*) from dsp_logistic.user ;";
+            $countobj = Db::query($sql);
+            $count = $countobj[0]['count(*)'];
+            if($count == 0){
+                return (array('code'=>0,'msg'=>'','count'=>$count,'data'=>[]));
+            }
+            $pagetot = ceil($count/$length);
+            if($pagenum >= $pagetot){
+                $pagenum = $pagetot;
+            }
+
+            $offset = ($pagenum - 1)*$length;
+            $sql = "SELECT dsp_logistic.user.*,dsp_logistic.organize.*,dsp_logistic.role.* ,dsp_logistic.job.*  from dsp_logistic.user ";
+            $sql .= "left join dsp_logistic.organize on dsp_logistic.organize.organize_id = dsp_logistic.user.organize_id ";
+            $sql .= "left join dsp_logistic.role on dsp_logistic.role.role_id = dsp_logistic.user.role_id ";
+            $sql .= "left join dsp_logistic.job on dsp_logistic.job.job_id = dsp_logistic.user.job_id ";
+            $sql .= " order By dsp_logistic.user.organize_id DESC limit {$offset},{$length} ;";
+            $tableobj = Db::query($sql);
+            if(!empty($tableobj)){
+                $datacount = count($tableobj);
+                for ($i = 0;$i<$datacount;$i++)
+                {
+                    $parentid = $tableobj[$i]["parent_id"];
+                    $sql ="select * from dsp_logistic.organize where `organize_id` = '{$parentid}'";
+
+                    $conpanytalbe = Db::query($sql);
+                    if(!empty($conpanytalbe))
+                        $tableobj[$i]["conpanyname"]=$conpanytalbe[0]["organize_name"];
+                    else{
+                        $tableobj[$i]["conpanyname"]="";
+                    }
+                    $tableobj[$i]["serialnumber"]=$i+1;
+
+
+                }
+                return (array('code'=>0,'msg'=>'','count'=>$count,'data'=>$tableobj));
+            }
+            return (array('code'=>0,'msg'=>'','count'=>$count,'data'=>[]));
+        }
+
+        /*根据查询角色信息*/
+        public static function queryroleinfo()
+        {
+            $sql = "select * from  dsp_logistic.role";
+            $tablerole = Db::query($sql);
+            if(!empty($tablerole))
+                return $tablerole;
+            return null;
+        }
+        /*根据查询职位信息*/
+        public static function queryjobinfo()
+        {
+            $sql = "select * from  dsp_logistic.job ";
+            $tablejob = Db::query($sql);
+            if(!empty($tablejob))
+                return $tablejob;
+            return null;
+        }
+        /*根据查询部门信息*/
+        public static function querydepartmentinfo(...$param)
+        {
+            $paramcount = count($param);
+            $sql = "select * from  dsp_logistic.organize";
+            if($paramcount === 1)
+            {
+                $param1 = $param[0];
+                $sql.= " where dsp_logistic.organize.parent_id = {$param1}";
+            }
+            $tableorganize = Db::query($sql);
+            if(!empty($tableorganize))
+                return $tableorganize;
+            return null;
+        }
+        /*根据查询部门信息*/
+        public static function adduser($user)
+        {
+            $fullname = $user["fullname"];
+            $password = $user["password"];
+            $phone = $user["phone"];
+            $organize_id = $user["department_id"];
+            if(empty($organize_id)) //如果子部门不选，则保存总部门
+            {
+                $organize_id = $user["company_id"];
+            }
+
+            $job_id = $user["job_id"];
+            $role_id = $user["role_id"];
+            $sql = "INSERT INTO `dsp_logistic`.`user` (`fullname`, `password`, `phone`, `organize_id`, `job_id`, `role_id`)";
+            $sql.="  VALUES ('{$fullname}', '{$password}', '{$phone}', '{$organize_id}', '{$job_id}', '{$role_id}');";
+            $result = Db::execute($sql);
+            return $result;
+        }
+
+
+
+    }
 
 ?>

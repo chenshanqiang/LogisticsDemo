@@ -9,26 +9,28 @@
     <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
 </head>
 <body>
-    <div ><h1>用户管理</h1></div>
-    <div>
-        <form class="layui-form">
+    <div style ="margin: 10px 5px">
+        <h1>用户管理</h1>
+    </div>
+    <div style ="margin: 10px 5px">
+        <form class="layui-form" style="font-size: 22px">
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <div class="layui-input-inline">
-                        <button>部门架构</button>
+                        <button id = "departmentcatalog" class="layui-btn">部门架构</button>
+                    </div>
+                    <div class="layui-input-inline" >
+                        <button id = "adduser" class="layui-btn">新增</button>
                     </div>
                     <div class="layui-input-inline">
-                        <button>新增</button>
-                    </div>
-                    <div class="layui-input-inline">
-                        <button>角色管理</button>
+                        <button id = "rolemanage" class="layui-btn">角色管理</button>
                     </div>
                 </div>
 
             </div>
         </form>
     </div>
-    <div>
+    <div style ="margin: 10px 5px">
         <table  class="layui-table" id="usertable" lay-filter="usertable"></table>
         <script type="text/html" id="operatebar">
             <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -38,16 +40,43 @@
     <script src="/static/layui/layui.js"></script>
     <script type="text/javascript">
         layui.use(['layer','jquery','laydate','form','table'],function(){
-            var form = layui.form ,layer = layui.layer,jq = layui.jquery,laydate = layui.laydate,table = layui.table;
-            /*时间控件渲染*/
-            laydate.render({
-                elem: '#startdate'
+            var form = layui.form ,layer = layui.layer,jq = layui.jquery,table = layui.table;
+
+            jq('#departmentcatalog').click(function(){
+                layer.msg('12');
+                return false;
+            });
+            jq('#adduser').click(function(){
+                //触发事件
+                //多窗口模式，层叠置顶
+                layer.open({
+                    type: 2 //此处以iframe举例
+                    , title: '新增用户'
+                    , area: ['800px', '40%']
+                    , shade: 0
+                    , maxmin: false
+                    , content: "{:url('usermanage/adduser/adduser')}"
+                    , btn: ['保存', '取消'] //只是为了演示
+                    , yes: function (index,layero) {
+                        var iframeWin = window[layero.find('iframe')[0]['name']];
+                        var user = iframeWin.SaveUser();
+                        console.log(user);
+                        jq.post("{:url('usermanage/usermanage/adduser')}",{'param':user});
+                        layer.closeAll();
+                    }
+                    , btn2: function () {
+                        layer.closeAll();
+                    }
+                });
+
+                return false;
             });
 
-            laydate.render({
-                elem: '#enddate'
-            });
 
+            jq('#rolemanage').click(function(){
+                layer.msg('12');
+                return false;
+            });
             /*监听查询按钮*/
             form.on('submit(query)',function(data){
                 var queryInfo = data.field;
@@ -62,20 +91,24 @@
                 });
                 return false;
             });
-
+            table.reload('querytable', {
+                page: {
+                    curr: 1
+                }
+            });
             /*表格渲染*/
             table.render({
                 elem: '#usertable'
-                //,url:"{:url('admin/addgoodsconfirmorder/getexamineorder')}"     //动态获取数据
+                ,url:"{:url('usermanage/usermanage/getusermanage')}"     //动态获取数据
                 ,cols: [[
                     {field: 'serialnumber', title: '序号', width: 150, sort: true}
                     ,{field: 'fullname', title: '用户名/账号', minWidth: 150}
-                    ,{field: 'department', title: '总部门', minWidth: 100}
-                    ,{field: 'subdepartment', title: '子部门', minWidth: 100}
-                    ,{field: 'jodname', title: '职位', minWidth: 150}
+                    ,{field: 'conpanyname', title: '总部门', minWidth: 100}
+                    ,{field: 'organize_name', title: '子部门', minWidth: 100}
+                    ,{field: 'job_name', title: '职位', minWidth: 150}
                     ,{field: 'phone', title: '联系电话', minWidth: 100}
-                    ,{field: 'rolename', title: '角色', width: 80}
-                    ,{fixed: 'operate', title:'操作', width:150, align:'center', toolbar: '#operatebar'}
+                    ,{field: 'role_name', title: '角色', width: 80}
+                    ,{fixed: 'right', title:'操作', width:150, align:'center', toolbar: '#operatebar'}
                 ]]
                 ,id: 'querytable'
                 ,data:[]
