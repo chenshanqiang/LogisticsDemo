@@ -8,6 +8,161 @@
     <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
 </head>
 <body>
+    <div>
+      <form class="layui-form">
+          <div class="layui-form-item" style="margin: 10px 0px">
+              <div class="layui-inline">
+                  <label class="layui-form-label">角色：</label>
+                  <div class="layui-input-inline">
+                       <select id = "rolelist" name="role_name" lay-filter="role_name">
+                           <option value = "" selected>请选择</option>
+                       </select>
+                  </div>
+              </div>
+          </div>
+      </form>
+    </div>
+    <div>
+      <form class="layui-form">
+          <div class="layui-form-item" style="margin: 10px 10px">
+              <div class="layui-inline">
+                  <label class="layui-form-label">权限管理：</label>
+              </div>
+          </div>
+          <div class="layui-form-item" style="margin: 5px 20px">
+              <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 150px">订货单权限：</label>
+                  <div class="layui-input-inline" style="width: 450px">
+                      <input type="checkbox" id="order_goods_permission_add" name="order_goods_permission" lay-skin="primary" title="增加" >
+                      <input type="checkbox" id="order_goods_permission_edit" name="order_goods_permission" lay-skin="primary" title="修改">
+                      <input type="checkbox" id="order_goods_permission_delete" name="order_goods_permission" lay-skin="primary" title="删除" >
+                      <input type="checkbox" id="order_goods_permission_print" name="order_goods_permission" lay-skin="primary" title="打印" >
+                      <input type="checkbox" id="order_goods_permission_export" name="order_goods_permission" lay-skin="primary" title="导出" >
+                      <input type="checkbox" id="order_goods_permission_examine" name="order_goods_permission" lay-skin="primary" title="审批" >
+                  </div>
+              </div>
+          </div>
+          <div class="layui-form-item" style="margin: 5px 20px">
+              <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 150px">更换确认订单权限：</label>
+                  <div class="layui-input-inline" style="width: 450px">
+                      <input type="checkbox" id="replace_permission_add" name="replace_permission" lay-skin="primary" title="增加" >
+                      <input type="checkbox" id="replace_permission_edit" name="replace_permission" lay-skin="primary" title="修改">
+                      <input type="checkbox" id="replace_permission_delete" name="replace_permission" lay-skin="primary" title="删除" >
+                      <input type="checkbox" id="replace_permission_print" name="replace_permission" lay-skin="primary" title="打印" >
+                      <input type="checkbox" id="replace_permission_export" name="replace_permission" lay-skin="primary" title="导出" >
+                      <input type="checkbox" id="replace_permission_examine" name="replace_permission" lay-skin="primary" title="审批" >
+                  </div>
+              </div>
+          </div>
+          <div class="layui-form-item" style="margin: 5px 20px">
+              <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 150px">借样确认订单权限：</label>
+                  <div class="layui-input-inline" style="width: 450px">
+                      <input type="checkbox" id="borrow_sample_permission_add" name="borrow_sample_permission" lay-skin="primary" title="增加" >
+                      <input type="checkbox" id="borrow_sample_permission_edit" name="borrow_sample_permission" lay-skin="primary" title="修改">
+                      <input type="checkbox" id="borrow_sample_permission_delete" name="borrow_sample_permission" lay-skin="primary" title="删除" >
+                      <input type="checkbox" id="borrow_sample_permission_print" name="borrow_sample_permission" lay-skin="primary" title="打印" >
+                      <input type="checkbox" id="borrow_sample_permission_export" name="borrow_sample_permission" lay-skin="primary" title="导出" >
+                      <input type="checkbox" id="borrow_sample_permission_examine" name="borrow_sample_permission" lay-skin="primary" title="审批" >
+                  </div>
+              </div>
+          </div>
+          <div class="layui-form-item" style="margin: 5px 20px">
+              <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 150px">退货确认订单权限：</label>
+                  <div class="layui-input-inline" style="width: 450px">
+                      <input type="checkbox" id="return_goods_permission_add" name="return_goods_permission_add" lay-skin="primary" title="增加" >
+                      <input type="checkbox" id="return_goods_permission_edit" name="return_goods_permission_edit" lay-skin="primary" title="修改">
+                      <input type="checkbox" id="return_goods_permission_delete" name="return_goods_permission_delete" lay-skin="primary" title="删除" >
+                      <input type="checkbox" id="return_goods_permission_print" name="return_goods_permission_print" lay-skin="primary" title="打印" >
+                      <input type="checkbox" id="return_goods_permission_export" name="return_goods_permission_export" lay-skin="primary" title="导出" >
+                      <input type="checkbox" id="return_goods_permission_examine" name="return_goods_permission_examine" lay-skin="primary" title="审批" >
+                  </div>
+              </div>
+          </div>
+          <div class="layui-form-item" style="margin: 5px 20px">
+              <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 150px">维修确认订单权限：</label>
+                  <div class="layui-input-inline" style="width: 450px">
+                      <input type="checkbox" id="fixing_permission_add" name="fixing_permission_add" lay-skin="primary" title="增加" >
+                      <input type="checkbox" id="fixing_permission_edit" name="fixing_permission_edit" lay-skin="primary" title="修改">
+                      <input type="checkbox" id="fixing_permission_delete" name="fixing_permission_delete" lay-skin="primary" title="删除" >
+                      <input type="checkbox" id="fixing_permission_print" name="fixing_permission_print" lay-skin="primary" title="打印" >
+                      <input type="checkbox" id="fixing_permission_export" name="fixing_permission_export" lay-skin="primary" title="导出" >
+                      <input type="checkbox" id="fixing_permission_examine" name="fixing_permission_examine" lay-skin="primary" title="审批" >
+                  </div>
+              </div>
+          </div>
+          <div class="layui-form-item" style="margin: 5px 20px">
+              <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 150px">配件确认订单权限：</label>
+                  <div class="layui-input-inline" style="width: 450px">
+                      <input type="checkbox" id="maintain_permission_add" name="maintain_permission_add" lay-skin="primary" title="增加" >
+                      <input type="checkbox" id="maintain_permission_edit" name="maintain_permission_edit" lay-skin="primary" title="修改">
+                      <input type="checkbox" id="maintain_permission_delete" name="maintain_permission_delete" lay-skin="primary" title="删除" >
+                      <input type="checkbox" id="maintain_permission_print" name="maintain_permission_print" lay-skin="primary" title="打印" >
+                      <input type="checkbox" id="maintain_permission_export" name="maintain_permission_export" lay-skin="primary" title="导出" >
+                      <input type="checkbox" id="maintain_permission_examine" name="maintain_permission_examine" lay-skin="primary" title="审批" >
+                  </div>
+              </div>
+          </div>
 
+          <div class="layui-form-item" style="margin: 5px 20px">
+              <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 150px">代用确认订单权限：</label>
+                  <div class="layui-input-inline" style="width: 450px">
+                      <input type="checkbox" id="substitute_permission_add" name="substitute_permission_add" lay-skin="primary" title="增加" >
+                      <input type="checkbox" id="substitute_permission_edit" name="substitute_permission_edit" lay-skin="primary" title="修改">
+                      <input type="checkbox" id="substitute_permission_delete" name="substitute_permission_delete" lay-skin="primary" title="删除" >
+                      <input type="checkbox" id="substitute_permission_print" name="substitute_permission_print" lay-skin="primary" title="打印" >
+                      <input type="checkbox" id="substitute_permission_export" name="substitute_permission_export" lay-skin="primary" title="导出" >
+                      <input type="checkbox" id="substitute_permission_examine" name="substitute_permission_examine" lay-skin="primary" title="审批" >
+                  </div>
+              </div>
+          </div>
+          <div class="layui-form-item" style="margin: 5px 20px">
+              <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 150px">用户管理权限：</label>
+                  <div class="layui-input-inline" style="width: 450px">
+                      <input type="checkbox" id="user_manage_permission_manage" name="user_manage_permission_manage" lay-skin="primary" title="用户管理" >
+                  </div>
+              </div>
+          </div>
+      </form>
+    </div>
+    <script src="/static/layui/layui.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer','jquery','form','table'],function(){
+            var form = layui.form ,layer = layui.layer,jq = layui.jquery,table = layui.table;
+            //layui.form.render();
+            /*监听查询按钮*/
+            form.on('select(company_name)',function(data){
+                jq.post("{:url('usermanage/adduser/getdepartmentinfo')}",{'param':data.value},function(data){
+                    for(var  item in data){
+                        //console.log(data[item]['organize_name']);
+                        jq("#department_id").append("<option value='"+data[item]['organize_id']+"'>"+data[item]['organize_name']+"</option>");
+                    }
+                    form.render('select');
+                });
+                return false;
+            });
+
+
+
+        });
+        function SaveRole() {
+            var jq = layui.jquery;
+            var user = new Object();
+            user.fullname= jq("#fullname").val();
+            user.password= jq("#password").val();
+            user.company_id= jq("#company_id").val();
+            user.department_id= jq("#department_id").val();
+            user.job_id= jq("#job_id").val();
+            user.role_id= jq("#role_id").val();
+            user.phone= jq("#phone").val();
+            return user;
+        }
+    </script>
 </body>
 </html>

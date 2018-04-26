@@ -124,13 +124,21 @@
                 for ($i = 0;$i<$datacount;$i++)
                 {
                     $parentid = $tableobj[$i]["parent_id"];
-                    $sql ="select * from dsp_logistic.organize where `organize_id` = '{$parentid}'";
+                    if($parentid === 0) //只有总部门，子部门为空
+                    {
+                        //$name =
+                        $tableobj[$i]["companyname"]=$tableobj[$i]["organize_name"];
+                        $tableobj[$i]["organize_name"] = "";
+                    }
+                    else {
+                        $sql ="select * from dsp_logistic.organize where `organize_id` = '{$parentid}'";
 
-                    $conpanytalbe = Db::query($sql);
-                    if(!empty($conpanytalbe))
-                        $tableobj[$i]["conpanyname"]=$conpanytalbe[0]["organize_name"];
-                    else{
-                        $tableobj[$i]["conpanyname"]="";
+                        $conpanytalbe = Db::query($sql);
+                        if(!empty($conpanytalbe))
+                            $tableobj[$i]["companyname"]=$conpanytalbe[0]["organize_name"];
+                        else{
+                            $tableobj[$i]["companyname"]="";
+                        }
                     }
                     $tableobj[$i]["serialnumber"]=$i+1;
 

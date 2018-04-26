@@ -31,7 +31,7 @@ class Adduser extends Controller
     public function getdepartmentinfo()
     {
         $param = Request::instance()->param();
-        $result = \app\index\model\Admin::adduser($param['param']);
+        $result = \app\index\model\Admin::querydepartmentinfo($param['param']);
         return $result;
 
     }

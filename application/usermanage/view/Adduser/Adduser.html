@@ -85,12 +85,11 @@
             var form = layui.form ,layer = layui.layer,jq = layui.jquery,table = layui.table;
             //layui.form.render();
             /*监听查询按钮*/
-            form.on('select(conpany_name)',function(data){
-                //console.log(data.value);
+            form.on('select(company_name)',function(data){
                 jq.post("{:url('usermanage/adduser/getdepartmentinfo')}",{'param':data.value},function(data){
                     for(var  item in data){
                         //console.log(data[item]['organize_name']);
-                        jq("#department_name").append("<option value='"+data[item]['organize_id']+"'>"+data[item]['organize_name']+"</option>");
+                        jq("#department_id").append("<option value='"+data[item]['organize_id']+"'>"+data[item]['organize_name']+"</option>");
                     }
                     form.render('select');
                 });
@@ -102,14 +101,14 @@
         });
         function SaveUser() {
             var jq = layui.jquery;
-            var user = new Array();
-            user["fullname"] = jq("#fullname").val();
-            user["password"] = jq("#password").val();
-            user["company_id"] = jq("#company_id").val();
-            user["department_id"] = jq("#department_id").val();
-            user["job_id"] = jq("#job_id").val();
-            user["role_id"] = jq("#role_id").val();
-            user["phone"] = jq("#phone").val();
+            var user = new Object();
+             user.fullname= jq("#fullname").val();
+            user.password= jq("#password").val();
+            user.company_id= jq("#company_id").val();
+            user.department_id= jq("#department_id").val();
+            user.job_id= jq("#job_id").val();
+            user.role_id= jq("#role_id").val();
+            user.phone= jq("#phone").val();
             return user;
         }
     </script>

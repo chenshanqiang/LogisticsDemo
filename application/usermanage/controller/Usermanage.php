@@ -8,6 +8,7 @@
 
 namespace app\UserManage\controller;
 use think\Controller;
+use think\Request;
 
 class Usermanage extends Controller
 {
@@ -25,9 +26,11 @@ class Usermanage extends Controller
 
     public function adduser()
     {
-       // $param = Request::instance()->param();
-        //$companytable = \app\index\model\Admin::querydepartmentinfo($param['param']);
-
+        $param = Request::instance()->param();
+        //dump($param['param']);
+        $user = $param['param'];
+        $result = \app\index\model\Admin::adduser($user);
+        return $result;
     }
 
 
