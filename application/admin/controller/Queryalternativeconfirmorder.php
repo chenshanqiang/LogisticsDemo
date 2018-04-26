@@ -20,7 +20,6 @@ class Queryalternativeconfirmorder extends Controller
     	}else{
     		$tablelist = \app\index\model\Admin::queryexaminegoodsorder($page,$limit);
     	}
-        
     	return $tablelist;
     }
 }

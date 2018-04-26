@@ -27,6 +27,17 @@
 			return true;
 		}
 
+
+		/*获取select选项值*/
+		public static function getclassinfo($tablename,$tableID){
+			$sql = "select * from ".$tablename;
+			$sql.= " order by ".$tableID." asc";
+			$tableobj = Db::query($sql);
+			if(!empty($tableobj)){
+				return $tableobj;
+			}
+		}
+
 		/*根据条件查询待审核物品订单*/
 		public static function queryexaminegoodsorder(...$args){
 			$totalargs = count($args);
