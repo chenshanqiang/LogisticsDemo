@@ -1,5 +1,5 @@
 <?php
-namespace app\manager\controller;
+namespace app\admin\controller;
 use think\Controller;
 
 class Addreplaceconfirmorder extends Controller

@@ -3,14 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <title></title>
-        <link rel="stylesheet" type="text/css" href="../../../../public/static/layui/css/layui.css"> 
-    	<link rel="stylesheet" type="text/css" href="../../../../public/static/css/public.css">
-    </head>
-   
+        <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/public.css"> </head>
     <body>
         <form class="layui-form layui-form-pane" action="">
         	<div class="toph2">
-            	<h2>配件确认单</h2>
+            	<h2>代用确认单</h2>
            	</div>
             <div class="layui-form-item">
                 <div class="layui-inline">
@@ -199,6 +197,41 @@
                 <div class="layui-input-inline">
                     <input type="text" name="ordershipmentsrequest" id="ordershipmentsrequest" lay-verify="" autocomplete="on" placeholder="" class="layui-input input_change"> </div>
             </div>
+            <h3>返货信息</h3>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label Wheat">收货人姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="consigneenamesecond" id="consigneenamesecond" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label Wheat">收货人电话</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="consigneetelsecond" id="consigneetelsecond" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label Wheat">货场名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="goodsyardnamesecond" id="goodsyardnamesecond" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label Wheat">货场电话</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="goodsyardtelsecond" id="goodsyardtelsecond" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label Wheat">返货单号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="returninvoiceno" id="returninvoiceno" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label Wheat">收货地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="shippingaddressecond" id="shippingaddressecond" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+            </div>
             <h3>部门总监审批</h3>
             <div class="layui-form-item">
                 <label class="layui-form-label Wheat">审批内容</label>
@@ -282,7 +315,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label lightblue">到账日期</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="date" id="date7" autocomplete="on" class="layui-input"> </div>
+                        <input type="text" name="accountdate" id="date7" autocomplete="on" class="layui-input"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label lightblue">订制费用</label>
@@ -437,7 +470,7 @@
                 </div>
             </div>
         </form>
-        <script type="text/javascript" src="../../../../public/static/layui/layui.js"></script>
+        <script type="text/javascript" src="/static/layui/layui.js"></script>
         <script type="text/javascript">
             layui.use(['form', 'layedit', 'laydate'], function () {
                 var form = layui.form,
@@ -446,49 +479,48 @@
                     laydate = layui.laydate;
                 /*日期*/
                 laydate.render({
-                    elem: '#date1'
-                    ,position: 'fixed'
-                    ,theme: 'molv'
+                    elem: '#date1',
+                    position: 'fixed',
+                    theme: 'molv'
                 });
                 laydate.render({
-                    elem: '#date2'
-                    ,position: 'fixed'
-                    ,theme: 'molv'
+                    elem: '#date2',
+                    position: 'fixed',
+                    theme: 'molv'
                 });
                 laydate.render({
-                    elem: '#date3'
-                    ,position: 'fixed'
-                    ,theme: 'molv'
+                    elem: '#date3',
+                    position: 'fixed',
+                    theme: 'molv'
                 });
                 laydate.render({
-                    elem: '#date4'
-                    ,position: 'fixed'
-                    ,theme: 'molv'
+                    elem: '#date4',
+                    position: 'fixed',
+                    theme: 'molv'
                 });
                 laydate.render({
-                    elem: '#date5'
-                    ,position: 'fixed'
-                    ,theme: 'molv'
+                    elem: '#date5',
+                    position: 'fixed',
+                    theme: 'molv'
                 });
                 laydate.render({
-                    elem: '#date6'
-                    ,position: 'fixed'
-                    ,theme: 'molv'
+                    elem: '#date6',
+                    position: 'fixed',
+                    theme: 'molv'
                 });
                 laydate.render({
-                    elem: '#date7'
-                    ,position: 'fixed'
-                    ,theme: 'molv'
+                    elem: '#date7',
+                    position: 'fixed',
+                    theme: 'molv'
                 });
-           
-            //监听提交
-            form.on('submit(save)', function (data) {
-                layer.alert(JSON.stringify(data.field), {
-                    title: '最终的提交信息'
-                })
-                return false;
+                //监听提交
+                form.on('submit(save)', function (data) {
+                    layer.alert(JSON.stringify(data.field), {
+                        title: '最终的提交信息'
+                    })
+                    return false;
+                });
             });
-          });
         </script>
     </body>
 </html>

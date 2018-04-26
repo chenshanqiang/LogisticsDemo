@@ -3,14 +3,13 @@
     <head>
         <meta charset="UTF-8">
         <title></title>
-        <link rel="stylesheet" type="text/css" href="../../../../public/static/layui/css/layui.css"> 
-    	<link rel="stylesheet" type="text/css" href="../../../../public/static/css/public.css">
+        <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css"> 
+    	<link rel="stylesheet" type="text/css" href="/static/css/public.css">
     </head>
-   
     <body>
         <form class="layui-form layui-form-pane" action="">
         	<div class="toph2">
-            	<h2>退货确认单</h2>
+            	<h2>维修确认单</h2>
            	</div>
             <div class="layui-form-item">
                 <div class="layui-inline">
@@ -317,7 +316,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label lightblue">到账日期</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="accountdate" id="date7" autocomplete="on" class="layui-input"> </div>
+                        <input type="text" name="date" id="date7" autocomplete="on" class="layui-input"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label lightblue">订制费用</label>
@@ -466,13 +465,13 @@
             </table>
             <div class="layui-form-item">
                 <div class="layui-btn-container">
-                    <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="save">保存</button>
-                    <button class="layui-btn" lay-submit="" lay-filter="deliver">转交</button>
-                    <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="cancel">取消</button>
+                    <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="demo1">保存</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="demo2">转交</button>
+                    <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="demo3">取消</button>
                 </div>
             </div>
         </form>
-        <script type="text/javascript" src="../../../../public/static/layui/layui.js"></script>
+        <script type="text/javascript" src="/static/layui/layui.js"></script>
         <script type="text/javascript">
             layui.use(['form', 'layedit', 'laydate'], function () {
                 var form = layui.form,
@@ -517,7 +516,7 @@
                 });
            
             //监听提交
-            form.on('submit(save)', function (data) {
+            form.on('submit(demo1)', function (data) {
                 layer.alert(JSON.stringify(data.field), {
                     title: '最终的提交信息'
                 })
