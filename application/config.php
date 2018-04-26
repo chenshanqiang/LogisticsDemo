@@ -17,7 +17,7 @@ return [
     // 应用调试模式
     'app_debug'              => true,               //必须为true，方便调试
     // 应用Trace
-    'app_trace'              => false,
+    'app_trace'              => true,
     // 应用模式状态
     'app_status'             => '',
     // 是否支持多模块

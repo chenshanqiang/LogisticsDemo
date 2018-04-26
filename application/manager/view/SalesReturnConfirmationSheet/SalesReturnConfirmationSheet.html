@@ -3,29 +3,15 @@
     <head>
         <meta charset="UTF-8">
         <title></title>
-        <link rel="stylesheet" type="text/css" href="../../../../public/static/layui/css/layui.css"> </head>
-    <style type="text/css">
-        form {
-            padding-left: 1%;
-            padding-right: 1%;
-        }
-        h2, h3 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .lightblue {
-            background-color: #6495ED!important;
-        }
-        .lightgreen {
-            background-color: #90EE90!important;
-        }
-        .Wheat, .Wheat th {
-            background-color: #F5DEB3!important;
-        }
-    </style>
+        <link rel="stylesheet" type="text/css" href="../../../../public/static/layui/css/layui.css"> 
+    	<link rel="stylesheet" type="text/css" href="../../../../public/static/css/public.css">
+    </head>
+   
     <body>
         <form class="layui-form layui-form-pane" action="">
-            <h2>更换确认单</h2>
+        	<div class="toph2">
+            	<h2>退货确认单</h2>
+           	</div>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">日期</label>
@@ -33,7 +19,7 @@
                         <input type="text" name="date" id="date1" autocomplete="on" class="layui-input"> </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">下单时间</label>
+                    <label class="layui-form-label">接收时间</label>
                     <div class="layui-input-inline">
                         <input type="text" name="orderdate" id="date2" autocomplete="on" class="layui-input"> </div>
                 </div>
@@ -54,6 +40,11 @@
                             <option value="取消">取消</option>
                         </select>
                     </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">部门编号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="departmentnumber" id="departmentnumber" autocomplete="on" class="layui-input"> </div>
                 </div>
             </div>
             <h3>物流信息</h3>
@@ -91,7 +82,7 @@
                         <input type="text" name="areamanager" id="areamanager" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label Wheat">区域经理电话</label>
+                    <label class="layui-form-label Wheat label_change">区域经理电话</label>
                     <div class="layui-input-inline">
                         <input type="text" name="areamanagertel" id="areamanagertel" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
                 </div>
@@ -104,7 +95,7 @@
                         <input type="text" name="companyname" id="companyname" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label Wheat">公司电话/传真</label>
+                    <label class="layui-form-label Wheat label_change">公司电话/传真</label>
                     <div class="layui-input-inline">
                         <input type="text" name="companytel" id="companytel" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
                 </div>
@@ -204,9 +195,9 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label Wheat">订单发货要求</label>
-                <div class="layui-input-block">
-                    <input type="text" name="ordershipmentsrequest" id="ordershipmentsrequest" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                <label class="layui-form-label Wheat label_change">订单发货要求</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="ordershipmentsrequest" id="ordershipmentsrequest" lay-verify="" autocomplete="on" placeholder="" class="layui-input input_change"> </div>
             </div>
             <h3>返货信息</h3>
             <div class="layui-form-item">
@@ -283,7 +274,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label lightgreen">审批日期</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="date4" id="date5" autocomplete="on" class="layui-input"> </div>
+                        <input type="text" name="examinationapprovaldatesecond" id="date5" autocomplete="on" class="layui-input"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label lightgreen">备注</label>
@@ -326,17 +317,17 @@
                 <div class="layui-inline">
                     <label class="layui-form-label lightblue">到账日期</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="date" id="date7" autocomplete="on" class="layui-input"> </div>
+                        <input type="text" name="accountdate" id="date7" autocomplete="on" class="layui-input"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label lightblue">订制费用</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="custommoney" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label lightblue">运费</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="transportationexpense" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -365,18 +356,19 @@
                         <th>条码</th>
                         <th>归还日期</th>
                         <th>更换代用原因</th>
-                        <th>产品状态</th>
-                        <th>非常规产品</th>
-                        <th>备注</th>
+                        <th class="lightblue">产品状态</th>
+                        <th class="lightblue">非常规产品</th>
+                        <th class="lightblue">备注</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
+                        <td>1</td>
                         <td>
                             <!--<div class="layui-form-item">-->
                             <!--<div class="layui-inline">-->
                             <!-- <div class="layui-input-inline">-->
-                            <select name="">
+                            <select name="productclassification">
                                 <option value="" disabled="" selected="">选择</option>
                                 <option value="公共广播">公共广播</option>
                                 <option value="会议系统">会议系统</option>
@@ -389,13 +381,13 @@
                             <!--</div>-->
                         </td>
                         <td>
-                            <select name="">
+                            <select name="brand">
                                 <option value="" disabled="" selected="">选择</option>
-                                <option value="到付">DSPPA</option>
-                                <option value="现金">ZABKZ</option>
-                                <option value="代付">OTEWA</option>
-                                <option value="公司付">AUXDI</option>
-                                <option value="公司付">外购</option>
+                                <option value="DSPPA">DSPPA</option>
+                                <option value="ZABKZ">ZABKZ</option>
+                                <option value="OTEWA">OTEWA</option>
+                                <option value="AUXDI">AUXDI</option>
+                                <option value="外购">外购</option>
                             </select>
                         </td>
                         <td></td>
@@ -410,27 +402,9 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
+                        <td>2</td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -447,7 +421,24 @@
                         <td></td>
                     </tr>
                     <tr>
+                        <td>3</td>
                         <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -475,9 +466,9 @@
             </table>
             <div class="layui-form-item">
                 <div class="layui-btn-container">
-                    <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="demo1">保存</button>
-                    <button class="layui-btn" lay-submit="" lay-filter="demo2">转交</button>
-                    <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="demo3">取消</button>
+                    <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="save">保存</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="deliver">转交</button>
+                    <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="cancel">取消</button>
                 </div>
             </div>
         </form>
@@ -491,29 +482,45 @@
                 /*日期*/
                 laydate.render({
                     elem: '#date1'
+                    ,position: 'fixed'
+                    ,theme: 'molv'
                 });
                 laydate.render({
                     elem: '#date2'
+                    ,position: 'fixed'
+                    ,theme: 'molv'
                 });
                 laydate.render({
                     elem: '#date3'
+                    ,position: 'fixed'
+                    ,theme: 'molv'
                 });
                 laydate.render({
                     elem: '#date4'
+                    ,position: 'fixed'
+                    ,theme: 'molv'
                 });
                 laydate.render({
                     elem: '#date5'
+                    ,position: 'fixed'
+                    ,theme: 'molv'
                 });
                 laydate.render({
                     elem: '#date6'
+                    ,position: 'fixed'
+                    ,theme: 'molv'
                 });
                 laydate.render({
                     elem: '#date7'
+                    ,position: 'fixed'
+                    ,theme: 'molv'
                 });
            
             //监听提交
-            form.on('submit(demo1)', function (data) {
-                
+            form.on('submit(save)', function (data) {
+                layer.alert(JSON.stringify(data.field), {
+                    title: '最终的提交信息'
+                })
                 return false;
             });
           });
