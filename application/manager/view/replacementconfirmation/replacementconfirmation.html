@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title></title>
-        <link rel="stylesheet" type="text/css" href="../../../../public/static/layui/css/layui.css"> </head>
+        <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css"> </head>
     <style type="text/css">
         form {
             padding-left: 1%;
@@ -481,13 +481,14 @@
                 </div>
             </div>
         </form>
-        <script type="text/javascript" src="../../../../public/static/layui/layui.js"></script>
-        <script type="text/javascript">
-            layui.use(['form', 'layedit', 'laydate'], function () {
+        <script type="text/javascript" src="/static/layui/layui.js"></script>
+        <script type="text/javascript" >
+            layui.use(['form','jquery', 'layedit', 'laydate'], function () {
                 var form = layui.form,
                     layer = layui.layer,
                     layedit = layui.layedit,
-                    laydate = layui.laydate;
+                    laydate = layui.laydate,
+                    jq = layui.jquery;
                 /*日期*/
                 laydate.render({
                     elem: '#date1'
@@ -513,7 +514,17 @@
            
             //监听提交
             form.on('submit(demo1)', function (data) {
-                
+                //console.log(data);
+                jq.ajax({
+                    url: "{:url('manager/replacementconfirmation/editorder')}",//php文件路径
+                    data: {data:data.field} ,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(e) {
+                        console.log(e)
+                    }
+                })
+
                 return false;
             });
           });
