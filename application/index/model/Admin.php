@@ -27,6 +27,17 @@
 			return true;
 		}
 
+
+		/*获取select选项值*/
+		public static function getclassinfo($tablename,$tableID){
+			$sql = "select * from ".$tablename;
+			$sql.= " order by ".$tableID." asc";
+			$tableobj = Db::query($sql);
+			if(!empty($tableobj)){
+				return $tableobj;
+			}
+		}
+
 		/*根据条件查询待审核物品订单*/
 		public static function queryexaminegoodsorder(...$args){
 			$totalargs = count($args);
@@ -202,8 +213,30 @@
             return $result;
         }
 
+        /*获取用户信息根据id*/
+        public  static function getloginuserinfo($userid)
+        {
+            $sql = "SELECT * FROM dsp_logistic.user WHEN user_id = '{$userid}'";
+            $retsql = Db::query($sql);
+            return $retsql;
+        }
+
+        /*查询单号是否存在 hjh*/
+        public  function queryhasconfirmorder($orderis)
+        {
+            $sql = "SELECT * FROM dsp_logistic.cs_info WHEN id = {$orderis}";
+            $retsql = Db::query($sql);
+            return $retsql;
+        }
+        /*新增更换确认单 hjh*/
+        public   function replaceconfirmorder($orderinfo)
+        {
+            $id = $orderinfo['trackingnumber'];
+            //$custom_info_id = $orderinfo['']
 
 
+            $sql = "INSERT INTO dsp_logistic.cs_info id (id,) VALUES ('{$id}')";
+        }
     }
 
 ?>
