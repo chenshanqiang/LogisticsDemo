@@ -8,13 +8,14 @@
 
 namespace app\manager\controller;
 use think\Controller;
+use think\Exception;
 use  think\Request;
+use app\manager\model\Addconfirmorder;
 
 class Replacementconfirmation extends  Controller
 {
     public function replacementconfirmation()
     {
-
         //var_dump('******************1');
         return $this->fetch();
     }
@@ -22,9 +23,6 @@ class Replacementconfirmation extends  Controller
     public function  editorder()
     {
         $data = $_GET['data'];
-        //$data->date;
-        //return  $data;
-        return  'lala:'.$data['accountstatus'];
-        //return
+
     }
 }

@@ -194,8 +194,22 @@
             return $result;
         }
 
+        /*查询单号是否存在 hjh*/
+        public  function queryhasconfirmorder($orderis)
+        {
+            $sql = "SELECT * FROM dsp_logistic.cs_info WHEN id = {$orderis}";
+            $retsql = Db::query($sql);
+            return $retsql;
+        }
+        /*新增更换确认单 hjh*/
+        public   function replaceconfirmorder($orderinfo)
+        {
+            $id = $orderinfo['trackingnumber'];
+            //$custom_info_id = $orderinfo['']
 
 
+            $sql = "INSERT INTO dsp_logistic.cs_info id (id,) VALUES ('{$id}')";
+        }
     }
 
 ?>

@@ -483,6 +483,7 @@
         </form>
         <script type="text/javascript" src="/static/layui/layui.js"></script>
         <script type="text/javascript" >
+            var userid = window.parent.document.getElementById("loginuser").innerHTML;
             layui.use(['form','jquery', 'layedit', 'laydate'], function () {
                 var form = layui.form,
                     layer = layui.layer,
@@ -517,11 +518,17 @@
                 //console.log(data);
                 jq.ajax({
                     url: "{:url('manager/replacementconfirmation/editorder')}",//php文件路径
-                    data: {data:data.field} ,
+                    data: {userid:userid ,data:data.field} ,
                     type: 'GET',
                     dataType: 'json',
                     success: function(e) {
-                        console.log(e)
+                        console.log(e);
+                        if(e){
+                            console.log('订单添加成功！');
+                        }else if(!e){
+                            console.log('订单提交失败！');
+                        }
+
                     }
                 })
 
