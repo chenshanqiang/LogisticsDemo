@@ -358,6 +358,12 @@
                 <div class="layui-input-block">
                     <input type="text" name="remarkforth" id="remarkforth" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
             </div>
+            <div class="layui-form-item">
+                <div class="layui-btn-container">
+                    <button id="btn_add_order_item" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="add_order_item">添加清单</button>
+                </div>
+            </div>
+
             <h3>订购清单</h3>
             <table class="layui-table">
                 <colgroup>
@@ -496,7 +502,7 @@
         </form>
         <script type="text/javascript" src="/static/layui/layui.js"></script>
         <script type="text/javascript">
-            layui.use(['form', 'jquery', 'layedit', 'laydate'], function () {
+            layui.use(['form', 'jquery', 'laydate'], function () {
                 var form = layui.form,
                     layer = layui.layer,
                     layedit = layui.layedit,
@@ -570,7 +576,7 @@
                     form.render('select');
                 })
             });
-
+            //监听选择部门
             form.on('select(dapartment_name)',function (data) {
 
                  jq.post("{:url('admin/addreplaceconfirmorder/getdspmanagerinfo')}",{'param':data.value},function (data) {
@@ -580,15 +586,30 @@
                         form.render('select');
                     })
             });
-
+            //监听选中经理自动添加电话
             form.on('select(manager_name)',function (data) {
                 var options= jq("#manager_id option:selected");
                 var  phone = jq(options[0]).attr('phone');
                 console.log();
-                //areamanagertel
                 document.getElementById('areamanagertel').value = phone;
             });
-
+            jq('#btn_add_order_item').click(function () {
+                layer.open({
+                    type:2,
+                    title:'新增清单',
+                    area:['800px','90%'],
+                    shade:0,
+                    maxmin:false,
+                    content:"{:url('admin/addconfirmorderitem/addconfirmorderitem')}",
+                    btn:['保存','退出'],
+                yes:function (index,layero) {
+                    var  iframeWin = window[layero.find('iframe')[0]['name']];
+                    var  orderItme = iframeWin.saveOrderItem();
+                    console.log(orderItme);
+                }
+                });
+                return false;
+            })
           });
         </script>
     </body>
