@@ -269,12 +269,12 @@
             $retsql = Db::query($sql);
             return $retsql;
         }
-
-        public  static function serachmodelinfo()
+        /*模糊搜索型号*/
+        public  static function serachmodelinfo($serachText, $product_type_id, $brand)
         {
-            
+            $sql = "SELECT * FROM dsp_logistic.product_info WHERE model LIKE '%{$serachText}%' AND type_id = '{$product_type_id}' AND brand_id = '{$brand}'";
+            $retsql = Db::query($sql);
+            return $retsql;
         }
-
     }
-
 ?>
