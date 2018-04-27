@@ -247,7 +247,7 @@
 
             $sql = "INSERT INTO dsp_logistic.cs_info id (id,) VALUES ('{$id}')";
         }
-<<<<<<< HEAD
+
         /*新增更换确认单 hjh*/
         public static function updateroleinfo($role)
         {
@@ -260,7 +260,7 @@
             return "$result";
         }
 
-=======
+
 
         /*获取用户信息*/
         public static  function getuserinfobydepid($depid)
@@ -269,7 +269,7 @@
             $retsql = Db::query($sql);
             return $retsql;
         }
->>>>>>> 8d8db1f08cfbcb3ab31e67f616bff493a4e676e0
+
     }
 
 ?>
