@@ -44,11 +44,12 @@
 			$pagenum = intval($args[0]?$args[0]:1);
 			$length = intval($args[1]);
 
-			$sqlone = "select count(*) from dsppasmartvideo.fileprograminfo where filename like '%%'";
+			$sqlone = "select count(*) from dsp_logistic.cs_info where state like '%%'";
+
 			if($totalargs == 3){
 				if($args[2]['areamanger'] != ""){
 					$areamanger = $args[2]['areamanger'];
-					$sqlone.= " and mediatype ='$areamanger'";
+					$sqlone.= " and fullname ='$areamanger'";
 				}
 				/*省去各种条件*/
 			}
@@ -63,15 +64,20 @@
 			}
 
 			$offset = ($pagenum - 1)*$length;
-			$sqltwo = "select * from dsppasmartvideo.fileprograminfo where filename like '%%'";
+            $sqltwo = "SELECT dsp_logistic.cs_info.*,dsp_logistic.custom_info.*,dsp_logistic.delivery_info.* ,dsp_logistic.return_info.*  dsp_logistic.payment_info.* dsp_logistic.logistics_info.* from dsp_logistic.cs_info ";
+            $sqltwo .= "left join dsp_logistic.custom_info on dsp_logistic.custom_info.custom_info_id = dsp_logistic.cs_info.custom_info_id ";
+            $sqltwo .= "left join dsp_logistic.delivery_info on dsp_logistic.delivery_info.delivery_info_id = dsp_logistic.cs_info.delivery_info_id ";
+            $sqltwo .= "left join dsp_logistic.return_info on dsp_logistic.return_info.return_info_id = dsp_logistic.cs_info.return_info_id ";
+            $sqltwo .= "left join dsp_logistic.payment_info on dsp_logistic.payment_info.payment_info_id = dsp_logistic.cs_info.payment_info_id ";
+            $sqltwo .= "left join dsp_logistic.logistics_info on dsp_logistic.logistics_info.cs_id = dsp_logistic.cs_info.id ";
 			if($totalargs == 3){
 				if($args[2]['areamanger'] != ""){
 					$areamanger = $args[2]['areamanger'];
-					$sqltwo.= " and mediatype ='$areamanger'";
+					$sqltwo.= " and fullname ='$areamanger'";
 				}
 				/*省去各种条件*/
 			}
-			$sqltwo .= " order by idfile DESC limit {$offset},{$length}";
+			$sqltwo .= " order By dsp_logistic.cs_info.id DESC limit {$offset},{$length} ;";
 			$tableobj = Db::query($sqltwo);
 			if(!empty($tableobj)){
 				return (array('code'=>0,'msg'=>'','count'=>$count,'data'=>$tableobj));
