@@ -97,13 +97,17 @@
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">区域经理</label>
-                    <div class="layui-input-inline">
+                    <select id="manager_id" name="manager_name" lay-filter="manager_name">
+                        <option value="" selected>请选择</option>
+                    </select>
+                    <!--<div class="layui-input-inline">
                         <input type="text" name="areamanager" id="areamanager" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                    -->
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat label_change">区域经理电话</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="areamanagertel" id="areamanagertel" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" disabled name="areamanagertel" id="areamanagertel" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
                 </div>
             </div>
             <h3>客户信息</h3>
@@ -556,15 +560,35 @@
                 })
                 return false;
             });
+            //监听选择公司
             form.on('select(company_name)',function (data) {
                 jq.post("{:url('admin/addreplaceconfirmorder/getdepartmentinfo')}",{'param':data.value},function (data) {
-                    console.log(data);
+                    //console.log(data);
                     for (var item in data){
                         jq('#department_id').append("<option value='" + data[item]['organize_id'] + "'>" + data[item]['organize_name'] + "</option>>");
                     }
                     form.render('select');
                 })
-            })
+            });
+
+            form.on('select(dapartment_name)',function (data) {
+
+                 jq.post("{:url('admin/addreplaceconfirmorder/getdspmanagerinfo')}",{'param':data.value},function (data) {
+                     for (var item in data){
+                          jq('#manager_id').append("<option value='" + data[item]['user_id'] + "' phone='" + data[item]['phone'] + "'>" + data[item]['fullname'] + "</option>>");
+                        }
+                        form.render('select');
+                    })
+            });
+
+            form.on('select(manager_name)',function (data) {
+                var options= jq("#manager_id option:selected");
+                var  phone = jq(options[0]).attr('phone');
+                console.log();
+                //areamanagertel
+                document.getElementById('areamanagertel').value = phone;
+            });
+
           });
         </script>
     </body>

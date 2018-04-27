@@ -22,6 +22,12 @@ class Addreplaceconfirmorder extends Controller
         $param = $_POST;
         $result = \app\index\model\Admin::querydepartmentinfo($param['param']);
         return $result;
+    }
 
+    public  function getdspmanagerinfo()
+    {
+        $dep_id = $_POST['param'];
+        $result = \app\index\model\Admin::getuserinfobydepid($dep_id);
+        return $result;
     }
 }
