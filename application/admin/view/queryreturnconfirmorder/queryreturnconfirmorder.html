@@ -154,6 +154,7 @@
 				</div>
 
 				<div class="layui-form-item">
+					<button class="layui-btn" lay-submit="" lay-filter="export" style="float: right;margin-right: 10px;">导出</button>
 					<button class="layui-btn" lay-submit="" lay-filter="query" style="float: right;margin-right: 10px;">查询</button>
 				</div>
 			</form>
@@ -195,6 +196,13 @@
 				        }
 			      	});
 		  			return false;
+				});
+
+
+				/*监听导出按钮*/
+				form.on('submit(export)',function(data){
+					var index = top.layer.msg('打开导出参数设置界面');
+					return false;
 				});
 
 				divHeight = document.getElementById('serachcondition').offsetHeight;   /*搜索框div高度*/

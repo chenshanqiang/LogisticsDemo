@@ -198,6 +198,12 @@
 		  			return false;
 				});
 
+				/*监听导出按钮*/
+				form.on('submit(export)',function(data){
+					var index = top.layer.msg('打开导出参数设置界面');
+					return false;
+				});
+
 				divHeight = document.getElementById('serachcondition').offsetHeight;   /*搜索框div高度*/
 				clientHeight = jq(window).height()-divHeight-100;
 
