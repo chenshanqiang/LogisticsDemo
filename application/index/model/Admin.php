@@ -145,16 +145,23 @@
                     {
                         //$name =
                         $tableobj[$i]["companyname"]=$tableobj[$i]["organize_name"];
+                        $tableobj[$i]["companyid"]=$tableobj[$i]["organize_id"];
                         $tableobj[$i]["organize_name"] = "";
+                        $tableobj[$i]["organize_id"] = "";
                     }
                     else {
                         $sql ="select * from dsp_logistic.organize where `organize_id` = '{$parentid}'";
 
                         $conpanytalbe = Db::query($sql);
                         if(!empty($conpanytalbe))
+                        {
                             $tableobj[$i]["companyname"]=$conpanytalbe[0]["organize_name"];
+                            $tableobj[$i]["companyid"]=$conpanytalbe[0]["organize_id"];
+                        }
+
                         else{
                             $tableobj[$i]["companyname"]="";
+                            $tableobj[$i]["companyid"]="";
                         }
                     }
                     $tableobj[$i]["serialnumber"]=$i+1;
@@ -204,8 +211,8 @@
                 return $tableorganize;
             return null;
         }
-        /*根据增加用户*/
-        public static function adduser($user)
+        /*根据增加和更新用户*/
+        public static function updateuser($user)
         {
             $fullname = $user["fullname"];
             $password = $user["password"];
@@ -215,19 +222,37 @@
             {
                 $organize_id = $user["company_id"];
             }
-
             $job_id = $user["job_id"];
             $role_id = $user["role_id"];
-            $sql = "INSERT INTO `dsp_logistic`.`user` (`fullname`, `password`, `phone`, `organize_id`, `job_id`, `role_id`)";
-            $sql.="  VALUES ('{$user["fullname"]}', '{$password}', '{$phone}', '{$organize_id}', '{$job_id}', '{$role_id}');";
-            $result = Db::execute($sql);
-            return $result;
-        }
+            $user_id = $user["user_id"];
+            if(!empty($user_id))
+            {
+                $sql = " UPDATE dsp_logistic.user ";
+                $sql.="  SET  fullname = '{$fullname}', password = '{$password}', phone = '{$phone}', organize_id = '{$organize_id}', job_id = '{$job_id}', role_id = '{$role_id}' ";
+                $sql.=" where user_id = '{$user_id}'";
+                $result = Db::execute($sql);
+                return $result;
+            }
+            else
+            {
+                $sql = "INSERT INTO `dsp_logistic`.`user` (`fullname`, `password`, `phone`, `organize_id`, `job_id`, `role_id`)";
+                $sql.="  VALUES ('{$fullname}', '{$password}', '{$phone}', '{$organize_id}', '{$job_id}', '{$role_id}');";
+                $result = Db::execute($sql);
+                return $result;
+            }
 
+        }
+        /*获取删除用户*/
+        public  static function deleteuser($userid)
+        {
+            $sql = "Delete FROM dsp_logistic.user where user_id = '{$userid}'";
+            $retsql = Db::query($sql);
+            return $retsql;
+        }
         /*获取用户信息根据id*/
         public  static function getloginuserinfo($userid)
         {
-            $sql = "SELECT * FROM dsp_logistic.user WHEN user_id = '{$userid}'";
+            $sql = "SELECT * FROM dsp_logistic.user where user_id = '{$userid}'";
             $retsql = Db::query($sql);
             return $retsql;
         }
@@ -260,8 +285,6 @@
             return "$result";
         }
 
-
-
         /*获取用户信息*/
         public static  function getuserinfobydepid($depid)
         {
@@ -269,6 +292,9 @@
             $retsql = Db::query($sql);
             return $retsql;
         }
+
+
+
 
     }
 

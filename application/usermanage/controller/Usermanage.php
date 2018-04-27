@@ -24,12 +24,21 @@ class Usermanage extends Controller
         return $tablelist;
     }
 
-    public function adduser()
+    public function updateuser()
     {
         $param = Request::instance()->param();
         //dump($param['param']);
         $user = $param['param'];
-        $result = \app\index\model\Admin::adduser($user);
+        $result = \app\index\model\Admin::updateuser($user);
+        return $result;
+    }
+
+    public function  deleteuser()
+    {
+        $param = $_POST;
+        //dump($param['param']);
+        $user = $param['param'];
+        $result = \app\index\model\Admin::deleteuser($user);
         return $result;
     }
 
