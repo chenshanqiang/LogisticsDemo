@@ -161,9 +161,14 @@
         }
 
         /*根据查询角色信息*/
-        public static function queryroleinfo()
+        public static function queryroleinfo(...$param)
         {
-            $sql = "select * from  dsp_logistic.role";
+            $sql = "select * from  dsp_logistic.role ";
+            $count = count($param);
+            if($count == 1)
+            {
+                $sql.= "where role_id = '{$param[0]}'";
+            }
             $tablerole = Db::query($sql);
             if(!empty($tablerole))
                 return $tablerole;
@@ -193,7 +198,7 @@
                 return $tableorganize;
             return null;
         }
-        /*根据查询部门信息*/
+        /*根据增加用户*/
         public static function adduser($user)
         {
             $fullname = $user["fullname"];
@@ -208,7 +213,7 @@
             $job_id = $user["job_id"];
             $role_id = $user["role_id"];
             $sql = "INSERT INTO `dsp_logistic`.`user` (`fullname`, `password`, `phone`, `organize_id`, `job_id`, `role_id`)";
-            $sql.="  VALUES ('{$fullname}', '{$password}', '{$phone}', '{$organize_id}', '{$job_id}', '{$role_id}');";
+            $sql.="  VALUES ('{$user["fullname"]}', '{$password}', '{$phone}', '{$organize_id}', '{$job_id}', '{$role_id}');";
             $result = Db::execute($sql);
             return $result;
         }
@@ -234,9 +239,20 @@
             $id = $orderinfo['trackingnumber'];
             //$custom_info_id = $orderinfo['']
 
-
             $sql = "INSERT INTO dsp_logistic.cs_info id (id,) VALUES ('{$id}')";
         }
+        /*新增更换确认单 hjh*/
+        public static function updateroleinfo($role)
+        {
+
+            $sql = "UPDATE dsp_logistic.role ";
+            $sql.="  SET  role_name = '{$role["role_name"]}', order_goods_permission = '{$role["order_goods_permission"]}', replace_permission = '{$role["replace_permission"]}', borrow_sample_permission = '{$role["borrow_sample_permission"]}', return_goods_permission = '{$role["return_goods_permission"]}',";
+            $sql.= "fixing_permission =  '{$role["fixing_permission"]}',maintain_permission = '{$role["maintain_permission"]}',substitute_permission = '{$role["substitute_permission"]}',user_manage_permission = '{$role["user_manage_permission_manage"]}' ";
+            $sql.=" where role_id = '{$role["role_id"]}'";
+            $result = Db::execute($sql);
+            return "$result";
+        }
+
     }
 
 ?>
