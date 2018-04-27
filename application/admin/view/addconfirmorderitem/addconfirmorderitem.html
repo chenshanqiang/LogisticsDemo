@@ -55,6 +55,7 @@
         </div>
     </form>
 </body>
+<script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="/static/UI-jquery/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/static/layui/layui.js"></script>
 <script type="text/javascript">
@@ -68,7 +69,7 @@
         jq("#serachModelinfo").autocomplete({
             source:function(request,response){
                 jq.ajax({
-                    url:"admin/addconfirmorderitem/serachmodelinfo",
+                    url:"{:url('admin/addconfirmorderitem/serachmodelinfo')}",
                     type:"POST",
                     dataType:"json",
                     data:{serrchText:jq("#serachModelinfo").val(),type:jq("#product_type_id").val(),brand:jq('#brand_id').val()},

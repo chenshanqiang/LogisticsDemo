@@ -270,6 +270,11 @@
             return $retsql;
         }
 
+        public  static function serachmodelinfo()
+        {
+            
+        }
+
     }
 
 ?>
