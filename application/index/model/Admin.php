@@ -39,16 +39,18 @@
 		}
 
 		/*根据条件查询待审核物品订单*/
+		/*最多四个参数:type  page  limit queryinfo*/
 		public static function queryexaminegoodsorder(...$args){
 			$totalargs = count($args);
-			$pagenum = intval($args[0]?$args[0]:1);
-			$length = intval($args[1]);
+			$type = $args[0];
+			$pagenum = intval($args[1]?$args[1]:1);
+			$length = intval($args[2]);
 
-			$sqlone = "select count(*) from dsp_logistic.cs_info where state like '%%'";
+			$sqlone = "select count(*) from dsp_logistic.cs_info where type='$type'";
 
-			if($totalargs == 3){
-				if($args[2]['areamanger'] != ""){
-					$areamanger = $args[2]['areamanger'];
+			if($totalargs == 4){
+				if($args[3]['areamanger'] != ""){
+					$areamanger = $args[3]['areamanger'];
 					$sqlone.= " and fullname ='$areamanger'";
 				}
 				/*省去各种条件*/
@@ -70,14 +72,14 @@
             $sqltwo .= "left join dsp_logistic.return_info on dsp_logistic.return_info.return_info_id = dsp_logistic.cs_info.return_info_id ";
             $sqltwo .= "left join dsp_logistic.payment_info on dsp_logistic.payment_info.payment_info_id = dsp_logistic.cs_info.payment_info_id ";
             $sqltwo .= "left join dsp_logistic.logistics_info on dsp_logistic.logistics_info.cs_id = dsp_logistic.cs_info.id ";
-			if($totalargs == 3){
-				if($args[2]['areamanger'] != ""){
-					$areamanger = $args[2]['areamanger'];
+			if($totalargs == 4){
+				if($args[3]['areamanger'] != ""){
+					$areamanger = $args[3]['areamanger'];
 					$sqltwo.= " and fullname ='$areamanger'";
 				}
 				/*省去各种条件*/
 			}
-			$sqltwo .= " order By dsp_logistic.cs_info.id DESC limit {$offset},{$length} ;";
+			$sqltwo .= "where dsp_logistic.cs_info.type='$type' order By dsp_logistic.cs_info.id DESC limit {$offset},{$length} ;";
 			$tableobj = Db::query($sqltwo);
 			if(!empty($tableobj)){
 				return (array('code'=>0,'msg'=>'','count'=>$count,'data'=>$tableobj));

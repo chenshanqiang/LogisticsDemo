@@ -27,12 +27,13 @@ class Querygoodsconfirmorder extends Controller
     public function getexamineorder(){
     	$page = $_GET['page'];
     	$limit = $_GET['limit'];
+        $type = 0x02;
 
     	if(isset($_GET['queryInfo'])){
     		$queryInfo = $_GET['queryInfo'];
-    		$tablelist = \app\index\model\Admin::queryexaminegoodsorder($page,$limit,$queryInfo);
+    		$tablelist = \app\index\model\Admin::queryexaminegoodsorder($type,$page,$limit,$queryInfo);
     	}else{
-    		$tablelist = \app\index\model\Admin::queryexaminegoodsorder($page,$limit);
+    		$tablelist = \app\index\model\Admin::queryexaminegoodsorder($type,$page,$limit);
     	}
         
     	return $tablelist;
