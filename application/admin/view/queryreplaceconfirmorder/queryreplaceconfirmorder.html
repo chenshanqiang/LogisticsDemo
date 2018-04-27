@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<!-- {include file="publictemplate/querysearchcondition"/} -->
-		<div style="margin:20px 10px;min-height: 180px;border: 2px solid #C7C7C7;">
+		<div style="margin:20px 10px;min-height: 180px;border: 2px solid #C7C7C7;" id="serachcondition">
 			<form class="layui-form" style="padding-top:20px;">
 				<div class="layui-form-item">
 				    <div class="layui-inline">
@@ -154,6 +154,7 @@
 				</div>
 
 				<div class="layui-form-item">
+					<button class="layui-btn" lay-submit="" lay-filter="export" style="float: right;margin-right: 10px;">导出</button>
 					<button class="layui-btn" lay-submit="" lay-filter="query" style="float: right;margin-right: 10px;">查询</button>
 				</div>
 			</form>
@@ -162,13 +163,14 @@
 			<div><h2>更换单查询</h2></div>
 			<table class="layui-hide" id="queryreplaceorder" lay-filter="queryreplaceorder"></table>
 			<script type="text/html" id="operatebar">
-			  <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+			  <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">查看</a>
 			  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-			  <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
+			  <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
 			</script>
 		</div>
 		<script src="/static/layui/layui.js"></script>
 		<script type="text/javascript">
+			var  divHeight,clientHeight;
 			layui.use(['layer','jquery','laydate','form','table'],function(){
 				var form = layui.form ,layer = layui.layer,jq = layui.jquery,laydate = layui.laydate,table = layui.table;
 
@@ -196,15 +198,21 @@
 		  			return false;
 				});
 
+				/*监听导出按钮*/
+
+				divHeight = document.getElementById('serachcondition').offsetHeight;   /*搜索框div高度*/
+				clientHeight = jq(window).height()-divHeight-100;                      /*定义table框高度*/
+
 				/*表格渲染*/
 				table.render({
 				    elem: '#queryreplaceorder'
+				    ,height:clientHeight
 				    ,url:"{:url('admin/queryreplaceconfirmorder/getexamineorder')}"     //动态获取数据
 				    ,cols: [[
 				       {type:'checkbox'}
 				      ,{field: 'write_date', title: '下单日期', width: 150, sort: true}
-				      ,{field:'complete_data',title:'完成日期',width:150,sort:true}
-				      ,{field: 'id', title: '流水号', minWidth: 150}
+				      ,{field:'complete_date',title:'完成日期',width:150,sort:true}
+				      ,{field: 'id',title: '流水号', minWidth: 150,sort:true}
   				      ,{field: 'organize_name', title: '部门', minWidth: 150}
 				      ,{field: 'fullname', title: '区域经理', minWidth: 100}
 				      ,{field: 'receiver_name', title: '收件人', minWidth: 100}
@@ -212,7 +220,7 @@
 				      ,{field: 'state', title: '状态', minWidth: 100}
   				      ,{field: 'transfer_fee_mode', title: '运费方式', width: 100}
 				      ,{field: 'transfer_order_num', title: '运单号', minWidth: 100}
-				      ,{fixed: 'right', title:'操作', width:150, align:'center', toolbar: '#operatebar'}
+				      ,{fixed: 'right', title:'操作', width:200, align:'center', toolbar: '#operatebar'}
 				    ]]
 				    ,id: 'querytable'
 				    ,data:[]
@@ -228,7 +236,11 @@
 				table.on('tool(queryreplaceorder)', function(obj){
 				    var data = obj.data;
 				    if(obj.event === 'detail'){
-				    	layer.msg('下单日期：'+ data.date + ' 的查看操作');
+				    	layer.msg('下单日期：'+ data.write_date + ' 的查看操作');
+				    }else if(obj.event === 'edit'){
+				    	layer.msg('编辑操作');
+				    }else if(obj.event === 'delete'){
+				    	layer.msg('删除操作');
 				    }
 			  	});
 			});
