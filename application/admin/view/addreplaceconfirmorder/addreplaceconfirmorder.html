@@ -71,20 +71,43 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <div class="layui-inline">
+                <!--<div class="layui-inline">
                     <label class="layui-form-label Wheat">部门</label>
                     <div class="layui-input-inline">
                         <input type="text" name="department" id="department" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                </div>-->
+                <div class="layui-inline">
+                    <label class="layui-form-label">总部门：</label>
+                    <div class="layui-input-inline">
+                        <select id="company_id" name="company_name" lay-filter="company_name">
+                            <option value="" selected>请选择</option>
+                            {volist name="companylist" id="vo"}
+                            <option value="{$vo.organize_id}">{$vo.organize_name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">子部门：</label>
+                    <div class="layui-input-inline">
+                        <select id="department_id" name="dapartment_name" lay-filter="dapartment_name">
+                            <option value="" selected>请选择</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">区域经理</label>
-                    <div class="layui-input-inline">
+                    <select id="manager_id" name="manager_name" lay-filter="manager_name">
+                        <option value="" selected>请选择</option>
+                    </select>
+                    <!--<div class="layui-input-inline">
                         <input type="text" name="areamanager" id="areamanager" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                    -->
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat label_change">区域经理电话</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="areamanagertel" id="areamanagertel" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" disabled name="areamanagertel" id="areamanagertel" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
                 </div>
             </div>
             <h3>客户信息</h3>
@@ -473,11 +496,12 @@
         </form>
         <script type="text/javascript" src="/static/layui/layui.js"></script>
         <script type="text/javascript">
-            layui.use(['form', 'layedit', 'laydate'], function () {
+            layui.use(['form', 'jquery', 'layedit', 'laydate'], function () {
                 var form = layui.form,
                     layer = layui.layer,
                     layedit = layui.layedit,
                     laydate = layui.laydate;
+                    jq = layui.jquery;
                 /*日期*/
                 laydate.render({
                     elem: '#date1'
@@ -517,11 +541,54 @@
            
             //监听提交
             form.on('submit(save)', function (data) {
-                layer.alert(JSON.stringify(data.field), {
+                /*layer.alert(JSON.stringify(data.field), {
                     title: '最终的提交信息'
+                })*/
+                jq.ajax({
+                    url: "{:url('admin/addreplaceconfirmorder/editorder')}",//php文件路径
+                    data: {userid:userid ,data:data.field} ,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(e) {
+                        console.log(e);
+                        if(e){
+                            console.log('订单添加成功！');
+                        }else if(!e){
+                            console.log('订单提交失败！');
+                        }
+                    }
                 })
                 return false;
             });
+            //监听选择公司
+            form.on('select(company_name)',function (data) {
+                jq.post("{:url('admin/addreplaceconfirmorder/getdepartmentinfo')}",{'param':data.value},function (data) {
+                    //console.log(data);
+                    for (var item in data){
+                        jq('#department_id').append("<option value='" + data[item]['organize_id'] + "'>" + data[item]['organize_name'] + "</option>>");
+                    }
+                    form.render('select');
+                })
+            });
+
+            form.on('select(dapartment_name)',function (data) {
+
+                 jq.post("{:url('admin/addreplaceconfirmorder/getdspmanagerinfo')}",{'param':data.value},function (data) {
+                     for (var item in data){
+                          jq('#manager_id').append("<option value='" + data[item]['user_id'] + "' phone='" + data[item]['phone'] + "'>" + data[item]['fullname'] + "</option>>");
+                        }
+                        form.render('select');
+                    })
+            });
+
+            form.on('select(manager_name)',function (data) {
+                var options= jq("#manager_id option:selected");
+                var  phone = jq(options[0]).attr('phone');
+                console.log();
+                //areamanagertel
+                document.getElementById('areamanagertel').value = phone;
+            });
+
           });
         </script>
     </body>
