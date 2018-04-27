@@ -228,13 +228,13 @@
         }
 
         /*查询单号是否存在 hjh*/
-        public  function queryhasconfirmorder($orderis)
+        public function queryhasconfirmorder($orderis)
         {
-            $sql = "SELECT * FROM dsp_logistic.cs_info WHEN id = {$orderis}";
+            $sql = "SELECT * FROM dsp_logistic.cs_info WHERE id = {$orderis}";
             $retsql = Db::query($sql);
             return $retsql;
         }
-        /*新增更换确认单 hjh*/
+        /*新增更换确认单 hjh 未完*/
         public   function replaceconfirmorder($orderinfo)
         {
             $id = $orderinfo['trackingnumber'];
@@ -242,6 +242,14 @@
 
 
             $sql = "INSERT INTO dsp_logistic.cs_info id (id,) VALUES ('{$id}')";
+        }
+
+        /*获取用户信息*/
+        public static  function getuserinfobydepid($depid)
+        {
+            $sql = "SELECT * FROM dsp_logistic.user WHERE organize_id = {$depid}";
+            $retsql = Db::query($sql);
+            return $retsql;
         }
     }
 
