@@ -38,9 +38,14 @@
 			}
 		}
 
-		/*根据条件查询待审核物品订单*/
+		/*查询订货确认单*/
+		public static function querygoodsorderinfo(...$args){
+			return (array('code'=>0,'msg'=>'','count'=>0,'data'=>[]));
+		}
+
+		/*根据条件查询订单*/
 		/*最多四个参数:type  page  limit queryinfo*/
-		public static function queryexaminegoodsorder(...$args){
+		public static function querycsInfomation(...$args){
 			$totalargs = count($args);
 			$type = $args[0];
 			$pagenum = intval($args[1]?$args[1]:1);

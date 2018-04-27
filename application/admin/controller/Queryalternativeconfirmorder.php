@@ -31,9 +31,9 @@ class Queryalternativeconfirmorder extends Controller
 
     	if(isset($_GET['queryInfo'])){
     		$queryInfo = $_GET['queryInfo'];
-    		$tablelist = \app\index\model\Admin::queryexaminegoodsorder($type,$page,$limit,$queryInfo);
+    		$tablelist = \app\index\model\Admin::querycsInfomation($type,$page,$limit,$queryInfo);
     	}else{
-    		$tablelist = \app\index\model\Admin::queryexaminegoodsorder($type,$page,$limit);
+    		$tablelist = \app\index\model\Admin::querycsInfomation($type,$page,$limit);
     	}
     	return $tablelist;
     }
