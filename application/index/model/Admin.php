@@ -38,17 +38,24 @@
 			}
 		}
 
-		/*根据条件查询待审核物品订单*/
-		public static function queryexaminegoodsorder(...$args){
+		/*查询订货确认单*/
+		public static function querygoodsorderinfo(...$args){
+			return (array('code'=>0,'msg'=>'','count'=>0,'data'=>[]));
+		}
+
+		/*根据条件查询订单*/
+		/*最多四个参数:type  page  limit queryinfo*/
+		public static function querycsInfomation(...$args){
 			$totalargs = count($args);
-			$pagenum = intval($args[0]?$args[0]:1);
-			$length = intval($args[1]);
+			$type = $args[0];
+			$pagenum = intval($args[1]?$args[1]:1);
+			$length = intval($args[2]);
 
-			$sqlone = "select count(*) from dsp_logistic.cs_info where state like '%%'";
+			$sqlone = "select count(*) from dsp_logistic.cs_info where type='$type'";
 
-			if($totalargs == 3){
-				if($args[2]['areamanger'] != ""){
-					$areamanger = $args[2]['areamanger'];
+			if($totalargs == 4){
+				if($args[3]['areamanger'] != ""){
+					$areamanger = $args[3]['areamanger'];
 					$sqlone.= " and fullname ='$areamanger'";
 				}
 				/*省去各种条件*/
@@ -70,14 +77,14 @@
             $sqltwo .= "left join dsp_logistic.return_info on dsp_logistic.return_info.return_info_id = dsp_logistic.cs_info.return_info_id ";
             $sqltwo .= "left join dsp_logistic.payment_info on dsp_logistic.payment_info.payment_info_id = dsp_logistic.cs_info.payment_info_id ";
             $sqltwo .= "left join dsp_logistic.logistics_info on dsp_logistic.logistics_info.cs_id = dsp_logistic.cs_info.id ";
-			if($totalargs == 3){
-				if($args[2]['areamanger'] != ""){
-					$areamanger = $args[2]['areamanger'];
+			if($totalargs == 4){
+				if($args[3]['areamanger'] != ""){
+					$areamanger = $args[3]['areamanger'];
 					$sqltwo.= " and fullname ='$areamanger'";
 				}
 				/*省去各种条件*/
 			}
-			$sqltwo .= " order By dsp_logistic.cs_info.id DESC limit {$offset},{$length} ;";
+			$sqltwo .= "where dsp_logistic.cs_info.type='$type' order By dsp_logistic.cs_info.id DESC limit {$offset},{$length} ;";
 			$tableobj = Db::query($sqltwo);
 			if(!empty($tableobj)){
 				return (array('code'=>0,'msg'=>'','count'=>$count,'data'=>$tableobj));
@@ -218,10 +225,37 @@
 
             $job_id = $user["job_id"];
             $role_id = $user["role_id"];
+<<<<<<< HEAD
             $sql = "INSERT INTO `dsp_logistic`.`user` (`fullname`, `password`, `phone`, `organize_id`, `job_id`, `role_id`)";
             $sql.="  VALUES ('{$user["fullname"]}', '{$password}', '{$phone}', '{$organize_id}', '{$job_id}', '{$role_id}');";
             $result = Db::execute($sql);
             return $result;
+=======
+            $user_id = $user["user_id"];
+            if($user_id != "")
+            {
+                $sql = " UPDATE dsp_logistic.user ";
+                $sql.="  SET  fullname = '{$fullname}', password = '{$password}', phone = '{$phone}', organize_id = '{$organize_id}', job_id = '{$job_id}', role_id = '{$role_id}' ";
+                $sql.=" where user_id = '{$user_id}'";
+                $result = Db::execute($sql);
+                return $result;
+            }
+            else
+            {
+                $sql = "INSERT INTO `dsp_logistic`.`user` (`fullname`, `password`, `phone`, `organize_id`, `job_id`, `role_id`)";
+                $sql.="  VALUES ('{$fullname}', '{$password}', '{$phone}', '{$organize_id}', '{$job_id}', '{$role_id}');";
+                $result = Db::execute($sql);
+                return $result;
+            }
+
+        }
+        /*获取删除用户*/
+        public  static function deleteuser($userid)
+        {
+            $sql = "Delete FROM dsp_logistic.user where user_id = '{$userid}'";
+            $retsql = Db::query($sql);
+            return $retsql;
+>>>>>>> e14b35cb9f97433ae51fb3085a6e804351806685
         }
 
         /*获取用户信息根据id*/

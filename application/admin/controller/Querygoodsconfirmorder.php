@@ -30,9 +30,9 @@ class Querygoodsconfirmorder extends Controller
 
     	if(isset($_GET['queryInfo'])){
     		$queryInfo = $_GET['queryInfo'];
-    		$tablelist = \app\index\model\Admin::queryexaminegoodsorder($page,$limit,$queryInfo);
+    		$tablelist = \app\index\model\Admin::querygoodsorderinfo($page,$limit,$queryInfo);
     	}else{
-    		$tablelist = \app\index\model\Admin::queryexaminegoodsorder($page,$limit);
+    		$tablelist = \app\index\model\Admin::querygoodsorderinfo($page,$limit);
     	}
         
     	return $tablelist;
