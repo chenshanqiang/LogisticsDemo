@@ -225,7 +225,7 @@
             $job_id = $user["job_id"];
             $role_id = $user["role_id"];
             $user_id = $user["user_id"];
-            if(!empty($user_id))
+            if($user_id != "")
             {
                 $sql = " UPDATE dsp_logistic.user ";
                 $sql.="  SET  fullname = '{$fullname}', password = '{$password}', phone = '{$phone}', organize_id = '{$organize_id}', job_id = '{$job_id}', role_id = '{$role_id}' ";
