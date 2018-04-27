@@ -141,44 +141,140 @@
             //layui.form.render();
             /*监听角色选择*/
             form.on('select(role_name)',function(data){
-                jq.post("{:url('usermanage/rolemanage/getrolepermission')}",{'param':data.value},function(data){
-                    console.log(data);
+                 //console.log(data.value);
+                 if(data.value === "")
+                    return false;
+                 var param = data.value;
+                 setCheckBox(false);
+                 form.render('checkbox');
 
-                    // jq("input[name='onechoose']").each(function(){
-                    //     if((parseInt(data.order_goods_permission))&1){
-                    //         jq("this").prop('checked',true);
-                    //     }
-                    //     if((parseInt(timinginfo.week))&2){
-                    //         var weekinfo = "mon";
-                    //         jq("input[value=" +weekinfo + "]").prop('checked',true);
-                    //     }
-                    //     if((parseInt(timinginfo.week))&4){
-                    //         var weekinfo = "tue";
-                    //         jq("input[value=" +weekinfo + "]").prop('checked',true);
-                    //     }
-                    //     if((parseInt(timinginfo.week))&8){
-                    //         var weekinfo = "thr";
-                    //         jq("input[value=" +weekinfo + "]").prop('checked',true);
-                    //     }
-                    //     if((parseInt(timinginfo.week))&16){
-                    //         var weekinfo = "thu";
-                    //         jq("input[value=" +weekinfo + "]").prop('checked',true);
-                    //     }
-                    //     if((parseInt(timinginfo.week))&32){
-                    //         var weekinfo = "fri";
-                    //         jq("input[value=" +weekinfo + "]").prop('checked',true);
-                    //     }
-                    //     if((parseInt(timinginfo.week))&64){
-                    //         var weekinfo = "sat";
-                    //         jq("input[value=" +weekinfo + "]").prop('checked',true);
-                    //     }
-                    // });
+                 jq.post("{:url('usermanage/rolemanage/getrolepermission')}",{'param':param},function(data){
+                   // console.log(data);
+                   if(data == null)
+                        return;
+                    if(data.length == 0)
+                        return;
+                    var pos = 0;
+                    jq("input[name='order_goods_permission']").each(function(){
+                        if(((parseInt(data.order_goods_permission))&(1<<pos))){
+                            jq(this).prop('checked',true);
+                            //console.log("order_goods_permission = 1");
+                        }
+                        pos++;
+                    });
 
+                    pos = 0;
+                    jq("input[name='replace_permission']").each(function(){
+                        if(((parseInt(data.replace_permission))&(1<<pos))){
+                            jq(this).prop('checked',true);
+                           // console.log("order_goods_permission = 1 = "+pos);
+                        }
+                        pos++;
+                    });
+
+                    pos = 0;
+                    jq("input[name='borrow_sample_permission']").each(function(){
+                        if(((parseInt(data.borrow_sample_permission))&(1<<pos)) == (1<<pos)){
+                            jq(this).prop('checked',true);
+                        }
+                        pos ++;
+                    });
+
+                    pos = 0;
+                    jq("input[name='return_goods_permission']").each(function(){
+                        if(((parseInt(data.return_goods_permission))&(1<<pos)) == (1<<pos)){
+                            jq(this).prop('checked',true);
+                        }
+                        pos ++;
+                    });
+
+                    pos = 0;
+                    jq("input[name='fixing_permission']").each(function(){
+                        if(((parseInt(data.fixing_permission))&(1<<pos)) == (1<<pos)){
+                            jq(this).prop('checked',true);
+                        }
+                        pos ++;
+                    });
+
+                    pos = 0;
+                    jq("input[name='maintain_permission']").each(function(){
+                        if(((parseInt(data.maintain_permission))&(1<<pos)) == (1<<pos)){
+                            jq(this).prop('checked',true);
+                        }
+                        pos ++;
+                    });
+
+                    pos = 0;
+                    jq("input[name='substitute_permission']").each(function(){
+                        if(((parseInt(data.substitute_permission))&(1<<pos)) == (1<<pos)){
+                            jq(this).prop('checked',true);
+                        }
+                        pos ++;
+                    });
+
+                    pos = 0;
+                    jq("input[name='user_manage_permission_manage']").each(function(){
+                        if(parseInt(data.user_manage_permission) == 1){
+                            jq(this).prop('checked',true);
+                        }
+                        pos ++;
+                    });
+                     form.render('checkbox');
                 });
+
                 return false;
             });
 
+            function setCheckBox(state) {
+                var pos = 0;
+                jq("input[name='order_goods_permission']").each(function(){
 
+                    jq(this).prop('checked',state);
+                    pos ++;
+                });
+
+                pos = 0;
+                jq("input[name='replace_permission']").each(function(){
+                    jq(this).prop('checked',state);
+                    pos ++;
+                });
+
+                pos = 0;
+                jq("input[name='borrow_sample_permission']").each(function(){
+                    jq(this).prop('checked',state);
+                    pos ++;
+                });
+
+                pos = 0;
+                jq("input[name='return_goods_permission']").each(function(){
+                    jq(this).prop('checked',state);
+                    pos ++;
+                });
+
+                pos = 0;
+                jq("input[name='fixing_permission']").each(function(){
+                    jq(this).prop('checked',state);
+                    pos ++;
+                });
+
+                pos = 0;
+                jq("input[name='maintain_permission']").each(function(){
+                    jq(this).prop('checked',state);
+                    pos ++;
+                });
+
+                pos = 0;
+                jq("input[name='substitute_permission']").each(function(){
+                    jq(this).prop('checked',state);
+                    pos ++;
+                });
+
+                pos = 0;
+                jq("input[name='user_manage_permission_manage']").each(function(){
+                    jq(this).prop('checked',state);
+                    pos ++;
+                });
+            }
 
         });
         function SaveRole() {
@@ -250,7 +346,6 @@
 
             var substitute_permission = 0x0000;
             pos = 0;
-
             jq("input[name='substitute_permission']").each(function(){
 
                 if(jq(this).prop('checked')){

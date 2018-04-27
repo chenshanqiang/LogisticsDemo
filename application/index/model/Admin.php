@@ -44,11 +44,12 @@
 			$pagenum = intval($args[0]?$args[0]:1);
 			$length = intval($args[1]);
 
-			$sqlone = "select count(*) from dsppasmartvideo.fileprograminfo where filename like '%%'";
+			$sqlone = "select count(*) from dsp_logistic.cs_info where state like '%%'";
+
 			if($totalargs == 3){
 				if($args[2]['areamanger'] != ""){
 					$areamanger = $args[2]['areamanger'];
-					$sqlone.= " and mediatype ='$areamanger'";
+					$sqlone.= " and fullname ='$areamanger'";
 				}
 				/*省去各种条件*/
 			}
@@ -63,15 +64,20 @@
 			}
 
 			$offset = ($pagenum - 1)*$length;
-			$sqltwo = "select * from dsppasmartvideo.fileprograminfo where filename like '%%'";
+            $sqltwo = "SELECT dsp_logistic.cs_info.*,dsp_logistic.custom_info.*,dsp_logistic.delivery_info.* ,dsp_logistic.return_info.* ,dsp_logistic.payment_info.*, dsp_logistic.logistics_info.* from dsp_logistic.cs_info ";
+            $sqltwo .= "left join dsp_logistic.custom_info on dsp_logistic.custom_info.custom_info_id = dsp_logistic.cs_info.custom_info_id ";
+            $sqltwo .= "left join dsp_logistic.delivery_info on dsp_logistic.delivery_info.delivery_info_id = dsp_logistic.cs_info.delivery_info_id ";
+            $sqltwo .= "left join dsp_logistic.return_info on dsp_logistic.return_info.return_info_id = dsp_logistic.cs_info.return_info_id ";
+            $sqltwo .= "left join dsp_logistic.payment_info on dsp_logistic.payment_info.payment_info_id = dsp_logistic.cs_info.payment_info_id ";
+            $sqltwo .= "left join dsp_logistic.logistics_info on dsp_logistic.logistics_info.cs_id = dsp_logistic.cs_info.id ";
 			if($totalargs == 3){
 				if($args[2]['areamanger'] != ""){
 					$areamanger = $args[2]['areamanger'];
-					$sqltwo.= " and mediatype ='$areamanger'";
+					$sqltwo.= " and fullname ='$areamanger'";
 				}
 				/*省去各种条件*/
 			}
-			$sqltwo .= " order by idfile DESC limit {$offset},{$length}";
+			$sqltwo .= " order By dsp_logistic.cs_info.id DESC limit {$offset},{$length} ;";
 			$tableobj = Db::query($sqltwo);
 			if(!empty($tableobj)){
 				return (array('code'=>0,'msg'=>'','count'=>$count,'data'=>$tableobj));
@@ -161,9 +167,14 @@
         }
 
         /*根据查询角色信息*/
-        public static function queryroleinfo()
+        public static function queryroleinfo(...$param)
         {
-            $sql = "select * from  dsp_logistic.role";
+            $sql = "select * from  dsp_logistic.role ";
+            $count = count($param);
+            if($count == 1)
+            {
+                $sql.= "where role_id = '{$param[0]}'";
+            }
             $tablerole = Db::query($sql);
             if(!empty($tablerole))
                 return $tablerole;
@@ -193,7 +204,7 @@
                 return $tableorganize;
             return null;
         }
-        /*根据查询部门信息*/
+        /*根据增加用户*/
         public static function adduser($user)
         {
             $fullname = $user["fullname"];
@@ -208,7 +219,7 @@
             $job_id = $user["job_id"];
             $role_id = $user["role_id"];
             $sql = "INSERT INTO `dsp_logistic`.`user` (`fullname`, `password`, `phone`, `organize_id`, `job_id`, `role_id`)";
-            $sql.="  VALUES ('{$fullname}', '{$password}', '{$phone}', '{$organize_id}', '{$job_id}', '{$role_id}');";
+            $sql.="  VALUES ('{$user["fullname"]}', '{$password}', '{$phone}', '{$organize_id}', '{$job_id}', '{$role_id}');";
             $result = Db::execute($sql);
             return $result;
         }
@@ -234,9 +245,22 @@
             $id = $orderinfo['trackingnumber'];
             //$custom_info_id = $orderinfo['']
 
-
             $sql = "INSERT INTO dsp_logistic.cs_info id (id,) VALUES ('{$id}')";
         }
+
+        /*新增更换确认单 hjh*/
+        public static function updateroleinfo($role)
+        {
+
+            $sql = "UPDATE dsp_logistic.role ";
+            $sql.="  SET  role_name = '{$role["role_name"]}', order_goods_permission = '{$role["order_goods_permission"]}', replace_permission = '{$role["replace_permission"]}', borrow_sample_permission = '{$role["borrow_sample_permission"]}', return_goods_permission = '{$role["return_goods_permission"]}',";
+            $sql.= "fixing_permission =  '{$role["fixing_permission"]}',maintain_permission = '{$role["maintain_permission"]}',substitute_permission = '{$role["substitute_permission"]}',user_manage_permission = '{$role["user_manage_permission_manage"]}' ";
+            $sql.=" where role_id = '{$role["role_id"]}'";
+            $result = Db::execute($sql);
+            return "$result";
+        }
+
+
 
         /*获取用户信息*/
         public static  function getuserinfobydepid($depid)
@@ -245,6 +269,7 @@
             $retsql = Db::query($sql);
             return $retsql;
         }
+
     }
 
 ?>

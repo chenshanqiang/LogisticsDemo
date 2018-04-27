@@ -98,9 +98,10 @@
                         var iframeWin = window[layero.find('iframe')[0]['name']];
                         var role = iframeWin.SaveRole();
                         console.log(role);
-                         // jq.post("{:url('usermanage/rolemanage/setrolepermisson')}",{'param':role} ,function(data){
-                         //     console.log(data);
-                         // });
+                        console.log(1111);
+                         jq.post("{:url('usermanage/rolemanage/setrolepermisson')}",{'param':role} ,function(data){
+                              console.log(data);
+                          });
                         // layer.closeAll();
                     }
                     , btn2: function () {

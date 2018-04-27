@@ -25,14 +25,18 @@ class Rolemanage extends Controller
     public function getrolepermission()
     {
         $param = Request::instance()->param();
-        $result = \app\index\model\Admin::querydepartmentinfo($param['param']);
-        return $result;
+        $result = \app\index\model\Admin::queryroleinfo($param['param']);
+        if(!empty($result))
+            return $result[0];
+        else {
+            return null;
+        }
     }
 
     public function setrolepermisson()
     {
         $param = Request::instance()->param();
-        //$result = \app\index\model\Admin::querydepartmentinfo($param['param']);
-        return $param;
+        $result = \app\index\model\Admin::updateroleinfo($param['param']);
+        return "$result";
     }
 }
