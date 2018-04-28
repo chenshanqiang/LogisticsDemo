@@ -33,6 +33,7 @@ class Addconfirmorderitem extends Controller
         $sereachText = $_POST['serrchText'];
         $productType = $_POST['type'];
         $brand = $_POST['brand'];
-        return $sereachText.'  '.$productType.'  '.$brand;
+        $dbproductinfo = \app\index\model\Admin::serachmodelinfo($sereachText,$productType,$brand);
+        return $dbproductinfo;
     }
 }

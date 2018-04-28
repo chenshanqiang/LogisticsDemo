@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/static/UI-jquery/jquery-ui.min.css">
-
+    <link rel="stylesheet" type="text/css" href="/static/css/public.css">
 
 </head>
 <body>
@@ -36,6 +36,14 @@
                 </div>
             </div>
             <div class="layui-inline">
+                <label class="layui-form-label">型号：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="serachModelinfo" name="inputmodel">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label">生产地：</label>
                 <div class="layui-input-inline" style="max-width:120px">
                     <select id="place_id" name="place_name" lay-filter="place_name">
@@ -46,21 +54,101 @@
                     </select>
                 </div>
             </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">数量：</label>
+                <div class="layui-input-inline" style="max-width:120px">
+                    <input type="text" id="inputcount" name="inputcount">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">非常规产品：</label>
+                <div class="layui-input-inline" style="max-width:120px">
+                    <input type="radio" name="inputunroutine" title="是" value="是">
+                    <input type="radio" name="inputunroutine" title="否" value="否" checked="">
+                </div>
+            </div>
+            <!--<div class="layui-inline">-->
+                <!--<label class="layui-form-label">单位：</label>-->
+                <!--<div class="layui-input-inline" style="max-width:120px">-->
+                    <!--<input type="text" id="inputtype" name="inputtype">-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
-
         <div class="layui-form-item">
-            <div>
-                <input type="text" id="serachModelinfo" name="inputmodel">
+            <div class="layui-inline">
+                <label class="layui-form-label">规格：</label>
+                <div class="layui-input-inline" style="max-width:120px">
+                    <input type="text" id="specification" name="specification">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">到账日期：</label>
+                <div class="layui-input-inline" style="max-width:120px">
+                    <input type="text" name="date" id="back_date" autocomplete="on" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">状态：</label>
+                <div class="layui-input-inline" style="max-width:120px">
+                    <input type="radio" name="inputstate" title="已更换" value="已更换">
+                    <input type="radio" name="inputstate" title="未更换" value="未更换" checked="">
+                </div>
             </div>
         </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">条码：</label>
+                <div class="layui-input-inline" style="max-width:120px">
+                    <input type="text" name="code">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">条码：</label>
+                <div class="layui-input-inline" style="max-width:120px">
+                    <input type="text" name="code">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">原因：</label>
+                <div class="layui-input-inline" style="max-width:120px">
+                    <input type="text" name="explain">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">备注：</label>
+                <div class="layui-input-inline" style="max-width:120px">
+                    <input type="text" name="comment">
+                </div>
+            </div>
+        </div>
+        <!--<div class="layui-form-item">
+            <label class="layui-form-label">名称：</label>
+            <div class="layui-input-inline">
+                <input type="text" id="product_info_name" name="inputmodel">
+            </div>
+        </div>-->
     </form>
 </body>
+<script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="/static/UI-jquery/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/static/layui/layui.js"></script>
 <script type="text/javascript">
-    layui.use(['form','laydate','jquery'],function(){
+    layui.use(['form','laydate','jquery','laydate'],function(){
        var form = layui.form,
+           laydate = layui.laydate;
         jq = layui.jquery;
+
+        laydate.render({
+            elem: '#back_date'
+            ,position: 'fixed'
+            ,theme: 'molv'
+        });
        form.on('select(type_name)',function(typedata){
            //jq.post("{:url('admin/addconfirmorderitem/getbrand')}",{})
        })
@@ -68,22 +156,32 @@
         jq("#serachModelinfo").autocomplete({
             source:function(request,response){
                 jq.ajax({
-                    url:"admin/addconfirmorderitem/serachmodelinfo",
+                    url:"{:url('admin/addconfirmorderitem/serachmodelinfo')}",
                     type:"POST",
                     dataType:"json",
                     data:{serrchText:jq("#serachModelinfo").val(),type:jq("#product_type_id").val(),brand:jq('#brand_id').val()},
                     success:function(data){
                         console.log(data);
-                        /*response($.map(data,function(item){
+                        response(jq.map(data,function(item){
                             return{
-                                label:item.timingname,
-                                value:item.timingname
+                                label:item.model,
+                                value:item.model,
+
                             }
-                        }));*/
+                        }));
+
                     },
                 });
             }
         });
+
+       function saveOrderItem() {
+           var orderItem = new Object();
+           orderItem.type_id = jq('#product_type_id').val();
+           orderItem.brand_id = jq('#brand_id').val();
+           orderItem.model = jq('#serachModelinfo').val();
+           orderItem.place = jq('#place_id').val();
+       }
     });
 </script>
 
