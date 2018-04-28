@@ -40,10 +40,11 @@
 
 		/*查询订货确认单*/
 		public static function querygoodsorderinfo(...$args){
+			
 			return (array('code'=>0,'msg'=>'','count'=>0,'data'=>[]));
 		}
 
-		/*根据条件查询订单*/
+		/*查询维修，代用等订单*/
 		/*最多四个参数:type  page  limit queryinfo*/
 		public static function querycsInfomation(...$args){
 			$totalargs = count($args);
@@ -218,6 +219,30 @@
                 return $tableorganize;
             return null;
         }
+
+        /*根据增加和更新组织架构*/
+        public static function updatedepartment($department){
+        	$sqlone = "delete FROM dsp_logistic.organize where organize_id > 0";
+        	$result = Db::execute($sqlone);
+
+        	for($item=0 ; $item < count($department); $item++){
+        		$organize_id = intval($department[$item]['organize_id']);
+        		$parent_id = intval($department[$item]['parent_id']);
+        		$organize_name = $department[$item]['organize_name'];
+        		$sqltwo="INSERT INTO dsp_logistic.organize (organize_id,parent_id,organize_name) VALUES ('$organize_id','$parent_id','$organize_name') ON DUPLICATE KEY UPDATE parent_id='$parent_id',organize_name = '$organize_name'";
+        		$result = Db::execute($sqltwo);
+        	}
+        	return true;
+        }
+
+        public static function getmaxorganizeID(){
+        	$sql = "SELECT max(organize_id) FROM dsp_logistic.organize";
+            $organizeID = Db::query($sql);
+            return $organizeID;
+        }
+
+
+
         /*根据增加和更新用户*/
         public static function updateuser($user)
         {
@@ -299,9 +324,6 @@
             $retsql = Db::query($sql);
             return $retsql;
         }
-
-
-
 
     }
 
