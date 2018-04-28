@@ -212,7 +212,7 @@
                 return $tableorganize;
             return null;
         }
-<<<<<<< HEAD
+
 
         /*根据增加和更新组织架构*/
         public static function updatedepartment($department){
@@ -239,10 +239,6 @@
 
         /*根据增加和更新用户*/
         public static function updateuser($user)
-=======
-        /*根据增加用户*/
-        public static function adduser($user)
->>>>>>> e223a0f63c2bf16da84d0dafdf20c38317f880fc
         {
             $fullname = $user["fullname"];
             $password = $user["password"];
@@ -255,12 +251,12 @@
 
             $job_id = $user["job_id"];
             $role_id = $user["role_id"];
-<<<<<<< HEAD
+
             $sql = "INSERT INTO `dsp_logistic`.`user` (`fullname`, `password`, `phone`, `organize_id`, `job_id`, `role_id`)";
             $sql.="  VALUES ('{$user["fullname"]}', '{$password}', '{$phone}', '{$organize_id}', '{$job_id}', '{$role_id}');";
             $result = Db::execute($sql);
             return $result;
-=======
+
             $user_id = $user["user_id"];
             if($user_id != "")
             {
@@ -285,7 +281,7 @@
             $sql = "Delete FROM dsp_logistic.user where user_id = '{$userid}'";
             $retsql = Db::query($sql);
             return $retsql;
->>>>>>> e14b35cb9f97433ae51fb3085a6e804351806685
+
         }
 
         /*获取用户信息根据id*/
@@ -324,8 +320,6 @@
             return "$result";
         }
 
-
-
         /*获取用户信息*/
         public static  function getuserinfobydepid($depid)
         {
@@ -333,9 +327,7 @@
             $retsql = Db::query($sql);
             return $retsql;
         }
-<<<<<<< HEAD
 
-=======
         /*模糊搜索型号*/
         public  static function serachmodelinfo($serachText, $product_type_id, $brand)
         {
@@ -343,6 +335,5 @@
             $retsql = Db::query($sql);
             return $retsql;
         }
->>>>>>> e223a0f63c2bf16da84d0dafdf20c38317f880fc
     }
 ?>
