@@ -16,7 +16,8 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">日期</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="date" id="date1" autocomplete="on" class="layui-input"> </div>
+                        <input type="text" disabled name="date" id="date1" autocomplete="on" class="layui-input" value="{$date}">
+                    </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">接收时间</label>
@@ -26,7 +27,8 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">流水号</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="swiftnumber" id="swiftnumber" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" disabled name="swiftnumber" id="swiftnumber" lay-verify="" autocomplete="on" placeholder="" class="layui-input" value="{$orderid}">
+                    </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label lightblue">状态</label>
@@ -44,7 +46,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">部门编号</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="departmentnumber" id="departmentnumber" autocomplete="on" class="layui-input"> </div>
+                        <input type="text" disabled name="departmentnumber" id="departmentnumber" autocomplete="on" class="layui-input" value="{$depid}"> </div>
                 </div>
             </div>
             <h3>物流信息</h3>
@@ -365,18 +367,12 @@
             </div>
 
             <h3>订购清单</h3>
-            <table class="layui-table">
-                <colgroup>
-                    <!--<col width="150">
-                    <col width="200">
-                    <col> -->
-                </colgroup>
+            <table class="layui-table" id="tableorder">
                 <thead>
                     <tr class="Wheat">
                         <th>序号</th>
                         <th>产品分类</th>
                         <th>品牌</th>
-                        <th>生产地</th>
                         <th>产品名称</th>
                         <th>规格</th>
                         <th>型号</th>
@@ -384,105 +380,14 @@
                         <th>数量</th>
                         <th>条码</th>
                         <th>归还日期</th>
-                        <th>更换代用原因</th>
+                        <th>归跟换代用原因</th>
+                        <th>生产地</th>
                         <th class="lightblue">产品状态</th>
                         <th class="lightblue">非常规产品</th>
                         <th class="lightblue">备注</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>
-                            <!--<div class="layui-form-item">-->
-                            <!--<div class="layui-inline">-->
-                            <!-- <div class="layui-input-inline">-->
-                            <select name="productclassification">
-                                <option value="" disabled="" selected="">选择</option>
-                                <option value="公共广播">公共广播</option>
-                                <option value="会议系统">会议系统</option>
-                                <option value="地铁事业">地铁事业</option>
-                                <option value="澳斯迪">澳斯迪</option>
-                                <option value="录播">录播</option>
-                            </select>
-                            <!--</div>-->
-                            <!--</div>-->
-                            <!--</div>-->
-                        </td>
-                        <td>
-                            <select name="brand">
-                                <option value="" disabled="" selected="">选择</option>
-                                <option value="DSPPA">DSPPA</option>
-                                <option value="ZABKZ">ZABKZ</option>
-                                <option value="OTEWA">OTEWA</option>
-                                <option value="AUXDI">AUXDI</option>
-                                <option value="外购">外购</option>
-                            </select>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
                     <tr>
                         <td class="Wheat">其它说明</td>
                         <td colspan="14"></td>
@@ -550,9 +455,10 @@
                 /*layer.alert(JSON.stringify(data.field), {
                     title: '最终的提交信息'
                 })*/
+                console.log(data.field);
                 jq.ajax({
                     url: "{:url('admin/addreplaceconfirmorder/editorder')}",//php文件路径
-                    data: {userid:userid ,data:data.field} ,
+                    data: {data:data.field} ,
                     type: 'GET',
                     dataType: 'json',
                     success: function(e) {
@@ -602,11 +508,72 @@
                     maxmin:false,
                     content:"{:url('admin/addconfirmorderitem/addconfirmorderitem')}",
                     btn:['保存','退出'],
-                yes:function (index,layero) {
-                    var  iframeWin = window[layero.find('iframe')[0]['name']];
-                    var  orderItme = iframeWin.saveOrderItem();
-                    console.log(orderItme);
-                }
+                    yes:function (index,layero) {
+                        var  iframeWin = window[layero.find('iframe')[0]['name']];
+                        var  orderItem = iframeWin.saveOrderItem();
+                        if(orderItem.model_text == null){
+                            return null;
+                        }
+                        console.log(orderItem);
+                        //+判断
+                        var type_id = orderItem.type_id;
+                        var type_text = orderItem.type_text;
+                        var brand_id = orderItem.brand_id;
+                        var brand_text = orderItem.brand_text;
+                        var model_text = orderItem.model_text;
+                        var model_id = orderItem.model_id;
+                        var model = orderItem.model;
+                        var unit = orderItem.unit;
+                        var place = orderItem.place;
+                        var place_text = orderItem.place_text;
+                        var count =orderItem.count;
+                        var isunc = orderItem.isunc;
+                        var specification = orderItem.specification;
+                        var back_date = orderItem.back_date;
+                        var product_state = orderItem.product_state;
+                        var bar_code = orderItem.bar_code;
+                        var explain = orderItem.explain;
+                        var comment = orderItem.comment;
+                        console.log("length: "+ jq('#tableorder')[0].rows.length);
+                        var rows = jq('#tableorder')[0].rows.length - 2;
+
+                        var new_tr = jq('#tableorder')[0].insertRow(rows);//指定位置插入行
+                        var col_0 = new_tr.insertCell(0);//添加列
+                        col_0.innerHTML = "<td><a>"+ rows+"</a></td>";
+                        var col_1 = new_tr.insertCell(1);//添加列
+                        col_1.innerHTML = "<td><a type_id='"+ type_id +"'>"+ type_text +"</a></td>";
+                        var col_2 = new_tr.insertCell(2);//添加列
+                        col_2.innerHTML = "<td><a brand_id='"+ brand_id +"'>"+ brand_text +"</a></td>";
+                        var col_3 = new_tr.insertCell(3);
+                        col_3.innerHTML = "<td><a>"+ model_text +"</a></td>";//-------产品名称-------
+                        var col_4 = new_tr.insertCell(4);
+                        col_4.innerHTML = "<td><a>"+ specification +"</a></td>";
+                        var col_5 = new_tr.insertCell(5);
+                        col_5.innerHTML = "<td><a model_id='" + model_id + "'>"+ model +"</a></td>";
+                        var col_6 = new_tr.insertCell(6);
+                        col_6.innerHTML = "<td><a>"+ unit +"</a></td>";
+                        var col_7 = new_tr.insertCell(7);
+                        col_7.innerHTML = "<td><a>"+ count +"</a></td>";
+                        var col_8 = new_tr.insertCell(8);
+                        col_8.innerHTML = "<td><a>"+ bar_code +"</a></td>";
+                        var col_9 = new_tr.insertCell(9);
+                        col_9.innerHTML = "<td><a>"+ back_date +"</a></td>";
+                        var col_10 = new_tr.insertCell(10);
+                        col_10.innerHTML = "<td><a>"+ explain +"</a></td>";
+                        var col_11 = new_tr.insertCell(11);
+                        col_11.innerHTML = "<td><a place = '"+ place +"'>"+ place_text +"</a></td>";
+                        var col_12 = new_tr.insertCell(12);
+                        col_12.innerHTML = "<td><a>"+ product_state +"</a></td>";
+                        var col_13 = new_tr.insertCell(13);
+                        col_13.innerHTML = "<td><a>"+ isunc +"</a></td>";
+                        var col_14 = new_tr.insertCell(14);
+                        col_14.innerHTML = "<td><a>"+ comment +"</a></td>";
+
+                        layer.closeAll();
+                    },
+                    btn2: function () {
+                        layer.closeAll();
+                    }
                 });
                 return false;
             })

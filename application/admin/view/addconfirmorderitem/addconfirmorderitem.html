@@ -67,12 +67,12 @@
                     <input type="radio" name="inputunroutine" title="否" value="否" checked="">
                 </div>
             </div>
-            <!--<div class="layui-inline">-->
-                <!--<label class="layui-form-label">单位：</label>-->
-                <!--<div class="layui-input-inline" style="max-width:120px">-->
-                    <!--<input type="text" id="inputtype" name="inputtype">-->
-                <!--</div>-->
-            <!--</div>-->
+            <div class="layui-inline">
+                <label class="layui-form-label">单位：</label>
+                <div class="layui-input-inline" style="max-width:120px">
+                    <input type="text" id="inputunit" name="inputunit">
+                </div>
+            </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
@@ -82,7 +82,7 @@
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">到账日期：</label>
+                <label class="layui-form-label">归还日期：</label>
                 <div class="layui-input-inline" style="max-width:120px">
                     <input type="text" name="date" id="back_date" autocomplete="on" class="layui-input">
                 </div>
@@ -99,15 +99,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">条码：</label>
                 <div class="layui-input-inline" style="max-width:120px">
-                    <input type="text" name="code">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">条码：</label>
-                <div class="layui-input-inline" style="max-width:120px">
-                    <input type="text" name="code">
+                    <input type="text" name="code" id="code">
                 </div>
             </div>
         </div>
@@ -115,7 +107,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">原因：</label>
                 <div class="layui-input-inline" style="max-width:120px">
-                    <input type="text" name="explain">
+                    <input type="text" name="explain" id="explain">
                 </div>
             </div>
         </div>
@@ -123,7 +115,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">备注：</label>
                 <div class="layui-input-inline" style="max-width:120px">
-                    <input type="text" name="comment">
+                    <input type="text" name="comment" id="comment">
                 </div>
             </div>
         </div>
@@ -175,14 +167,64 @@
             }
         });
 
-       function saveOrderItem() {
-           var orderItem = new Object();
-           orderItem.type_id = jq('#product_type_id').val();
-           orderItem.brand_id = jq('#brand_id').val();
-           orderItem.model = jq('#serachModelinfo').val();
-           orderItem.place = jq('#place_id').val();
-       }
+
     });
+
+    function saveOrderItem() {
+        var jq = layui.jquery;
+        var orderItem = new Object();
+        orderItem.type_id = jq('#product_type_id').val();
+        var obj = document.getElementById("product_type_id");
+        orderItem.type_text = obj.options[obj.selectedIndex].text;
+        orderItem.brand_id = jq('#brand_id').val();
+        var obj1 = document.getElementById("brand_id");
+        orderItem.brand_text = obj1.options[obj1.selectedIndex].text;
+        orderItem.model = jq('#serachModelinfo').val();
+        var obj2 = document.getElementById("place_id");
+        orderItem.place_text = obj2.options[obj2.selectedIndex].text;
+        orderItem.place = jq('#place_id').val();//
+        orderItem.count = jq('#inputcount').val();
+        orderItem.unit = jq('#inputunit').val();
+        jq("input[name='inputunroutine']").each(function(){
+            if(jq(this).prop('checked')){
+                orderItem.isunc = jq(this).attr('value');
+            }
+        });
+        orderItem.specification = jq('#specification').val();
+        orderItem.back_date = jq('#back_date').val();
+        jq("input[name='inputstate']").each(function(){
+            if(jq(this).prop('checked')){
+                orderItem.product_state = jq(this).attr('value');
+            }
+        });
+        orderItem.bar_code = jq('#code').val();
+        orderItem.explain = jq('#explain').val();
+        orderItem.comment = jq('#comment').val();
+        //+判断 型号是否存在，不存在禁止录入
+        jq.ajax({
+            url:"{:url('admin/addconfirmorderitem/serachmodelinfo')}",
+            type:"POST",
+            dataType:"json",
+            async:false,
+            data:{serrchText:jq("#serachModelinfo").val(),type:jq("#product_type_id").val(),brand:jq('#brand_id').val()},
+            success:function(data){
+                console.log(data);
+                if(data != null){
+                    orderItem.model_text = data[0].product_info_name;
+                    orderItem.model_id = data[0].product_info_id;
+                }else {
+                    layui.use('layer', function(){
+                        var layer = layui.layer;
+                        layer.msg('型号不存！',{icon:2});
+                    });
+                }
+            },
+        });
+        /*jq.post("{:url('admin/addconfirmorderitem/serachmodelinfo')}",{serrchText:jq("#serachModelinfo").val(),type:jq("#product_type_id").val(),brand:jq('#brand_id').val()},function (data) {
+
+        })*/
+        return orderItem;
+    }
 </script>
 
 </html>
