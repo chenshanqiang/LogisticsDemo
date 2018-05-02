@@ -10,7 +10,7 @@
 	<body>
 		{include file="publictemplate/approveserachcondtion"/}
 		<div style="margin:20px 10px;">
-			<div><h2>借用待审批订单</h2></div>
+			<div><h2>借样待审批订单</h2></div>
 			<table class="layui-hide" id="borroworder" lay-filter="borroworder"></table>
 			<script type="text/html" id="operatebar">
 			  <a class="layui-btn layui-btn-xs" lay-event="detail">查看详情</a>
@@ -50,15 +50,15 @@
 				    elem: '#borroworder'
 				    ,url:"{:url('admin/approveborrowconfirmorder/getexamineorder')}"     //动态获取数据
 				    ,cols: [[ 
-				       {type:'checkbox'}
-				      ,{field: 'date', title: '下单日期', width: 150, sort: true}
-				      ,{field: 'serialnumber', title: '流水号', minWidth: 150}
-				      ,{field: 'recvpeople', title: '收件人', minWidth: 100}
-				      ,{field: 'state', title: '状态', minWidth: 100}
-				      ,{field: 'department', title: '部门', minWidth: 150}
-				      ,{field: 'areamanger', title: '区域经理', minWidth: 100}
-				      ,{field: 'totalnumber', title: '项数', width: 80}
-				      ,{fixed: 'right', title:'操作', width:150, align:'center', toolbar: '#operatebar'}
+				      	{field:'serial_number',title:'序号',width: 80, sort: true}
+                        ,{field: 'write_date', title: '下单日期', width: 150,sort: true}
+                        ,{field: 'cs_id', title: '流水号', minWidth: 150}
+                        ,{field: 'receiver_name', title: '收件人', minWidth: 100}
+                        ,{field: 'cs_info_state', title: '状态', minWidth: 100}
+                        ,{field: 'build_organize_name', title: '部门', minWidth: 150}
+                        ,{field: 'build_user_name', title: '区域经理', minWidth: 100}
+                        ,{field: 'product_number', title: '项数', width: 80}
+				      	,{fixed: 'right', title:'操作', width:150, align:'center', toolbar: '#operatebar'}
 				    ]]
 				    ,id: 'querytable'
 				    ,data:[]
@@ -77,6 +77,26 @@
 				    	layer.msg('下单日期：'+ data.date + ' 的查看操作');
 				    }
 			  	});
+
+                /*监听部门选择*/
+                form.on('select(department)',function (obj) {
+                    var ops=document.getElementById("areamanager");
+                    ops.innerHTML = "";
+                    ops.options.length = 0;
+                    form.render('select');
+
+                    jq("#areamanager").append("<option value=''>请选择</option>");
+                    form.render('select');
+
+                    if(obj.value == "")
+                        return ;
+                    jq.post("{:url('admin/Approvealternativeconfirmorder/getareamanager')}",{'param':obj.value},function(data){
+                        for(var  item in data){
+                            jq("#areamanager").append("<option value='"+data[item]['user_id']+"'>"+data[item]['fullname']+"</option>");
+                        }
+                        form.render('select');
+                    });
+                });
 			});
 		</script>
 	</body>
