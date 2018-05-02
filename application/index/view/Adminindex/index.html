@@ -26,7 +26,7 @@
 		                 + time.getMinutes() + ":" + time.getSeconds();
 		               show.innerHTML = t;
 		            </script>
-		          </a>|<a class="usermange_btn" href="{:url('usermanage/usermanage/usermanage')}">用户管理</a>|<a class="logout_btn" href="javascript:void(0)">注销</a>
+		          </a>|<a class="index" href="{:url('index/adminindex/index')}">首页</a>|<a class="usermange_btn" href="{:url('usermanage/usermanage/usermanage')}">用户管理</a>|<a class="logout_btn" href="javascript:void(0)">注销</a>
 		        </div>
 		      </div>
 		    </div>
@@ -63,12 +63,12 @@
 		              <li class="layui-nav-item layui-nav-itemed">
 		                <a href="javascript:void(0);"><span style="color: red;">订单审批</span></a>
 		                  <dl class="layui-nav-child">
-							<dd><a href="{:url('admin/approvereplaceconfirmorder/approvereplaceconfirmorder')}" target="main">更换确认单</a></dd>
-							<dd><a href="{:url('admin/approveborrowconfirmorder/approveborrowconfirmorder')}" target="main">借样确认单</a></dd>
-							<dd><a href="{:url('admin/approvereturnconfirmorder/approvereturnconfirmorder')}" target="main">退货确认单</a></dd>
-							<dd><a href="{:url('admin/approverepairconfirmorder/approverepairconfirmorder')}" target="main">维修确认单</a></dd>
-							<dd><a href="{:url('admin/approvepartsconfirmorder/approvepartsconfirmorder')}" target="main">配件确认单<span class="layui-badge">1</span></a></dd>
-							<dd><a href="{:url('admin/approvealternativeconfirmorder/approvealternativeconfirmorder')}" target="main">代用确认单</a></dd>
+							<dd><a href="{:url('admin/approvereplaceconfirmorder/approvereplaceconfirmorder')}" target="main">更换确认单<span class="layui-badge">{$replaceorder}</span></a></dd>
+							<dd><a href="{:url('admin/approveborrowconfirmorder/approveborrowconfirmorder')}" target="main">借样确认单<span class="layui-badge">{$borroworder}</span></a></dd>
+							<dd><a href="{:url('admin/approvereturnconfirmorder/approvereturnconfirmorder')}" target="main">退货确认单<span class="layui-badge">{$returnorder}</span></a></dd>
+							<dd><a href="{:url('admin/approverepairconfirmorder/approverepairconfirmorder')}" target="main">维修确认单<span class="layui-badge">{$repairorder}</span></a></dd>
+							<dd><a href="{:url('admin/approvepartsconfirmorder/approvepartsconfirmorder')}" target="main">配件确认单<span class="layui-badge">{$partsorder}</span></a></dd>
+							<dd><a href="{:url('admin/approvealternativeconfirmorder/approvealternativeconfirmorder')}" target="main">代用确认单<span class="layui-badge">{$alternativeorder}</span></a></dd>
 		                  </dl>
 		              </li>
 
@@ -124,6 +124,15 @@
 			 	element.on('nav(leaderOrder)', function(elem){
 				    /*打印当前所属导航栏*/layer.msg(elem.text());
 			  	});
+
+  	            /*退出*/
+	            jq('.logout_btn').click(function(){
+	                jq.post("{:url('index/adminindex/logout')}",function(ret){
+	                    if(ret){
+	                        location.href = "/index/login/login";
+	                    }
+                	});
+	            });
 			});
 		</script>
 	</body>

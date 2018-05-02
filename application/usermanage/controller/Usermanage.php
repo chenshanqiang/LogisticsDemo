@@ -49,4 +49,10 @@ class Usermanage extends Controller
         return $result;
     }
 
+    /*退出登录*/
+    public function logout(){
+        $ret = \app\index\model\Admin::logout();
+        return $ret;
+    }
+
 }

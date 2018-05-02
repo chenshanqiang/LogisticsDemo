@@ -27,7 +27,7 @@ class Queryreturnconfirmorder extends Controller
     public function getexamineorder(){
     	$page = $_GET['page'];
     	$limit = $_GET['limit'];
-        $type = 0x04;
+        $type = 0x03;
 
     	if(isset($_GET['queryInfo'])){
     		$queryInfo = $_GET['queryInfo'];

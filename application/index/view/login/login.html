@@ -39,17 +39,21 @@
 			/*监听登录按键*/
 			form.on('submit(login)',function(data){
 				var userinfo = data.field;
-				layer.msg('用户名：'+ data.field.username + '密码：' + data.field.password,{icon:1});
 
-				/*登录验证请求*/
-				if(userinfo.username =='admin'){
-					location.href = "/index/adminindex/index";     /*物流部，部门总监*/
-				}
-				//成功了
-				/*
-				php 返回登陆用户信息 id
-				 */
-				return false;   							      /*防止页面刷新*/
+				jq.post("{:url('index/login/loginconfirm')}",{'fullname':userinfo.username,'password':userinfo.password},function(data){
+					if(data){
+						layer.msg('登录成功', {
+							  icon: 1,
+							  time: 1000
+							}, function(){
+							  location.href = "/index/adminindex/index";
+						}); 
+					}else{
+						layer.msg('登录失败',{icon:2});
+					}
+				});
+
+				return false;
 			});
 		});
 	</script>
