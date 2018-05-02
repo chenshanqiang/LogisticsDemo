@@ -42,5 +42,11 @@ class Usermanage extends Controller
         return $result;
     }
 
+    public function updatedepartment(){
+        $param = Request::instance()->param();
+        $department = $param['organizeinfo'];
+        $result = \app\index\model\Admin::updatedepartment($department);
+        return $result;
+    }
 
 }

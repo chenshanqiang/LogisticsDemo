@@ -43,7 +43,25 @@
             var form = layui.form ,layer = layui.layer,jq = layui.jquery,table = layui.table;
 
             jq('#departmentcatalog').click(function(){
-                layer.msg('12');
+                layer.open({
+                    type:2
+                    ,title:'部门架构'
+                    ,area:['500px','60%']
+                    ,shade:0.8
+                    ,content:"{:url('usermanage/departmentmanage/departmentmanage')}"
+                    ,btn:['保存','取消']
+                    ,yes:function(index,layero){
+                        var iframeWin = window[layero.find('iframe')[0]['name']];
+                        var organize = iframeWin.submitOrganizeinfo();
+
+                        jq.post("{:url('usermanage/usermanage/updatedepartment')}",{'organizeinfo':organize},function(data){
+                            if(data == true){
+                                layer.msg('更新成功',{icon:1});
+                            }
+                            layer.close(index);
+                        });
+                    }
+                });
                 return false;
             });
             jq('#adduser').click(function(){
@@ -53,7 +71,7 @@
                     type: 2 //此处以iframe举例
                     , title: '新增用户'
                     , area: ['800px', '90%']
-                    , shade: 0
+                    , shade: 0.8
                     , maxmin: false
                     , content: "{:url('usermanage/adduser/adduser')}"
                     , btn: ['保存', '取消'] //只是为了演示
@@ -88,7 +106,7 @@
                     type: 2 //此处以iframe举例
                     , title: '角色管理'
                     , area: ['800px', '90%']
-                    , shade: 0
+                    , shade: 0.8
                     , maxmin: false
                     , content: "{:url('usermanage/Rolemanage/Rolemanage')}"
                     , btn: ['保存', '退出'] //只是为了演示
