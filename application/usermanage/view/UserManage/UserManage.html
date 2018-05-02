@@ -99,6 +99,7 @@
                 });
                 return false;
             });
+
             jq('#adduser').click(function(){
                 // 触发事件
                 // 多窗口模式，层叠置顶
@@ -128,11 +129,17 @@
                         layer.closeAll();
                     }
                 });
-
                 return false;
             });
 
-
+            /*退出*/
+            jq('.logout_btn').click(function(){
+                jq.post("{:url('usermanage/usermanage/logout')}",function(ret){
+                    if(ret){
+                        location.href = "/index/login/login";
+                    }
+                });
+            });
 
             jq('#rolemanage').click(function(){
                 // 触发事件
@@ -152,7 +159,6 @@
                          jq.post("{:url('usermanage/rolemanage/setrolepermisson')}",{'param':role} ,function(data){
                               console.log(data);
                           });
-                        // layer.closeAll();
                     }
                     , btn2: function () {
                         layer.closeAll();

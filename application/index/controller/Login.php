@@ -8,4 +8,13 @@ class Login extends Controller
     public function login(){
     	return $this->fetch();
     }
+
+    /*登录验证*/
+    public function  loginconfirm(){
+    	$fullname = $_POST['fullname'];
+    	$password = $_POST['password'];
+
+    	$ret = \app\index\model\Admin::login($fullname,$password);
+    	return $ret;
+    }
 }
