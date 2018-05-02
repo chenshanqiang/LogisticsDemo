@@ -3,18 +3,20 @@
 	use think\Db;
 	use PHPExcel_IOFactory;
 	use PHPExcel;
+    use think\Session;
 
 	class Admin extends \think\Model
 	{
 		/*登录验证*/
 		public static function login($username,$password){
-			$where['username'] = $username;
+			$where['fullname'] = $username;
 			$where['password'] = $password;
 
-			$user = Db::name('数据库表名')->where($where)->find();  /*用户信息检测*/
+			$user = Db::name('dsp_logistic.user')->where($where)->find();   /*用户信息检测*/
 			if($user){
-           	 	unset($user["password"]);      	   					/*销毁password*/
-            	session("user_session", $user);	   					/*创建session,里面只包含用户名，password已经销毁*/
+           	 	unset($user["password"]);      	   					       /*销毁password*/
+            	session_start();
+                session("user_session", $user);	   					       /*创建session,里面只包含用户名，password已经销毁*/
 				return true;
 			}else{
 				return false;
@@ -26,6 +28,11 @@
 			session("user_session", NULL);        					/*user_session置空，表示注销当前用户*/
 			return true;
 		}
+
+        /*获取session*/
+        public static function getsessioninfo(){
+            return Session::get('user_session');
+        }
 
 
 		/*获取select选项值*/

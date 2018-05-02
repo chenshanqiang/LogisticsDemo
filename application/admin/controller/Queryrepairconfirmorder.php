@@ -27,7 +27,7 @@ class Queryrepairconfirmorder extends Controller
     public function getexamineorder(){
     	$page = $_GET['page'];
     	$limit = $_GET['limit'];
-        $type = 0x08;
+        $type = 0x04;
 
     	if(isset($_GET['queryInfo'])){
     		$queryInfo = $_GET['queryInfo'];
