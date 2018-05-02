@@ -386,8 +386,6 @@
             return $organizeID;
         }
 
-
-
         /*根据增加和更新用户*/
         public static function updateuser($user)
         {
@@ -450,14 +448,6 @@
             $retsql = Db::query($sql);
             return $retsql;
         }
-        /*新增更换确认单 hjh 未完*/
-        public   function replaceconfirmorder($orderinfo)
-        {
-            $id = $orderinfo['trackingnumber'];
-            //$custom_info_id = $orderinfo['']
-
-            $sql = "INSERT INTO dsp_logistic.cs_info id (id,) VALUES ('{$id}')";
-        }
 
         /*新增更换确认单 hjh*/
         public static function updateroleinfo($role)
@@ -485,6 +475,104 @@
             $sql = "SELECT * FROM dsp_logistic.product_info WHERE model LIKE '%{$serachText}%' AND type_id = '{$product_type_id}' AND brand_id = '{$brand}'";
             $retsql = Db::query($sql);
             return $retsql;
+        }
+
+        /*获取表中最大的id值*/
+        public static function getmaxtableid($tablename,$tableID){
+            $sql = "SELECT max({$tableID}) FROM dsp_logistic.{$tablename}";
+            $organizeID = Db::query($sql);
+            return $organizeID;
+        }
+
+        /*删除表的行*/
+        public static function deleterowtableid($tablename,$tableID,$value){
+            $sql = "DELETE FROM dsp_logistic.{$tablename} WHERE {$tableID} = '{$value}'";
+            $organizeID = Db::query($sql);
+            return $organizeID;
+        }
+
+        /*新增订单    暂时使用（更改确认单）*/
+        public  static function addconfirmorder($info)
+        {
+            $cs_id = $info['cs_id'];
+            $custom_info_id = $info['custom_info_id'];
+            $delivery_info_id = $info['delivery_info_id'];
+            $return_info_id = $info['return_info_id'];
+            $payment_info_id = $info['payment_info_id'];
+            $cur_process_user_id = $info['cur_process_user_id'];
+            $pre_process_user_id = $info['pre_process_user_id'];
+            $cs_info_type = $info['cs_info_type'];
+            $can_edit = $info['can_edit'];
+            $write_date = $info['write_date'];
+            $cs_info_state = $info['cs_info_state'];
+            $complete_date = $info['complete_date'];
+            $product_number = $info['product_number'];
+            $sql_value ="'{$cs_id}','{$custom_info_id}','{$delivery_info_id}','{$return_info_id}','{$payment_info_id}','{$cur_process_user_id}','{$pre_process_user_id}','{$cs_info_type}','{$can_edit}','{$write_date}','{$cs_info_state}','{$complete_date}','{$product_number}'";
+            $sql = "INSERT INTO dsp_logistic.cs_info (cs_id,custom_info_id,delivery_info_id,return_info_id,payment_info_id,cur_process_user_id,pre_process_user_id
+,cs_info_type,can_edit,write_date,cs_info_state,complete_date,product_number) VALUES ({$sql_value})";
+            $sqlret = Db::insert($sql);
+            return $sqlret;
+        }
+        /*新增 custom_info */
+        public  static function addcustominfo($info)
+        {
+            $company_name = $info['company_name'];
+            $company_phone = $info['company_phone'];
+            $company_address = $info['company_address'];
+            $legal_representative = $info['legal_representative'];
+            $legal_phone = $info['legal_phone'];
+            $company_contact = $info['company_contact'];
+            $company_contact_phone = $info['company_contact_phone'];
+            $sql_value ="'{$company_name}','{$company_phone}','{$company_address}','{$legal_representative}','{$legal_phone}','{$company_contact}','{$company_contact_phone}'";
+            $sql = "INSERT INTO dsp_logistic.custom_info (company_name,company_phone,company_address,legal_representative,legal_phone,company_contact,company_contact_phone) VALUES ({$sql_value})";
+            $sqlret = Db::insert($sql);
+            return $sqlret;
+        }
+        /*新增 delivery_info */
+        public static function adddeliveryinfo($info){
+            $delivery_info_receiver_name = $info['delivery_info_receiver_name'];
+            $receiver_phone = $info['receiver_phone'];
+            $goods_yard_name = $info['goods_yard_name'];
+            $goods_yard_phone = $info['goods_yard_phone'];
+            $receiver_address = $info['receiver_address'];
+            $is_insure = $info['is_insure'];
+            $is_sign = $info['is_sign'];
+            $insure_amout = $info['insure_amout'];
+            $has_contract = $info['has_contract'];
+            $transfer_fee_mode = $info['transfer_fee_mode'];
+            $sql_value ="'{$delivery_info_receiver_name}','{$receiver_phone}','{$goods_yard_name}','{$goods_yard_phone}','{$receiver_address}','{$is_insure}','{$insure_amout}','{$is_sign}','{$has_contract}','{$transfer_fee_mode}'";
+            $sql = "INSERT INTO dsp_logistic.delivery_info (delivery_info_receiver_name,receiver_phone,goods_yard_name,goods_yard_phone,receiver_address,is_insure,insure_amout,is_sign,has_contract,transfer_fee_mode) VALUES ({$sql_value})";
+            $sqlret = Db::insert($sql);
+            return $sqlret;
+        }
+        /*新增 return_info */
+        public  static function addreturninfo($info)
+        {
+            $return_info_receiver_name = $info['return_info_receiver_name'];
+            $return_info_receiver_phone = $info['return_info_receiver_phone'];
+            $return_info_goods_yard_name = $info['return_info_goods_yard_name'];
+            $return_info_goods_yard_phone = $info['return_info_goods_yard_phone'];
+            $return_order_num = $info['return_order_num'];
+            $return_info_receiver_address = $info['return_info_receiver_address'];
+            $sql_value ="'{$return_info_receiver_name}','{$return_info_receiver_phone}','{$return_info_goods_yard_name}','{$return_info_goods_yard_phone}','{$return_order_num}','{$return_info_receiver_address}'";
+            $sql = "INSERT INTO dsp_logistic.return_info (return_info_receiver_name,return_info_receiver_phone,return_info_goods_yard_name,return_info_goods_yard_phone,return_order_num,return_info_receiver_address) VALUES ({$sql_value})";
+            $sqlret = Db::insert($sql);
+            return $sqlret;
+        }
+
+        /*新增 payment_info*/
+        public static function addpaymentinfo($info){
+            $is_pad = $info['is_pad'];
+            $paid_date = $info['paid_date'];
+            $customization_fee = $info['customization_fee'];
+            $paid_bank = $info['paid_bank'];
+            $comment = $info['comment'];
+            $time_stamp = $info['time_stamp'];
+            $user_id = $info['user_id'];
+            $sql_value ="'{$is_pad}','{$paid_date}','{$customization_fee}','{$paid_bank}','{$comment}','{$time_stamp}','{$user_id}'";
+            $sql = "INSERT INTO dsp_logistic.payment_info (is_pad,paid_date,customization_fee,paid_bank,comment,time_stamp,user_id) VALUES ({$sql_value})";
+            $sqlret = Db::insert($sql);
+            return $sqlret;
         }
     }
 ?>

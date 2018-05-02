@@ -7,7 +7,7 @@ class Addreplaceconfirmorder extends Controller
     public function addreplaceconfirmorder()
     {
         $depid = '假的id';  //部门id                                                       //假    改 。。。。。。。。。。。。。。
-        $this->assign("orderid",$depid);
+        $this->assign("depid",$depid);
         $date = date('Ymd');
         $this->assign("date",$date);
         $orderid = $date.'0001';                                                  //假    改 。。。。。。。。。。。。。。
@@ -18,12 +18,45 @@ class Addreplaceconfirmorder extends Controller
     	return $this->fetch();
     }
 
-    public function editorder()
+    public function addconfirmorder()
     {
-        $data = $_POST['data'];
-        $cs_id = $data['swiftnumber'];
-        $cur_process_user_id = '';                                          //假    改 。。。。。。。。。。。。。。
-        //$cs_info_type
+        $cs_info = $_POST['cs_info'];
+        $custom_info = $_POST['custom_info'];
+        $delivery_info = $_POST['delivery_info'];
+        $return_info = $_POST['return_info'];
+        $payment_info = $_POST['payment_info'];
+        $custom_info_id = \app\index\model\Admin::getmaxtableid('custom_info','custom_info_id');
+        $custom_info_id = $custom_info_id + 1;
+        $delivery_info_id = \app\index\model\Admin::getmaxtableid('delivery_info','delivery_info_id');
+        $delivery_info_id = $delivery_info_id + 1;
+        $payment_info_id = \app\index\model\Admin::getmaxtableid('payment_info','payment_info_id');
+        $payment_info_id = $payment_info_id + 1;
+        $retsql = \app\index\model\Admin::addcustominfo($custom_info);
+        if (empty($retsql)){
+            return null;
+        }
+
+        $retsql = \app\index\model\Admin::adddeliveryinfo($delivery_info);
+        if (empty($retsql)){
+            \app\index\model\Admin::deleterowtableid('custom_info','custom_info_id',$custom_info_id);
+            return null;
+        }
+
+        $retsql = \app\index\model\Admin::addreturninfo($return_info);
+        if (empty($retsql)){
+            \app\index\model\Admin::deleterowtableid('delivery_info','delivery_info_id',$delivery_info_id);
+            return null;
+        }
+        $retsql = \app\index\model\Admin::addpaymentinfo($payment_info);
+        if (empty($retsql)){
+            \app\index\model\Admin::deleterowtableid('payment_info','payment_info_id',$delivery_info_id);
+            return null;
+        }
+        $cs_info['custom_info_id'] = $custom_info_id;
+        $cs_info['delivery_info_id'] = $delivery_info_id;
+        $cs_info['payment_info_id'] = $payment_info_id;
+        $retsql = \app\index\model\Admin::addconfirmorder($cs_info);
+        return $retsql;
     }
 
     public function getdepartmentinfo()
