@@ -6,6 +6,7 @@ class Approvealternativeconfirmorder extends Controller
 {
 	/*审核订单渲染方法*/
     public function approvealternativeconfirmorder(){
+
     	return $this->fetch();
     }
 
@@ -15,6 +16,7 @@ class Approvealternativeconfirmorder extends Controller
 
     	if(isset($_GET['queryInfo'])){
     		$queryInfo = $_GET['queryInfo'];
+
     		$tablelist = \app\index\model\Admin::queryexaminegoodsorder($page,$limit,$queryInfo);
     	}else{
     		$tablelist = \app\index\model\Admin::queryexaminegoodsorder($page,$limit);
