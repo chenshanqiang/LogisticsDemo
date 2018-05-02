@@ -52,7 +52,7 @@
 			$pagenum = intval($args[1]?$args[1]:1);
 			$length = intval($args[2]);
 
-			$sqlone = "select count(*) from dsp_logistic.cs_info where type='$type'";
+			$sqlone = "select count(*) from dsp_logistic.cs_info where cs_info_type='$type'";
 
 			if($totalargs == 4){
 				if($args[3]['areamanger'] != ""){
@@ -77,7 +77,7 @@
             $sqltwo .= "left join dsp_logistic.delivery_info on dsp_logistic.delivery_info.delivery_info_id = dsp_logistic.cs_info.delivery_info_id ";
             $sqltwo .= "left join dsp_logistic.return_info on dsp_logistic.return_info.return_info_id = dsp_logistic.cs_info.return_info_id ";
             $sqltwo .= "left join dsp_logistic.payment_info on dsp_logistic.payment_info.payment_info_id = dsp_logistic.cs_info.payment_info_id ";
-            $sqltwo .= "left join dsp_logistic.logistics_info on dsp_logistic.logistics_info.cs_id = dsp_logistic.cs_info.id ";
+            $sqltwo .= "left join dsp_logistic.logistics_info on dsp_logistic.logistics_info.cs_id = dsp_logistic.cs_info.cs_id ";
 			if($totalargs == 4){
 				if($args[3]['areamanger'] != ""){
 					$areamanger = $args[3]['areamanger'];
@@ -85,7 +85,7 @@
 				}
 				/*省去各种条件*/
 			}
-			$sqltwo .= "where dsp_logistic.cs_info.type='$type' order By dsp_logistic.cs_info.id DESC limit {$offset},{$length} ;";
+			$sqltwo .= "where dsp_logistic.cs_info.cs_info_type='$type' order By dsp_logistic.cs_info.cs_id DESC limit {$offset},{$length} ;";
 			$tableobj = Db::query($sqltwo);
 			if(!empty($tableobj)){
 				return (array('code'=>0,'msg'=>'','count'=>$count,'data'=>$tableobj));
