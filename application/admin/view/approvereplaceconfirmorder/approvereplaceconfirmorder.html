@@ -33,15 +33,15 @@
 				/*监听查询按钮*/
 				form.on('submit(query)',function(data){
 					var queryInfo = data.field;
-
-  			      	table.reload('querytable', {
-				        page: {
-				          curr: 1
-				        }
-				        ,where: {
-				            queryInfo: queryInfo
-				        }
-			      	});
+					 console.log(queryInfo);
+  			      	// table.reload('querytable', {
+				      //   page: {
+				      //     curr: 1
+				      //   }
+				      //   ,where: {
+				      //       queryInfo: queryInfo
+				      //   }
+			      	// });
 		  			return false;
 				});
 

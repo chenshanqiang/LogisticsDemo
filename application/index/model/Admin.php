@@ -92,6 +92,151 @@
 			}
 		}
 
+        /*根据条件查询审批确认单，五个参数最少四个:user_id  type  page  limit queryinfo*/
+        public static function queryApproveConfirmOrder(...$args){
+            $totalargs = count($args);
+            $examine_user_id = $args[0];
+            $type = $args[1];
+            $pagenum = intval($args[2]?$args[2]:1);
+            $length = intval($args[3]);
+
+            $sqlone = "select count(*) from dsp_logistic.cs_examine ";
+            $sqlone .= "left join dsp_logistic.cs_info on dsp_logistic.cs_info.cs_id = dsp_logistic.cs_examine.cs_id ";
+            $sqlone .= "left join dsp_logistic.custom_info on dsp_logistic.custom_info.custom_info_id = dsp_logistic.cs_info.custom_info_id ";
+            $sqlone .= "left join dsp_logistic.delivery_info on dsp_logistic.delivery_info.delivery_info_id = dsp_logistic.cs_info.delivery_info_id ";
+            $sqlone .= "left join dsp_logistic.return_info on dsp_logistic.return_info.return_info_id = dsp_logistic.cs_info.return_info_id ";
+            $sqlone .= "left join dsp_logistic.payment_info on dsp_logistic.payment_info.payment_info_id = dsp_logistic.cs_info.payment_info_id ";
+            $sqlone .= "left join dsp_logistic.cs_belong on dsp_logistic.cs_belong.cs_id = dsp_logistic.cs_info.cs_id ";
+            $sqlone.=" where examine_user_id = '$examine_user_id' and cs_info_type = '$type'";
+            if($totalargs == 5){
+                $startdate = $args[4]['startdate'];
+                $enddate = $args[4]['enddate'];
+                if($startdate != "" && $enddate != "" ){
+                    $sqlone.= " and cs_belong_create_time >='$startdate' and cs_belong_create_time <='$enddate'";
+                }
+                if($args[4]['cs_info_id'] != "")
+                {
+                    $cs_id = $args[4]['cs_id'];
+                    $sqlone.= " and cs_id ='$cs_id'";
+                }
+                if($args[4]['cs_info_state'] != "")
+                {
+                    $cs_info_state = $args[4]['cs_info_state'];
+                    $sqlone.= " and cs_info_state ='$cs_info_state'";
+                }
+                if($args[4]['cs_info_state'] != "")
+                {
+                    $cs_info_state = $args[4]['cs_info_state'];
+                    $sqlone.= " and cs_info_state ='$cs_info_state'";
+                }
+                if($type == "配件"||$type == "配件")
+                {
+                    if($args[4]['delivery_info_receiver_name'] != "")
+                    {
+                        $delivery_info_receiver_name = $args[4]['delivery_info_receiver_name'];
+                        $sqlone.= " and delivery_info_receiver_name ='$delivery_info_receiver_name'";
+                    }
+                }
+                else
+                {
+                    if($args[4]['return_info_receiver_name'] != "")
+                    {
+                        $return_info_receiver_name = $args[4]['return_info_receiver_name'];
+                        $sqlone.= " and return_info_receiver_name ='$return_info_receiver_name'";
+                    }
+                }
+                if($args[4]['build_organize_name'] != "")
+                {
+                    $build_organize_name = $args[4]['build_organize_name'];
+                    $sqlone.= " and build_organize_name ='$build_organize_name'";
+
+                }
+
+                if($args[4]['build_user_id'] != "")
+                {
+                    $build_user_id = $args[4]['build_user_id'];
+                    $sqlone.= " and build_user_id ='$build_user_id'";
+
+                }
+            }
+            $countobj = Db::query($sqlone);
+            $count = $countobj[0]['count(*)'];
+            if($count == 0){
+                return (array('code'=>0,'msg'=>'','count'=>$count,'data'=>[]));
+            }
+            $pagetot = ceil($count/$length);
+            if($pagenum >= $pagetot){
+                $pagenum = $pagetot;
+            }
+
+            $offset = ($pagenum - 1)*$length;
+            $sqltwo = "select  dsp_logistic.user.fullname ,dsp_logistic.cs_id.,from dsp_logistic.cs_examine ";
+            $sqltwo .= "left join dsp_logistic.cs_info on dsp_logistic.cs_info.cs_id = dsp_logistic.cs_examine.cs_id ";
+            $sqltwo .= "left join dsp_logistic.custom_info on dsp_logistic.custom_info.custom_info_id = dsp_logistic.cs_info.custom_info_id ";
+            $sqltwo .= "left join dsp_logistic.delivery_info on dsp_logistic.delivery_info.delivery_info_id = dsp_logistic.cs_info.delivery_info_id ";
+            $sqltwo .= "left join dsp_logistic.return_info on dsp_logistic.return_info.return_info_id = dsp_logistic.cs_info.return_info_id ";
+            $sqltwo .= "left join dsp_logistic.payment_info on dsp_logistic.payment_info.payment_info_id = dsp_logistic.cs_info.payment_info_id ";
+            $sqltwo .= "left join dsp_logistic.cs_belong on dsp_logistic.cs_belong.cs_id = dsp_logistic.cs_info.cs_id ";
+            $sqltwo .= "left join dsp_logistic.user on dsp_logistic.user.user_id = dsp_logistic.cs_belong.build_user_id ";
+            $sqltwo.=" where examine_user_id = '$examine_user_id' and cs_info_type = '$type'";
+            if($totalargs == 5){
+                $startdate = $args[4]['startdate'];
+                $enddate = $args[4]['enddate'];
+                if($startdate != "" && $enddate != "" ){
+                    $sqltwo.= " and cs_belong_create_time >='$startdate' and cs_belong_create_time <='$enddate'";
+                }
+                if($args[4]['cs_info_id'] != "")
+                {
+                    $cs_id = $args[4]['cs_id'];
+                    $sqltwo.= " and cs_id ='$cs_id'";
+                }
+                if($args[4]['cs_info_state'] != "")
+                {
+                    $cs_info_state = $args[4]['cs_info_state'];
+                    $sqltwo.= " and cs_info_state ='$cs_info_state'";
+                }
+                if($args[4]['cs_info_state'] != "")
+                {
+                    $cs_info_state = $args[4]['cs_info_state'];
+                    $sqltwo.= " and cs_info_state ='$cs_info_state'";
+                }
+                if($type == "配件"||$type == "配件")
+                {
+                    if($args[4]['delivery_info_receiver_name'] != "")
+                    {
+                        $delivery_info_receiver_name = $args[4]['delivery_info_receiver_name'];
+                        $sqltwo.= " and delivery_info_receiver_name ='$delivery_info_receiver_name'";
+                    }
+                }
+                else
+                {
+                    if($args[4]['return_info_receiver_name'] != "")
+                    {
+                        $return_info_receiver_name = $args[4]['return_info_receiver_name'];
+                        $sqltwo.= " and return_info_receiver_name ='$return_info_receiver_name'";
+                    }
+                }
+                if($args[4]['organize_id'] != "")
+                {
+                    $organize_id = $args[4]['organize_id'];
+                    $sqltwo.= " and organize_id ='$organize_id'";
+
+                }
+
+                if($args[4]['user_id'] != "")
+                {
+                    $user_id = $args[4]['user_id'];
+                    $sqltwo.= " and user_id ='$user_id'";
+
+                }
+            }
+            $sqltwo .= "where dsp_logistic.cs_info.type='$type' order By dsp_logistic.cs_info.id DESC limit {$offset},{$length} ;";
+            $tableobj = Db::query($sqltwo);
+            if(!empty($tableobj)){
+                return (array('code'=>0,'msg'=>'','count'=>$count,'data'=>$tableobj));
+            }
+        }
+
 		/*测试新建表格对象，并且填写数据*/
 		public static function testexcel(){
 			$PHPExcel = new PHPExcel(); //实例化PHPExcel类，类似于在桌面上新建一个Excel表格
@@ -205,7 +350,13 @@
             if($paramcount === 1)
             {
                 $param1 = $param[0];
-                $sql.= " where dsp_logistic.organize.parent_id = {$param1}";
+                $sql.= " where dsp_logistic.organize.parent_id = {$param1} ";
+            }
+            elseif ($paramcount === 2) //两个参数 parent_id ,organize_id
+            {
+                $param1 = $param[0];
+                $param2 = $param[1];
+                $sql.= " where dsp_logistic.organize.parent_id = {$param1} or dsp_logistic.organize.organize_id = {$param2}";
             }
             $tableorganize = Db::query($sql);
             if(!empty($tableorganize))
