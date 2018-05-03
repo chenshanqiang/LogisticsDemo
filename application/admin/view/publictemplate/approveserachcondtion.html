@@ -33,11 +33,11 @@
 						<label class="layui-form-label">状态：</label>
 						<div class="layui-input-inline">
 					      <select name="orderstate" lay-filter="orderstate">
-					        <option value="">请选择</option>
-					        <option value="0" selected>已完成</option>
+					        <option value="" selected>请选择</option>
 					        <option value="1">处理中</option>
-					        <option value="2">取消</option>
-					        <option value="3">备货</option>
+							  <option value="2" >已完成</option>
+					        <option value="3">取消</option>
+					        <option value="4">备货</option>
 					      </select>
 					    </div>
 					</div>
@@ -54,12 +54,11 @@
 	 				<div class="layui-inline">
 						<label class="layui-form-label">部门：</label>
 						<div class="layui-input-inline" style="width: 200px;">
-					      <select name="department" lay-filter="department">
-					        <option value="">请选择</option>
-					        <option value="0" selected>营销一部</option>
-					        <option value="1">营销二部</option>
-					        <option value="2">营销三部</option>
-					        <option value="3">营销四部</option>
+					      <select id = "department" name="department" lay-filter="department">
+							  <option value = ""  selected>请选择</option>
+							  {volist name="departmentlist" id="vo"}
+							  <option value={$vo.organize_id}>{$vo.organize_name}</option>
+							  {/volist}
 					      </select>
 					    </div>
 					</div> 
@@ -67,7 +66,9 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">区域经理：</label>
 						<div class="layui-input-inline" style="width: 200px;">
-							<input type="text" name="areamanger" lay-filter="areamanger" placeholder="请输入区域经理" autocomplete="off" class="layui-input">
+							<select id = "areamanager" name="areamanager" lay-filter="areamanager">
+								<option value="">请选择</option>
+							</select>
 						</div>
 					</div>
 				</div>
