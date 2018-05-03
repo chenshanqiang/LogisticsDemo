@@ -472,7 +472,7 @@
 
             $sql = "UPDATE dsp_logistic.role ";
             $sql.="  SET  role_name = '{$role["role_name"]}', order_goods_permission = '{$role["order_goods_permission"]}', replace_permission = '{$role["replace_permission"]}', borrow_sample_permission = '{$role["borrow_sample_permission"]}', return_goods_permission = '{$role["return_goods_permission"]}',";
-            $sql.= "fixing_permission =  '{$role["fixing_permission"]}',maintain_permission = '{$role["maintain_permission"]}',substitute_permission = '{$role["substitute_permission"]}',user_manage_permission = '{$role["user_manage_permission_manage"]}' ";
+            $sql.= "fixing_permission =  '{$role["fixing_permission"]}',maintain_permission = '{$role["maintain_permission"]}',substitute_permission = '{$role["substitute_permission"]}',user_manage_permission = '{$role["user_manage_permission_manage"]}' ,logistic_input_permission = '{$role["logistic_input_permission"]}'";
             $sql.=" where role_id = '{$role["role_id"]}'";
             $result = Db::execute($sql);
             return "$result";
@@ -489,7 +489,7 @@
         /*模糊搜索型号*/
         public  static function serachmodelinfo($serachText, $product_type_id, $brand)
         {
-            $sql = "SELECT * FROM dsp_logistic.product_info WHERE model LIKE '%{$serachText}%' AND type_id = '{$product_type_id}' AND brand_id = '{$brand}'";
+            $sql = "SELECT * FROM dsp_logistic.product_info WHERE model LIKE '%{$serachText}%' AND product_type_id = '{$product_type_id}' AND brand_id = '{$brand}'";
             $retsql = Db::query($sql);
             return $retsql;
         }
@@ -588,6 +588,33 @@
             $user_id = $info['user_id'];
             $sql_value ="'{$is_pad}','{$paid_date}','{$customization_fee}','{$paid_bank}','{$comment}','{$time_stamp}','{$user_id}'";
             $sql = "INSERT INTO dsp_logistic.payment_info (is_pad,paid_date,customization_fee,paid_bank,comment,time_stamp,user_id) VALUES ({$sql_value})";
+            $sqlret = Db::insert($sql);
+            return $sqlret;
+        }
+        /*新增 cs_belong*/
+        public static function addbcsbelong($info){
+            $cs_id = $info['cs_id'];
+            $build_organize_id = $info['build_organize_id'];
+            $build_user_id = $info['build_user_id'];
+            $cs_belong_create_time = $info['cs_belong_create_time'];
+            $build_user_name = $info['build_user_name'];
+            $build_organize_name = $info['build_organize_name'];
+            $sql_value ="'{$cs_id}','{$build_organize_id}','{$build_user_id}','{$cs_belong_create_time}','{$build_user_name}','{$build_organize_name}'";
+            $sql = "INSERT INTO dsp_logistic.cs_belong (cs_id,build_organize_id,build_user_id,cs_belong_create_time,build_user_name,build_organize_name) VALUES ({$sql_value})";
+            $sqlret = Db::insert($sql);
+            return $sqlret;
+        }
+        /*新增 确认单清单经理部分 order_goods_manager*/
+        public static function addordergoodsmanager($info){
+            //id
+            $cs_id = $info['cs_id'];
+            $product_info_id = $info['product_info_id'];
+            $unit_price = $info['unit_price'];
+            $order_goods_manager_count = $info['order_goods_manager_count'];
+            $specification = $info['specification'];
+            $explain = $info['explain'];
+            $sql_value ="'{$cs_id}','{$product_info_id}','{$unit_price}','{$order_goods_manager_count}','{$specification}','{$explain}','{$build_organize_name}'";
+            $sql = "INSERT INTO dsp_logistic.cs_belong (cs_id,product_info_id,unit_price,order_goods_manager_count,specification,explain,build_organize_name) VALUES ({$sql_value})";
             $sqlret = Db::insert($sql);
             return $sqlret;
         }

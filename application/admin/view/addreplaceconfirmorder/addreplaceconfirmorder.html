@@ -407,10 +407,8 @@
         </form>
         <script type="text/javascript" src="/static/layui/layui.js"></script>
         <script type="text/javascript">
-            layui.use(['form', 'jquery', ,'layer','laydate'], function () {
+            layui.use(['form', 'jquery', 'layer','laydate'], function () {
                 var form = layui.form,
-                    layer = layui.layer,
-                    layedit = layui.layedit,
                     laydate = layui.laydate,
                     jq = layui.jquery,
                     layer = layui.layer;
@@ -453,6 +451,7 @@
            
             //监听提交
             form.on('submit(save)', function (uidata) {
+                var  tabledata = getTableContent();
                 var data = uidata.field;
                 var rows = jq('#tableorder')[0].rows.length - 3;
                 console.log(data);
@@ -465,7 +464,7 @@
                 cs_info.write_date = data['date1'];
                 if(data['status'] == ""){
                     layer.msg('请选择是否到账！',{icon:2});
-                    return ;
+                    return false;
                 }
                 cs_info.cs_info_state = data['status'];
                 //cs_info.complete_date = data['complete_date'];        //新增 无完成日期
@@ -494,7 +493,7 @@
                 delivery_info.has_contract = data['salescontract'];
                 if(data['freightway'] == ""){
                     layer.msg('请选择运费方式！',{icon:2});
-                    return ;
+                    return false;
                 }
                 delivery_info.transfer_fee_mode = data['freightway'];//freightway 运费方式
                 console.log("以下发货信息：");
@@ -509,7 +508,20 @@
                 return_info.return_info_receiver_address = data['return_receiver_address'];
                 console.log("以下返货信息：");
                 console.log(custom_info);
-                return;
+
+                var cs_belong = new Object();
+                //cs_belong.cs_id = data['cs_id'];
+                cs_belong.build_organize_id = data['department_id'];
+                cs_belong.build_user_id = data['manager_id'];
+                //cs_belong.cs_belong_create_time = data['cs_belong_create_time'];
+                cs_belong.build_user_name = jq("#manager_id").find("option:selected").text();
+                cs_belong.build_organize_name = jq("#department_id").find("option:selected").text();
+                console.log("以下订单所属信息：");
+                console.log(custom_info);
+                                                                    //缺 3项审批
+
+                //处理清单
+                return false;
                 jq.ajax({
                     url: "{:url('admin/addreplaceconfirmorder/addconfirmorder')}",//php文件路径
                     data: {cs_info:cs_info,custom_info:custom_info} ,
@@ -595,15 +607,15 @@
                         var col_0 = new_tr.insertCell(0);//添加列
                         col_0.innerHTML = "<td><a>"+ rows+"</a></td>";
                         var col_1 = new_tr.insertCell(1);//添加列
-                        col_1.innerHTML = "<td><a type_id='"+ type_id +"'>"+ type_text +"</a></td>";
+                        col_1.innerHTML = "<td><a tag='"+ type_id +"'>"+ type_text +"</a></td>";
                         var col_2 = new_tr.insertCell(2);//添加列
-                        col_2.innerHTML = "<td><a brand_id='"+ brand_id +"'>"+ brand_text +"</a></td>";
+                        col_2.innerHTML = "<td><a tag='"+ brand_id +"'>"+ brand_text +"</a></td>";
                         var col_3 = new_tr.insertCell(3);
                         col_3.innerHTML = "<td><a>"+ model_text +"</a></td>";//-------产品名称-------
                         var col_4 = new_tr.insertCell(4);
                         col_4.innerHTML = "<td><a>"+ specification +"</a></td>";
                         var col_5 = new_tr.insertCell(5);
-                        col_5.innerHTML = "<td><a model_id='" + model_id + "'>"+ model +"</a></td>";
+                        col_5.innerHTML = "<td><a tag='" + model_id + "'>"+ model +"</a></td>";
                         var col_6 = new_tr.insertCell(6);
                         col_6.innerHTML = "<td><a>"+ unit +"</a></td>";
                         var col_7 = new_tr.insertCell(7);
@@ -615,7 +627,7 @@
                         var col_10 = new_tr.insertCell(10);
                         col_10.innerHTML = "<td><a>"+ explain +"</a></td>";
                         var col_11 = new_tr.insertCell(11);
-                        col_11.innerHTML = "<td><a place = '"+ place +"'>"+ place_text +"</a></td>";
+                        col_11.innerHTML = "<td><a tag = '"+ place +"'>"+ place_text +"</a></td>";
                         var col_12 = new_tr.insertCell(12);
                         col_12.innerHTML = "<td><a>"+ product_state +"</a></td>";
                         var col_13 = new_tr.insertCell(13);
@@ -632,6 +644,28 @@
                 return false;
             })
           });
+
+            function getTableContent(){
+                var jq = layui.jquery;
+                var mytable = document.getElementById('tableorder');
+                var data = [];
+                for(var i = 1,rows = mytable.rows.length - 2; i < rows; i++){
+                    for(var j = 0,cells=mytable.rows[i].cells.length; j<cells; j++){
+                        if(!data[i]){
+                            data[i] = new Array();
+                        }
+                        var tag = jq(mytable.rows[i].cells[j].innerHTML).attr('tag');
+                        var text = jq(mytable.rows[i].cells[j].innerHTML).text();
+                        var mymap = {};
+                        mymap['tag'] = tag;
+                        mymap['text'] = text;
+                        data[i][j] = mymap;
+                        //data[i][j] = mytable.rows[i].cells[j].innerHTML;
+                    }
+                }
+                return data;
+            }
+
         </script>
     </body>
 </html>

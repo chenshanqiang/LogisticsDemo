@@ -19,7 +19,7 @@
                     <select id="product_type_id" name="type_name" lay-filter="type_name" >
                         <option value="" selected>请选择</option>
                         {volist name="producttypelist" id="vo"}
-                        <option value={$vo.type_id}>{$vo.type_name}</option>
+                        <option value={$vo.product_type_id}>{$vo.product_type_name}</option>
                         {/volist}
                     </select>
                 </div>
@@ -153,7 +153,6 @@
                     dataType:"json",
                     data:{serrchText:jq("#serachModelinfo").val(),type:jq("#product_type_id").val(),brand:jq('#brand_id').val()},
                     success:function(data){
-                        console.log(data);
                         response(jq.map(data,function(item){
                             return{
                                 label:item.model,
@@ -208,7 +207,6 @@
             async:false,
             data:{serrchText:jq("#serachModelinfo").val(),type:jq("#product_type_id").val(),brand:jq('#brand_id').val()},
             success:function(data){
-                console.log(data);
                 if(data != null){
                     orderItem.model_text = data[0].product_info_name;
                     orderItem.model_id = data[0].product_info_id;
