@@ -26,64 +26,132 @@
 		                 + time.getMinutes() + ":" + time.getSeconds();
 		               show.innerHTML = t;
 		            </script>
-		          </a>|<a class="index" href="{:url('index/adminindex/index')}">首页</a>|<a class="usermange_btn" href="{:url('usermanage/usermanage/usermanage')}">用户管理</a>|<a class="logout_btn" href="javascript:void(0)">注销</a>
+		          </a>|<a class="index" href="{:url('index/adminindex/index')}">首页</a>|
+		          {if condition="$usermanagepower eq 1"}
+		         	<a class="usermange_btn" href="{:url('usermanage/usermanage/usermanage')}">用户管理</a>|
+				  {/if}
+		          <a class="logout_btn" href="javascript:void(0)">注销</a>
 		        </div>
 		      </div>
 		    </div>
 		    <div class="layui-side layui-bg-black">
 		        <div class="layui-side-scroll">
 					<!--总监，物流部-->
-		            <ul class="layui-nav layui-nav-tree" lay-filter="leaderOrder">
-					  <li class="layui-nav-item layui-nav-itemed">
-					  	<a href="javascript:void(0);"><span style="color: red;">新增订单(物流部)</span></a>
-					  	<dl class="layui-nav-child">
-							<dd><a href="{:url('admin/addgoodsconfirmorder/addgoodsconfirmorder')}" target="main" class="layui-this">订货确认单</a></dd>
-					  	</dl>
-					  </li>
+					{if condition="$addgoodsorderpower eq 1"}
+			            <ul class="layui-nav layui-nav-tree" lay-filter="leaderOrder">
+						  <li class="layui-nav-item layui-nav-itemed">
+						  	<a href="javascript:void(0);"><span style="color: red;">新增订单(物流部)</span></a>
+						  	<dl class="layui-nav-child">
+								<dd><a href="{:url('admin/addgoodsconfirmorder/addgoodsconfirmorder')}" target="main" class="layui-this">订货确认单</a></dd>
+						  	</dl>
+						  </li>
+					{/if}
+					
+					{if condition="$addorderpower eq 1"}
+  		              	<li class="layui-nav-item layui-nav-itemed">
+			                <a href="javascript:void(0);"><span style="color: red;">新增订单(销售部)</span></a>
+	                 	 	<dl class="layui-nav-child">
+			                    {if condition="$addreplaceorderpower eq 1"}
+									<dd><a href="{:url('admin/addreplaceconfirmorder/addreplaceconfirmorder')}" target="main">更换确认单</a></dd>
+								{/if}
 
-  		              <li class="layui-nav-item layui-nav-itemed">
-		                <a href="javascript:void(0);"><span style="color: red;">新增订单(销售部)</span></a>
-		                  <dl class="layui-nav-child">
-							<dd><a href="{:url('admin/addreplaceconfirmorder/addreplaceconfirmorder')}" target="main">更换确认单</a></dd>
-							<dd><a href="{:url('admin/addborrowconfirmorder/addborrowconfirmorder')}" target="main">借样确认单</a></dd>
-							<dd><a href="{:url('admin/addreturnconfirmorder/addreturnconfirmorder')}" target="main">退货确认单</a></dd>
-							<dd><a href="{:url('admin/addrepairconfirmorder/addrepairconfirmorder')}" target="main">维修确认单</a></dd>
-							<dd><a href="{:url('admin/addpartsconfirmorder/addpartsconfirmorder')}" target="main">配件确认单</a></dd>
-							<dd><a href="{:url('admin/addalternativeconfirmorder/addalternativeconfirmorder')}" target="main">代用确认单</a></dd>
-		                  </dl>
-		              </li>
+								{if condition="$addborroworderpower eq 2"}
+									<dd><a href="{:url('admin/addborrowconfirmorder/addborrowconfirmorder')}" target="main">借样确认单</a></dd>
+								{/if}
 
-  		              <li class="layui-nav-item layui-nav-itemed">
-		              	<a href="javascript:void(0);"><span style="color: red;">物流单号</span></a>
+								{if condition="$addreturnorderpower eq 3"}
+									<dd><a href="{:url('admin/addreturnconfirmorder/addreturnconfirmorder')}" target="main">退货确认单</a></dd>
+								{/if}
+
+								{if condition="$addrepairorderpower eq 4"}
+									<dd><a href="{:url('admin/addrepairconfirmorder/addrepairconfirmorder')}" target="main">维修确认单</a></dd>
+								{/if}
+
+								{if condition="$addpartsorderpower eq 5"}
+									<dd><a href="{:url('admin/addpartsconfirmorder/addpartsconfirmorder')}" target="main">配件确认单</a></dd>
+								{/if}
+
+								{if condition="$addalternativeorderpower eq 6"}
+									<dd><a href="{:url('admin/addalternativeconfirmorder/addalternativeconfirmorder')}" target="main">代用确认单</a></dd>
+			                  	{/if}
+		                  	</dl>
+		              	</li>
+					{/if}
+
+				  	{if condition="$addlogisticorder eq 1"}
+  		                <li class="layui-nav-item layui-nav-itemed">
+		              		<a href="javascript:void(0);"><span style="color: red;">物流单号</span></a>
 		              		<dl class="layui-nav-child">
 		              			<dd><a href="{:url('admin/inputlogisticsorder/inputlogisticsorder')}" target="main">物流单号输入</a></dd>
 		              		</dl>
-		              </li>
-
+		                </li>
+		          	{/if}
+					
+					{if condition="$approvepower eq 1"}
 		              <li class="layui-nav-item layui-nav-itemed">
 		                <a href="javascript:void(0);"><span style="color: red;">订单审批</span></a>
 		                  <dl class="layui-nav-child">
-							<dd><a href="{:url('admin/approvereplaceconfirmorder/approvereplaceconfirmorder')}" target="main">更换确认单<span class="layui-badge">{$replaceorder}</span></a></dd>
-							<dd><a href="{:url('admin/approveborrowconfirmorder/approveborrowconfirmorder')}" target="main">借样确认单<span class="layui-badge">{$borroworder}</span></a></dd>
-							<dd><a href="{:url('admin/approvereturnconfirmorder/approvereturnconfirmorder')}" target="main">退货确认单<span class="layui-badge">{$returnorder}</span></a></dd>
-							<dd><a href="{:url('admin/approverepairconfirmorder/approverepairconfirmorder')}" target="main">维修确认单<span class="layui-badge">{$repairorder}</span></a></dd>
-							<dd><a href="{:url('admin/approvepartsconfirmorder/approvepartsconfirmorder')}" target="main">配件确认单<span class="layui-badge">{$partsorder}</span></a></dd>
-							<dd><a href="{:url('admin/approvealternativeconfirmorder/approvealternativeconfirmorder')}" target="main">代用确认单<span class="layui-badge">{$alternativeorder}</span></a></dd>
+							{if condition="$approvereplacepower eq 1"}
+								<dd><a href="{:url('admin/approvereplaceconfirmorder/approvereplaceconfirmorder')}" target="main">更换确认单<span class="layui-badge">{$replaceorder}</span></a></dd>
+							{/if}
+
+							{if condition="$approveborrowpower eq 2"}
+								<dd><a href="{:url('admin/approveborrowconfirmorder/approveborrowconfirmorder')}" target="main">借样确认单<span class="layui-badge">{$borroworder}</span></a></dd>
+							{/if}
+
+							{if condition="$approvereturnpower eq 3"}
+								<dd><a href="{:url('admin/approvereturnconfirmorder/approvereturnconfirmorder')}" target="main">退货确认单<span class="layui-badge">{$returnorder}</span></a></dd>
+							{/if}
+
+							{if condition="$approverepairpower eq 4"}
+								<dd><a href="{:url('admin/approverepairconfirmorder/approverepairconfirmorder')}" target="main">维修确认单<span class="layui-badge">{$repairorder}</span></a></dd>
+							{/if}
+							
+							{if condition="$approvepartspower eq 5"}
+								<dd><a href="{:url('admin/approvepartsconfirmorder/approvepartsconfirmorder')}" target="main">配件确认单<span class="layui-badge">{$partsorder}</span></a></dd>
+							{/if}
+
+							{if condition="$approvealternativepower eq 6"}
+								<dd><a href="{:url('admin/approvealternativeconfirmorder/approvealternativeconfirmorder')}" target="main">代用确认单<span class="layui-badge">{$alternativeorder}</span></a></dd>
+							{/if}
 		                  </dl>
 		              </li>
-
+					{/if}
+					
+					{if condition="$querypower eq 1"}
 		              <li class="layui-nav-item layui-nav-itemed">
 		                <a href="javascript:void(0);"><span style="color: red;">确认单查询</span></a>
 		                  <dl class="layui-nav-child">
-							<dd><a href="{:url('admin/querygoodsconfirmorder/querygoodsconfirmorder')}" target="main">订货确认单</a></dd>
-							<dd><a href="{:url('admin/queryreplaceconfirmorder/queryreplaceconfirmorder')}" target="main">更换确认单</a></dd>
-							<dd><a href="{:url('admin/queryborrowconfirmorder/queryborrowconfirmorder')}" target="main">借样确认单</a></dd>
-							<dd><a href="{:url('admin/queryreturnconfirmorder/queryreturnconfirmorder')}" target="main">退货确认单</a></dd>
-							<dd><a href="{:url('admin/queryrepairconfirmorder/queryrepairconfirmorder')}" target="main">维修确认单</a></dd>
-							<dd><a href="{:url('admin/querypartsconfirmorder/querypartsconfirmorder')}" target="main">配件确认单</a></dd>
-							<dd><a href="{:url('admin/queryalternativeconfirmorder/queryalternativeconfirmorder')}" target="main">代用确认单</a></dd>
+							{if condition="$querygoodspower eq 1"}
+								<dd><a href="{:url('admin/querygoodsconfirmorder/querygoodsconfirmorder')}" target="main">订货确认单</a></dd>
+							{/if}
+
+							{if condition="$queryreplacepower eq 2"}
+								<dd><a href="{:url('admin/queryreplaceconfirmorder/queryreplaceconfirmorder')}" target="main">更换确认单</a></dd>
+							{/if}
+
+							{if condition="$queryborrowpower eq 3"}
+								<dd><a href="{:url('admin/queryborrowconfirmorder/queryborrowconfirmorder')}" target="main">借样确认单</a></dd>
+							{/if}
+
+							{if condition="$queryreturnpower eq 4"}
+								<dd><a href="{:url('admin/queryreturnconfirmorder/queryreturnconfirmorder')}" target="main">退货确认单</a></dd>
+							{/if}
+
+							{if condition="$queryrepairpower eq 5"}
+								<dd><a href="{:url('admin/queryrepairconfirmorder/queryrepairconfirmorder')}" target="main">维修确认单</a></dd>
+							{/if}
+
+							{if condition="$querypartspower eq 6"}
+								<dd><a href="{:url('admin/querypartsconfirmorder/querypartsconfirmorder')}" target="main">配件确认单</a></dd>
+							{/if}
+
+							{if condition="$queryalternativepower eq 7"}
+								<dd><a href="{:url('admin/queryalternativeconfirmorder/queryalternativeconfirmorder')}" target="main">代用确认单</a></dd>
+							{/if}
 		                  </dl>
 		              </li>
+					{/if}
 		            </ul>
 		        </div>
 		    </div>
@@ -122,7 +190,7 @@
 
 				/*监听侧边导航栏*/
 			 	element.on('nav(leaderOrder)', function(elem){
-				    /*打印当前所属导航栏*/layer.msg(elem.text());
+				    layer.msg(elem.text());
 			  	});
 
   	            /*退出*/
