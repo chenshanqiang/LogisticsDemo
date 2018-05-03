@@ -86,6 +86,15 @@
             //layui.form.render();
             /*监听总部门选择*/
             form.on('select(company_name)',function(data){
+                var ops=document.getElementById("areamanager");
+                ops.innerHTML = "";
+                ops.options.length = 0;
+                form.render('select');
+                jq("#areamanager").append("<option value=''>请选择</option>");
+                form.render('select');
+
+                if(obj.value == "")
+                    return ;
                 jq.post("{:url('usermanage/adduser/getdepartmentinfo')}",{'param':data.value},function(data){
                     for(var  item in data){
                         //console.log(data[item]['organize_name']);
