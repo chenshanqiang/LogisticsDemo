@@ -501,6 +501,17 @@
             return $organizeID;
         }
 
+        /*获取表中最大的id值*/
+        public static function getmaxtableidretid($tablename,$tableID){
+            $sql = "SELECT max({$tableID}) FROM dsp_logistic.{$tablename}";
+            $organizeID = Db::query($sql);
+            if (!empty($organizeID)){
+                return $organizeID[0]["max({$tableID})"];
+            }else{
+                return -1;
+            }
+        }
+
         /*删除表的行*/
         public static function deleterowtableid($tablename,$tableID,$value){
             $sql = "DELETE FROM dsp_logistic.{$tablename} WHERE {$tableID} = '{$value}'";
@@ -527,7 +538,7 @@
             $sql_value ="'{$cs_id}','{$custom_info_id}','{$delivery_info_id}','{$return_info_id}','{$payment_info_id}','{$cur_process_user_id}','{$pre_process_user_id}','{$cs_info_type}','{$can_edit}','{$write_date}','{$cs_info_state}','{$complete_date}','{$product_number}'";
             $sql = "INSERT INTO dsp_logistic.cs_info (cs_id,custom_info_id,delivery_info_id,return_info_id,payment_info_id,cur_process_user_id,pre_process_user_id
 ,cs_info_type,can_edit,write_date,cs_info_state,complete_date,product_number) VALUES ({$sql_value})";
-            $sqlret = Db::insert($sql);
+            $sqlret = Db::execute($sql);
             return $sqlret;
         }
         /*新增 custom_info */
@@ -542,7 +553,7 @@
             $company_contact_phone = $info['company_contact_phone'];
             $sql_value ="'{$company_name}','{$company_phone}','{$company_address}','{$legal_representative}','{$legal_phone}','{$company_contact}','{$company_contact_phone}'";
             $sql = "INSERT INTO dsp_logistic.custom_info (company_name,company_phone,company_address,legal_representative,legal_phone,company_contact,company_contact_phone) VALUES ({$sql_value})";
-            $sqlret = Db::insert($sql);
+            $sqlret = Db::execute($sql);
             return $sqlret;
         }
         /*新增 delivery_info */
@@ -559,7 +570,7 @@
             $transfer_fee_mode = $info['transfer_fee_mode'];
             $sql_value ="'{$delivery_info_receiver_name}','{$receiver_phone}','{$goods_yard_name}','{$goods_yard_phone}','{$receiver_address}','{$is_insure}','{$insure_amout}','{$is_sign}','{$has_contract}','{$transfer_fee_mode}'";
             $sql = "INSERT INTO dsp_logistic.delivery_info (delivery_info_receiver_name,receiver_phone,goods_yard_name,goods_yard_phone,receiver_address,is_insure,insure_amout,is_sign,has_contract,transfer_fee_mode) VALUES ({$sql_value})";
-            $sqlret = Db::insert($sql);
+            $sqlret = Db::execute($sql);
             return $sqlret;
         }
         /*新增 return_info */
@@ -573,7 +584,7 @@
             $return_info_receiver_address = $info['return_info_receiver_address'];
             $sql_value ="'{$return_info_receiver_name}','{$return_info_receiver_phone}','{$return_info_goods_yard_name}','{$return_info_goods_yard_phone}','{$return_order_num}','{$return_info_receiver_address}'";
             $sql = "INSERT INTO dsp_logistic.return_info (return_info_receiver_name,return_info_receiver_phone,return_info_goods_yard_name,return_info_goods_yard_phone,return_order_num,return_info_receiver_address) VALUES ({$sql_value})";
-            $sqlret = Db::insert($sql);
+            $sqlret = Db::execute($sql);
             return $sqlret;
         }
 
@@ -588,7 +599,7 @@
             $user_id = $info['user_id'];
             $sql_value ="'{$is_pad}','{$paid_date}','{$customization_fee}','{$paid_bank}','{$comment}','{$time_stamp}','{$user_id}'";
             $sql = "INSERT INTO dsp_logistic.payment_info (is_pad,paid_date,customization_fee,paid_bank,comment,time_stamp,user_id) VALUES ({$sql_value})";
-            $sqlret = Db::insert($sql);
+            $sqlret = Db::execute($sql);
             return $sqlret;
         }
         /*新增 cs_belong*/
@@ -601,7 +612,7 @@
             $build_organize_name = $info['build_organize_name'];
             $sql_value ="'{$cs_id}','{$build_organize_id}','{$build_user_id}','{$cs_belong_create_time}','{$build_user_name}','{$build_organize_name}'";
             $sql = "INSERT INTO dsp_logistic.cs_belong (cs_id,build_organize_id,build_user_id,cs_belong_create_time,build_user_name,build_organize_name) VALUES ({$sql_value})";
-            $sqlret = Db::insert($sql);
+            $sqlret = Db::execute($sql);
             return $sqlret;
         }
         /*新增 确认单清单经理部分 order_goods_manager*/
@@ -625,7 +636,7 @@
             $sql_value .= ",'{$comment}','{$bar_code}','{$back_date}','{$replace_reason}','{$purchase_date}','{$deal_date}',{$fault_condition}";
             $sql = "INSERT INTO dsp_logistic.cs_belong (cs_id,product_info_id,unit_price,order_goods_manager_count,specification,explain,type";
             $sql .= ",comment,bar_code,back_date,replace_reason,purchase_date,deal_date,fault_condition) VALUES ({$sql_value})";
-            $sqlret = Db::insert($sql);
+            $sqlret = Db::execute($sql);
             return $sqlret;
         }
         /*新增 确认单清单物流部分 order_goods_logistics*/
@@ -639,7 +650,7 @@
             $ogl_explain = $info['ogl_explain'];
             $sql_value ="'{$order_goods_manager_id}','{$ogl_product_state}','{$ogl_unc_product_id}','{$ogl_comment}','{$user_id}','{$ogl_time_stamp}','{$ogl_explain}'";
             $sql = "INSERT INTO dsp_logistic.cs_belong (order_goods_manager_id,ogl_product_state,ogl_unc_product_id,ogl_comment,user_id,ogl_time_stamp,ogl_explain) VALUES ({$sql_value})";
-            $sqlret = Db::insert($sql);
+            $sqlret = Db::execute($sql);
             return $sqlret;
         }
         /*新增 确认单审批 cs_examine*/
@@ -656,7 +667,7 @@
             $cs_examine_state = $info['cs_examine_state'];
             $sql_value ="'{$cs_id}','{$submit_user_id}','{$examine_user_id}','{$cs_examine_date}','{$cs_examine_content}','{$cs_examine_result}','{$cs_examine_time_stamp}','{$cs_examine_comment}','{$cs_examine_name}','{$cs_examine_state}'";
             $sql = "INSERT INTO dsp_logistic.cs_belong (cs_id,submit_user_id,examine_user_id,cs_examine_date,cs_examine_content,cs_examine_result,cs_examine_time_stamp,cs_examine_comment,cs_examine_name,cs_examine_state) VALUES ({$sql_value})";
-            $sqlret = Db::insert($sql);
+            $sqlret = Db::execute($sql);
             return $sqlret;
         }
 
