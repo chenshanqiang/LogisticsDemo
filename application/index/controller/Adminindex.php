@@ -33,7 +33,6 @@ class Adminindex extends Controller
         $alternativeorder = 1;
     	$this->assign('alternativeorder',$alternativeorder);
 
-        
         $userinfo = \app\index\model\Admin::getsessioninfo();
         $role_id = intval($userinfo["role_id"]);
         $role_info = \app\index\model\Admin::queryroleinfo($role_id);
