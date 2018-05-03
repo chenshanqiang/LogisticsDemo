@@ -54,6 +54,7 @@
 		/*查询维修，代用等订单*/
 		/*最多四个参数:type  page  limit queryinfo*/
 		public static function querycsInfomation(...$args){
+
 			$totalargs = count($args);
 			$type = $args[0];
 			$pagenum = intval($args[1]?$args[1]:1);
@@ -62,8 +63,8 @@
 			$sqlone = "select count(*) from dsp_logistic.cs_info where cs_info_type='$type'";
 
 			if($totalargs == 4){
-				if($args[3]['areamanger'] != ""){
-					$areamanger = $args[3]['areamanger'];
+				if($args[3]['areamanager'] != ""){
+					$areamanger = $args[3]['areamanager'];
 					$sqlone.= " and fullname ='$areamanger'";
 				}
 				/*省去各种条件*/
@@ -79,20 +80,23 @@
 			}
 
 			$offset = ($pagenum - 1)*$length;
-            $sqltwo = "SELECT dsp_logistic.cs_info.*,dsp_logistic.custom_info.*,dsp_logistic.delivery_info.* ,dsp_logistic.return_info.* ,dsp_logistic.payment_info.*, dsp_logistic.logistics_info.* from dsp_logistic.cs_info ";
+            $sqltwo ="select  dsp_logistic.cs_belong.* ,dsp_logistic.cs_info.*,dsp_logistic.delivery_info.transfer_fee_mode,dsp_logistic.logistics_info.transfer_order_num,";
+            $sqltwo .= "dsp_logistic.delivery_info.delivery_info_receiver_name,dsp_logistic.return_info.return_info_receiver_name from dsp_logistic.cs_info ";
             $sqltwo .= "left join dsp_logistic.custom_info on dsp_logistic.custom_info.custom_info_id = dsp_logistic.cs_info.custom_info_id ";
             $sqltwo .= "left join dsp_logistic.delivery_info on dsp_logistic.delivery_info.delivery_info_id = dsp_logistic.cs_info.delivery_info_id ";
             $sqltwo .= "left join dsp_logistic.return_info on dsp_logistic.return_info.return_info_id = dsp_logistic.cs_info.return_info_id ";
-            $sqltwo .= "left join dsp_logistic.payment_info on dsp_logistic.payment_info.payment_info_id = dsp_logistic.cs_info.payment_info_id ";
+         //   $sqltwo .= "left join dsp_logistic.payment_info on dsp_logistic.payment_info.payment_info_id = dsp_logistic.cs_info.payment_info_id ";
             $sqltwo .= "left join dsp_logistic.logistics_info on dsp_logistic.logistics_info.cs_id = dsp_logistic.cs_info.cs_id ";
+            $sqltwo .= "left join dsp_logistic.cs_belong on dsp_logistic.cs_belong.cs_id = dsp_logistic.cs_info.cs_id ";
+            $sqltwo .= "where dsp_logistic.cs_info.cs_info_type='$type' ";
 			if($totalargs == 4){
-				if($args[3]['areamanger'] != ""){
-					$areamanger = $args[3]['areamanger'];
+				if($args[3]['areamanager'] != ""){
+					$areamanger = $args[3]['areamanager'];
 					$sqltwo.= " and fullname ='$areamanger'";
 				}
 				/*省去各种条件*/
 			}
-			$sqltwo .= "where dsp_logistic.cs_info.cs_info_type='$type' order By dsp_logistic.cs_info.cs_id DESC limit {$offset},{$length} ;";
+			$sqltwo .= "order By dsp_logistic.cs_info.cs_id DESC limit {$offset},{$length} ;";
 			$tableobj = Db::query($sqltwo);
 			if(!empty($tableobj)){
 				return (array('code'=>0,'msg'=>'','count'=>$count,'data'=>$tableobj));
@@ -101,10 +105,6 @@
 
         /*根据条件查询审批确认单，五个参数最少四个:user_id  type  page  limit queryinfo*/
         public static function queryApproveConfirmOrder(...$args){
-
-
-
-
             $totalargs = count($args);
             $examine_user_id = $args[0];
             $type = $args[1];
@@ -472,7 +472,7 @@
 
             $sql = "UPDATE dsp_logistic.role ";
             $sql.="  SET  role_name = '{$role["role_name"]}', order_goods_permission = '{$role["order_goods_permission"]}', replace_permission = '{$role["replace_permission"]}', borrow_sample_permission = '{$role["borrow_sample_permission"]}', return_goods_permission = '{$role["return_goods_permission"]}',";
-            $sql.= "fixing_permission =  '{$role["fixing_permission"]}',maintain_permission = '{$role["maintain_permission"]}',substitute_permission = '{$role["substitute_permission"]}',user_manage_permission = '{$role["user_manage_permission_manage"]}' ";
+            $sql.= "fixing_permission =  '{$role["fixing_permission"]}',maintain_permission = '{$role["maintain_permission"]}',substitute_permission = '{$role["substitute_permission"]}',user_manage_permission = '{$role["user_manage_permission_manage"]}' ,logistic_input_permission = '{$role["logistic_input_permission"]}'";
             $sql.=" where role_id = '{$role["role_id"]}'";
             $result = Db::execute($sql);
             return "$result";
