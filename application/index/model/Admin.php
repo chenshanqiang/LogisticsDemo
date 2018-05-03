@@ -699,7 +699,7 @@
         /*获取用户信息根据id*/
         public  static function getloginuserinfo($userid)
         {
-            $sql = "SELECT * FROM dsp_logistic.user WHEN user_id = '{$userid}'";
+            $sql = "SELECT * FROM dsp_logistic.user WHERE user_id = '{$userid}' LIMIT 1";
             $retsql = Db::query($sql);
             return $retsql;
         }
@@ -859,10 +859,84 @@
             $order_goods_manager_count = $info['order_goods_manager_count'];
             $specification = $info['specification'];
             $explain = $info['explain'];
-            $sql_value ="'{$cs_id}','{$product_info_id}','{$unit_price}','{$order_goods_manager_count}','{$specification}','{$explain}','{$build_organize_name}'";
-            $sql = "INSERT INTO dsp_logistic.cs_belong (cs_id,product_info_id,unit_price,order_goods_manager_count,specification,explain,build_organize_name) VALUES ({$sql_value})";
+            $type = $info['type'];
+            $comment = $info['comment'];
+            $bar_code = $info['bar_code'];
+            $back_date = $info['back_date'];
+            $replace_reason = $info['replace_reason'];
+            $purchase_date = $info['purchase_date'];
+            $deal_date = $info['deal_date'];
+            $fault_condition = $info['fault_condition'];
+            $sql_value ="'{$cs_id}','{$product_info_id}','{$unit_price}','{$order_goods_manager_count}','{$specification}','{$explain}','{$type}'";
+            $sql_value .= ",'{$comment}','{$bar_code}','{$back_date}','{$replace_reason}','{$purchase_date}','{$deal_date}',{$fault_condition}";
+            $sql = "INSERT INTO dsp_logistic.cs_belong (cs_id,product_info_id,unit_price,order_goods_manager_count,specification,explain,type";
+            $sql .= ",comment,bar_code,back_date,replace_reason,purchase_date,deal_date,fault_condition) VALUES ({$sql_value})";
             $sqlret = Db::insert($sql);
             return $sqlret;
+        }
+        /*新增 确认单清单物流部分 order_goods_logistics*/
+        public static function addordergoodslogistics($info){
+            $order_goods_manager_id = $info['order_goods_manager_id'];
+            $ogl_product_state = $info['ogl_product_state'];
+            $ogl_unc_product_id = $info['ogl_unc_product_id'];
+            $ogl_comment = $info['ogl_comment'];
+            $user_id = $info['user_id'];
+            $ogl_time_stamp = $info['ogl_time_stamp'];
+            $ogl_explain = $info['ogl_explain'];
+            $sql_value ="'{$order_goods_manager_id}','{$ogl_product_state}','{$ogl_unc_product_id}','{$ogl_comment}','{$user_id}','{$ogl_time_stamp}','{$ogl_explain}'";
+            $sql = "INSERT INTO dsp_logistic.cs_belong (order_goods_manager_id,ogl_product_state,ogl_unc_product_id,ogl_comment,user_id,ogl_time_stamp,ogl_explain) VALUES ({$sql_value})";
+            $sqlret = Db::insert($sql);
+            return $sqlret;
+        }
+        /*新增 确认单审批 cs_examine*/
+        public static function addcsexamine($info){
+            $cs_id = $info['cs_id'];
+            $submit_user_id = $info['submit_user_id'];
+            $examine_user_id = $info['examine_user_id'];
+            $cs_examine_date = $info['cs_examine_date'];
+            $cs_examine_content = $info['cs_examine_content'];
+            $cs_examine_result = $info['cs_examine_result'];
+            $cs_examine_time_stamp = $info['cs_examine_time_stamp'];
+            $cs_examine_comment = $info['cs_examine_comment'];
+            $cs_examine_name = $info['cs_examine_name'];
+            $cs_examine_state = $info['cs_examine_state'];
+            $sql_value ="'{$cs_id}','{$submit_user_id}','{$examine_user_id}','{$cs_examine_date}','{$cs_examine_content}','{$cs_examine_result}','{$cs_examine_time_stamp}','{$cs_examine_comment}','{$cs_examine_name}','{$cs_examine_state}'";
+            $sql = "INSERT INTO dsp_logistic.cs_belong (cs_id,submit_user_id,examine_user_id,cs_examine_date,cs_examine_content,cs_examine_result,cs_examine_time_stamp,cs_examine_comment,cs_examine_name,cs_examine_state) VALUES ({$sql_value})";
+            $sqlret = Db::insert($sql);
+            return $sqlret;
+        }
+
+        /*查找 所属领导信息（$role_name：总经理/财务部 /其它看数据库）*/
+        public static function getdepleaderbyuserid($userid,$role_name){
+
+            $sqlrole = "SELECT * FROM dsp_logistic.role WHERE role_name = '{$role_name}' LIMIT 1";
+            $retrole = Db::query($sqlrole);
+            $retuserinfo = self::getloginuserinfo($userid);
+            if (empty($retuserinfo)){
+                return;
+            }
+
+            if (empty($retrole)){
+                return;
+            }
+            $org_id = $retuserinfo[0]['organize_id'];
+            $role_id = $retrole[0]['role_id'];
+            if ($role_name == '总经理'){
+                 $sqlorg =  "SELECT * FROM dsp_logistic.user WHERE organize_id = '{$org_id}' LIMIT 1";
+                 $retorg = Db::query($sqlorg);
+                 if(empty($retorg)){
+                     return;
+                 }
+                $org_pid = $retorg['parent_id'];
+                $sqlleader = "SELECT * FROM dsp_logistic.user WHERE role_id = '{$role_id}' AND organize_id = '{$org_pid}' LIMIT 1";
+                return Db::query($sqlleader);
+            }else if($role_name != '财务部'){
+                $sqlleader = "SELECT * FROM dsp_logistic.user WHERE role_id = '{$role_id}' AND organize_id = '{$org_id}' LIMIT 1";
+                return Db::query($sqlleader);
+            }else {
+                $sqlleader = "SELECT * FROM dsp_logistic.user WHERE role_id = '{$role_id}' LIMIT 1";
+                return Db::query($sqlleader);
+            }
         }
     }
 ?>
