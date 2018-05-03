@@ -906,14 +906,14 @@
             return $sqlret;
         }
 
-<<<<<<< HEAD
+
         /*查询订单未审核的条数,未完待续*/
         public static function queryexamineordernums($cs_info_type,$cs_info_state){
             $sql = "select count(*) from dsp_logistic.cs_info where cs_info_type='$cs_info_type' and cs_info_state='$cs_info_state'";
             $countobj = Db::query($sql);
             $count = $countobj[0]['count(*)'];
             return $count;
-=======
+
         /*查找 所属领导信息（$role_name：总经理/财务部 /其它看数据库）*/
         public static function getdepleaderbyuserid($userid,$role_name){
 
@@ -945,7 +945,6 @@
                 $sqlleader = "SELECT * FROM dsp_logistic.user WHERE role_id = '{$role_id}' LIMIT 1";
                 return Db::query($sqlleader);
             }
->>>>>>> 8e5f33a78c9e2f6bcdbce083b97307d5337dfea1
         }
     }
 ?>
