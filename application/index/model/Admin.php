@@ -618,5 +618,13 @@
             $sqlret = Db::insert($sql);
             return $sqlret;
         }
+
+        /*查询订单未审核的条数,未完待续*/
+        public static function queryexamineordernums($cs_info_type,$cs_info_state){
+            $sql = "select count(*) from dsp_logistic.cs_info where cs_info_type='$cs_info_type' and cs_info_state='$cs_info_state'";
+            $countobj = Db::query($sql);
+            $count = $countobj[0]['count(*)'];
+            return $count;
+        }
     }
 ?>

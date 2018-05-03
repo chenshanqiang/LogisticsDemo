@@ -6,103 +6,138 @@ class Adminindex extends Controller
 {	
 	/*首页渲染方法*/
     public function index(){
+        $userinfo = \app\index\model\Admin::getsessioninfo();
+        $this->assign('loginusername',$userinfo["fullname"]);
+
     	/*更换确认单*/
-    	$this->assign('replaceorder',10);
+        $replaceorder = 10;
+    	$this->assign('replaceorder',$replaceorder);
 
     	/*借样确认单*/
-    	$this->assign('borroworder',5);
+        $borroworder = 5;
+    	$this->assign('borroworder',$borroworder);
 
     	/*退货确认单*/
-    	$this->assign('returnorder',3);
+        $returnorder = 3;
+    	$this->assign('returnorder',$returnorder);
 
     	/*维修确认单*/
-    	$this->assign('repairorder',2);
+        $repairorder = 2;
+    	$this->assign('repairorder',$repairorder);
 
     	/*配件确认单*/
-    	$this->assign('partsorder',2);
+        $partsorder = 0;
+    	$this->assign('partsorder',$partsorder);
 
     	/*代用确认单*/
-    	$this->assign('alternativeorder',1);
+        $alternativeorder = 1;
+    	$this->assign('alternativeorder',$alternativeorder);
+
+        
+        $userinfo = \app\index\model\Admin::getsessioninfo();
+        $role_id = intval($userinfo["role_id"]);
+        $role_info = \app\index\model\Admin::queryroleinfo($role_id);
 
         /*用户管理权限*/
-        $usermanagepower = 0x01;
+        $usermanagepower = $role_info[0]['user_manage_permission'];
         $this->assign('usermanagepower',$usermanagepower);
 
         /*新增订货确认单权限*/
-        $addgoodsorderpower = 0x01;
+        $addgoodsorderpower = ($role_info[0]['order_goods_permission'])&0x01;
         $this->assign('addgoodsorderpower',$addgoodsorderpower);
 
         /*新增订单权限*/
-        $addorderpower = 0x01;
-        $this->assign('addorderpower',$addorderpower);
-
-        $addreplaceorderpower = 0x01;
+        if(((($role_info[0]['replace_permission'])&0x01) == 0x01)||((($role_info[0]['borrow_sample_permission'])&0x01) == 0x01)||((($role_info[0]['return_goods_permission'])&0x01) == 0x01)||((($role_info[0]['fixing_permission'])&0x01) == 0x01)||((($role_info[0]['maintain_permission'])&0x01) == 0x01)||((($role_info[0]['substitute_permission'])&0x01) == 0x01)){
+            $addorderpower = 0x01;
+            $this->assign('addorderpower',$addorderpower);
+        }else{
+            $addorderpower = 0x00;
+            $this->assign('addorderpower',$addorderpower);
+        }
+        
+        //$addreplaceorderpower = 0x01;
+        $addreplaceorderpower = ($role_info[0]['replace_permission'])&0x01;
         $this->assign('addreplaceorderpower',$addreplaceorderpower);
 
-        $addborroworderpower = 0x02;
+        //$addborroworderpower = 0x02;
+        $addborroworderpower = ($role_info[0]['borrow_sample_permission'])&0x01;
         $this->assign('addborroworderpower',$addborroworderpower);
 
-        $addreturnorderpower = 0x03;
+        //$addreturnorderpower = 0x03;
+        $addreturnorderpower = ($role_info[0]['return_goods_permission'])&0x01;
         $this->assign('addreturnorderpower',$addreturnorderpower);
 
-        $addrepairorderpower = 0x04;
+        //$addrepairorderpower = 0x04;
+        $addrepairorderpower = ($role_info[0]['fixing_permission'])&0x01;
         $this->assign('addrepairorderpower',$addrepairorderpower);
 
-        $addpartsorderpower = 0x05;
+        //$addpartsorderpower = 0x05;
+        $addpartsorderpower = ($role_info[0]['maintain_permission'])&0x01;
         $this->assign('addpartsorderpower',$addpartsorderpower);
 
-        $addalternativeorderpower = 0x06;
+        //$addalternativeorderpower = 0x06;
+        $addalternativeorderpower = ($role_info[0]['substitute_permission'])&0x01;
         $this->assign('addalternativeorderpower',$addalternativeorderpower);
 
         /*物流单号输入权限*/
-        $addlogisticorder = 0x01;
+        $addlogisticorder = $role_info[0]['logistic_input_permission'];
         $this->assign('addlogisticorder',$addlogisticorder);
 
         /*订单审批权限权限*/
-        $approvepower = 0x01;
-        $this->assign('approvepower',$approvepower);
-
-        $approvereplacepower = 0x01;
+        if(((($role_info[0]['replace_permission'])&0x20) == 0x20)||((($role_info[0]['borrow_sample_permission'])&0x20) == 0x20)||((($role_info[0]['return_goods_permission'])&0x20) == 0x20)||((($role_info[0]['fixing_permission'])&0x20) == 0x20)||((($role_info[0]['maintain_permission'])&0x20) == 0x20)||((($role_info[0]['substitute_permission'])&0x20) == 0x20)){
+            $approvepower = 0x20;
+            $this->assign('approvepower',$approvepower);
+        }else{
+            $approvepower = 0x00;
+            $this->assign('approvepower',$approvepower);
+        }
+        
+        $approvereplacepower = ($role_info[0]['replace_permission'])&0x20;
         $this->assign('approvereplacepower',$approvereplacepower);
 
-        $approveborrowpower = 0x02;
+        $approveborrowpower = ($role_info[0]['borrow_sample_permission'])&0x20;
         $this->assign('approveborrowpower',$approveborrowpower);
 
-        $approvereturnpower = 0x03;
+        $approvereturnpower = ($role_info[0]['return_goods_permission'])&0x20;
         $this->assign('approvereturnpower',$approvereturnpower);
 
-        $approverepairpower = 0x04;
+        $approverepairpower = ($role_info[0]['fixing_permission'])&0x20;
         $this->assign('approverepairpower',$approverepairpower);
 
-        $approvepartspower = 0x05;
+        $approvepartspower = ($role_info[0]['maintain_permission'])&0x20;
         $this->assign('approvepartspower',$approvepartspower);
 
-        $approvealternativepower = 0x06;
+        $approvealternativepower = ($role_info[0]['substitute_permission'])&0x20;
         $this->assign('approvealternativepower',$approvealternativepower);
 
         /*确认单查询权限*/
-        $querypower = 0x01;
-        $this->assign('querypower',$querypower);
+        if(((($role_info[0]['order_goods_permission'])&0x40) == 0x40)||((($role_info[0]['replace_permission'])&0x40) == 0x40)||((($role_info[0]['borrow_sample_permission'])&0x40) == 0x40)||((($role_info[0]['return_goods_permission'])&0x40) == 0x40)||((($role_info[0]['fixing_permission'])&0x40) == 0x40)||((($role_info[0]['maintain_permission'])&0x40) == 0x40)||((($role_info[0]['substitute_permission'])&0x40) == 0x40)){
+            $querypower = 0x40;
+            $this->assign('querypower',$querypower);
+        }else{
+            $querypower = 0x00;
+            $this->assign('querypower',$querypower);
+        }
 
-        $querygoodspower = 0x01;
+        $querygoodspower = ($role_info[0]['order_goods_permission'])&0x40;
         $this->assign('querygoodspower',$querygoodspower);
 
-        $queryreplacepower = 0x02;
+        $queryreplacepower = ($role_info[0]['replace_permission'])&0x40;
         $this->assign('queryreplacepower',$queryreplacepower);
 
-        $queryborrowpower = 0x03;
+        $queryborrowpower = ($role_info[0]['borrow_sample_permission'])&0x40;
         $this->assign('queryborrowpower',$queryborrowpower);
 
-        $queryreturnpower = 0x04;
+        $queryreturnpower = ($role_info[0]['return_goods_permission'])&0x40;
         $this->assign('queryreturnpower',$queryreturnpower);
 
-        $queryrepairpower = 0x05;
+        $queryrepairpower = ($role_info[0]['fixing_permission'])&0x40;
         $this->assign('queryrepairpower',$queryrepairpower);
 
-        $querypartspower = 0x06;
+        $querypartspower = ($role_info[0]['maintain_permission'])&0x40;
         $this->assign('querypartspower',$querypartspower);
 
-        $queryalternativepower = 0x07;
+        $queryalternativepower = ($role_info[0]['substitute_permission'])&0x40;
         $this->assign('queryalternativepower',$queryalternativepower);
 	   	return $this->fetch();
     }

@@ -13,6 +13,8 @@ use think\Request;
 class Usermanage extends Controller
 {
     public function usermanage(){
+        $userinfo = \app\index\model\Admin::getsessioninfo();
+        $this->assign('loginusername',$userinfo["fullname"]);
         return $this->fetch();
     }
 
