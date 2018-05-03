@@ -913,6 +913,7 @@
             $countobj = Db::query($sql);
             $count = $countobj[0]['count(*)'];
             return $count;
+        }
 
         /*查找 所属领导信息（$role_name：总经理/财务部 /其它看数据库）*/
         public static function getdepleaderbyuserid($userid,$role_name){
