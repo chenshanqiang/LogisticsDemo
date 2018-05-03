@@ -18,6 +18,7 @@ class Addreplaceconfirmorder extends Controller
     	return $this->fetch();
     }
 
+    /**新增订单（包含审批 清单）**/
     public function addconfirmorder()
     {
         $cs_info = $_POST['cs_info'];
@@ -26,12 +27,17 @@ class Addreplaceconfirmorder extends Controller
         $return_info = $_POST['return_info'];
         $payment_info = $_POST['payment_info'];
         $cs_belong = $_POST['cs_belong'];
+        $cs_examine = $_POST['cs_examine'];
+        $order_goods_manager = $_POST['order_goods_manager'];
+        //$order_goods_logistics = $_POST['order_goods_logistics'];
         $custom_info_id = \app\index\model\Admin::getmaxtableid('custom_info','custom_info_id');
         $custom_info_id = $custom_info_id + 1;
         $delivery_info_id = \app\index\model\Admin::getmaxtableid('delivery_info','delivery_info_id');
         $delivery_info_id = $delivery_info_id + 1;
         $payment_info_id = \app\index\model\Admin::getmaxtableid('payment_info','payment_info_id');
         $payment_info_id = $payment_info_id + 1;
+        //$order_goods_manager_id = \app\index\model\Admin::getmaxtableid('order_goods_manager','order_goods_manager_id');
+        $cs_examine_id = \app\index\model\Admin::getmaxtableid('cs_examine','cs_examine_id');
         $return_info_id = \app\index\model\Admin::getmaxtableid('return_info','return_info_id');
         $return_info_id = $return_info_id + 1;
         $retsql = \app\index\model\Admin::addcustominfo($custom_info);
@@ -57,11 +63,56 @@ class Addreplaceconfirmorder extends Controller
         $cs_info['custom_info_id'] = $custom_info_id;
         $cs_info['delivery_info_id'] = $delivery_info_id;
         $cs_info['payment_info_id'] = $payment_info_id;
+        $cs_info['cs_examine_ids'] = ($cs_examine_id + 1).','.($cs_examine_id + 2).','.($cs_examine_id + 3);
         $retsql = \app\index\model\Admin::addconfirmorder($cs_info);
         if (!empty($retsql)){
+            //$order_goods_manager['cs_id'] = $cs_info['cs_id'];
             $cs_belong['cs_id'] = $cs_info['cs_id'];
             $cs_belong['cs_belong_create_time'] = date("Y-m-d H:i:s");
+            //\app\index\model\Admin::addordergoodsmanager($order_goods_manager);/**新增清单 缺product_info_id**/
             $retsql = \app\index\model\Admin::addbcsbelong($cs_belong);
+            $num = count($order_goods_manager);
+            for ($i = 0; $i < $num; $i++){
+                $order_goods_manager[$i]['user_id'] = $cs_info['cs_id'];
+                $retmanager = \app\index\model\Admin::addordergoodsmanager($order_goods_manager[$i]);/**新增清单 缺product_info_id**/
+                /*if (!empty($retmanager)){
+                    $order_goods_manager_id = $order_goods_manager_id + 1;
+                    //$order_goods_logistics[$i]['user_id'] = ;                                     //改   获取用户id
+                    $order_goods_logistics[$i]['order_goods_manager_id'] = $order_goods_manager_id;
+                    \app\index\model\Admin::addordergoodslogistics($order_goods_logistics[$i]);
+                }
+                else{
+                    return '新增清单错误';
+                }*/
+            }
+            $length = count($cs_examine);
+            for ($i = 0 ;$i < $length; $i++){
+                $cs_examine[$i]['cs_id'] = $cs_info['cs_id'];
+                $user_id = $cs_examine[$i]['submit_user_id'];
+                if($i == 0){
+                    $dbleader = \app\index\model\Admin::getdepleaderbyuserid($user_id,'总监');
+                    if(empty($dbleader)){
+                        return false;
+                    }
+                    $cs_examine[$i]['examine_user_id'] = $dbleader[0]['user_id'];
+                    $cs_examine[$i]['cs_examine_name'] = $dbleader[0]['fullname'];
+                }else if ($i == 1){
+                    $dbleader = \app\index\model\Admin::getdepleaderbyuserid($user_id,'总经理');
+                    if(empty($dbleader)){
+                        return false;
+                    }
+                    $cs_examine[$i]['examine_user_id'] = $dbleader[0]['user_id'];
+                    $cs_examine[$i]['cs_examine_name'] = $dbleader[0]['fullname'];
+                }else if ($i == 2){
+                    $dbleader = \app\index\model\Admin::getdepleaderbyuserid($user_id,'财务部');
+                    if(empty($dbleader)){
+                        return false;
+                    }
+                    $cs_examine[$i]['examine_user_id'] = $dbleader[0]['user_id'];
+                    $cs_examine[$i]['cs_examine_name'] = $dbleader[0]['fullname'];
+                }
+                \app\index\model\Admin::addcsexamine($cs_examine[$i]);
+            }
         }else{
             \app\index\model\Admin::deleterowtableid('custom_info','custom_info_id',$custom_info_id);
             \app\index\model\Admin::deleterowtableid('delivery_info','delivery_info_id',$delivery_info_id);
@@ -70,6 +121,8 @@ class Addreplaceconfirmorder extends Controller
         }
         return $retsql;
     }
+
+
 
     public function getdepartmentinfo()
     {
