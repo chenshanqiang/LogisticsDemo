@@ -292,7 +292,7 @@
             <div class="layui-form-item" pane="">
                 <label class="layui-form-label lightgreen">审批意见</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="executivegeneralmanageradvice" value="同意" title="同意" checked="">
+                    <input type="radio" name="executivegeneralmanageradvice" value="同意" title="同意">
                     <input type="radio" name="executivegeneralmanageradvice" value="不同意" title="不同意"> </div>
             </div>
             <div class="layui-form-item">
@@ -452,21 +452,22 @@
             //监听提交
             form.on('submit(save)', function (uidata) {
                 var  tabledata = getTableContent();
+                var exp = getTableExplain();
                 var data = uidata.field;
                 var rows = jq('#tableorder')[0].rows.length - 3;
                 console.log(data);
                 var cs_info = new Object();
                 cs_info.cs_id  = data['swiftnumber'];
-                //cs_info.cur_process_user_id =                         //改     当前处理用户id
+                cs_info.cur_process_user_id = data['company_id'];                      // 当前处理用户id
                 //cs_info.pre_process_user_id =                         //改     上一次处理用户id
                 cs_info.cs_info_type = 1;                               //1：更换 详细看数据库
                 cs_info.can_edit = 1;
                 cs_info.write_date = data['date1'];
-                if(data['status'] == ""){
+                /*if(data['status'] == ""){
                     layer.msg('请选择是否到账！',{icon:2});
                     return false;
-                }
-                cs_info.cs_info_state = data['status'];
+                }*/
+                //cs_info.cs_info_state = data['status'];
                 //cs_info.complete_date = data['complete_date'];        //新增 无完成日期
                 cs_info.product_number = rows;
                 console.log("以下确认单信息：");
@@ -511,28 +512,73 @@
 
                 var cs_belong = new Object();
                 //cs_belong.cs_id = data['cs_id'];
-                cs_belong.build_organize_id = data['department_id'];
+                cs_belong.build_organize_id = data['company_id'];
+                cs_belong.build_dspartment_id = data['department_id'];
                 cs_belong.build_user_id = data['manager_id'];
+                cs_belong.build_department_name = jq("#department_id").find("option:selected").text();                //缺
                 //cs_belong.cs_belong_create_time = data['cs_belong_create_time'];
                 cs_belong.build_user_name = jq("#manager_id").find("option:selected").text();
                 cs_belong.build_organize_name = jq("#department_id").find("option:selected").text();
                 console.log("以下订单所属信息：");
                 console.log(custom_info);
-                                                                    //缺 3项审批
+
+                var cs_examine = [];
+                cs_examine[0]['submit_user_id'] = data['manager_id'];
+                //cs_examine[0]['examine_user_id'] =
+                //cs_examine[0]['cs_examine_name'] =
+                //cs_examine[0]['cs_examine_date'] =
+                //cs_examine[0]['cs_examine_time_stamp'] =
+                //cs_examine[0]['cs_examine_comment'] =
+                cs_examine[0]['cs_examine_content'] = data['examinationapprovalcontentfirst'];
+                cs_examine[0]['cs_examine_result'] = 2;
+                cs_examine[0]['cs_examine_state'] = 0;
+
+                cs_examine[1]['submit_user_id'] = data['manager_id'];
+                cs_examine[1]['cs_examine_content'] = data['examinationapprovalcontentfirst'];
+                cs_examine[1]['cs_examine_result'] = 2;
+                cs_examine[1]['cs_examine_state'] = 0;
+
+                cs_examine[2]['submit_user_id'] = data['manager_id'];
+                cs_examine[2]['cs_examine_content'] = data['examinationapprovalcontentfirst'];
+                cs_examine[2]['cs_examine_result'] = 2;
+                cs_examine[2]['cs_examine_state'] = 0;
 
                 //处理清单
-                return false;
+                var order_goods_manager= [];
+                var rows = tabledata.length;
+                for(var i = 0; i< rows; i++){
+                    order_goods_manager[i]
+                    order_goods_manager[i]['product_info_id']= tabledata[i][5]['tag'];
+                    order_goods_manager[i]['unit_price'] = tabledata[i][6]['text'];
+                    order_goods_manager[i]['order_goods_manager_count'] = tabledata[i][7]['text'];
+                    order_goods_manager[i]['specification'] = tabledata[i][4]['text'];
+                    //order_goods_manager[i]['explain'] = tabledata[i][10]['text'];
+                    order_goods_manager[i]['type'] = 1;                                             //1：更换 详细看数据库
+                    order_goods_manager[i]['comment'] = tabledata[i][14]['text'];
+                    order_goods_manager[i]['bar_code'] = tabledata[i][8]['text'];
+                    order_goods_manager[i]['back_date'] = tabledata[i][9]['text'];
+                    order_goods_manager[i]['replace_reason'] = tabledata[i][10]['text'];
+                    //order_goods_manager[i]['purchase_date'] = $info['purchase_date'];
+                    //order_goods_manager[i]['deal_date'] = $info['deal_date'];
+                    //order_goods_manager[i]['fault_condition'] = $info['fault_condition'];
+                }
+                order_goods_manager[rows]['explain'] = exp;
+                console.log("以下清单信息：");
+                console.log(order_goods_manager);
                 jq.ajax({
                     url: "{:url('admin/addreplaceconfirmorder/addconfirmorder')}",//php文件路径
-                    data: {cs_info:cs_info,custom_info:custom_info} ,
+                    data: {cs_info:cs_info,custom_info:custom_info,delivery_info:delivery_info,return_info:return_info,cs_belong:cs_belong,order_goods_manager:order_goods_manager,cs_examine:cs_examine} ,
                     type: 'GET',
                     dataType: 'json',
                     success: function(e) {
+                        console.log('返回');
                         console.log(e);
                         if(e){
                             console.log('订单添加成功！');
+
                         }else if(!e){
                             console.log('订单提交失败！');
+                            console.log(e);
                         }
                     }
                 })
@@ -665,7 +711,12 @@
                 }
                 return data;
             }
-
+            function getTableExplain(){
+                var jq = layui.jquery;
+                var mytable = document.getElementById('tableorder');
+                var exp = mytable.rows[mytable.rows.length - 1].cells[1].innerHTML;
+                return exp;
+            }
         </script>
     </body>
 </html>
