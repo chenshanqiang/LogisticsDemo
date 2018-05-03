@@ -25,23 +25,24 @@ class Addreplaceconfirmorder extends Controller
         $delivery_info = $_POST['delivery_info'];
         $return_info = $_POST['return_info'];
         $payment_info = $_POST['payment_info'];
+        $cs_belong = $_POST['cs_belong'];
         $custom_info_id = \app\index\model\Admin::getmaxtableid('custom_info','custom_info_id');
         $custom_info_id = $custom_info_id + 1;
         $delivery_info_id = \app\index\model\Admin::getmaxtableid('delivery_info','delivery_info_id');
         $delivery_info_id = $delivery_info_id + 1;
         $payment_info_id = \app\index\model\Admin::getmaxtableid('payment_info','payment_info_id');
         $payment_info_id = $payment_info_id + 1;
+        $return_info_id = \app\index\model\Admin::getmaxtableid('return_info','return_info_id');
+        $return_info_id = $return_info_id + 1;
         $retsql = \app\index\model\Admin::addcustominfo($custom_info);
         if (empty($retsql)){
             return null;
         }
-
         $retsql = \app\index\model\Admin::adddeliveryinfo($delivery_info);
         if (empty($retsql)){
             \app\index\model\Admin::deleterowtableid('custom_info','custom_info_id',$custom_info_id);
             return null;
         }
-
         $retsql = \app\index\model\Admin::addreturninfo($return_info);
         if (empty($retsql)){
             \app\index\model\Admin::deleterowtableid('delivery_info','delivery_info_id',$delivery_info_id);
@@ -49,13 +50,24 @@ class Addreplaceconfirmorder extends Controller
         }
         $retsql = \app\index\model\Admin::addpaymentinfo($payment_info);
         if (empty($retsql)){
-            \app\index\model\Admin::deleterowtableid('payment_info','payment_info_id',$delivery_info_id);
+            \app\index\model\Admin::deleterowtableid('return_info','return_info_id',$return_info_id);
             return null;
         }
+
         $cs_info['custom_info_id'] = $custom_info_id;
         $cs_info['delivery_info_id'] = $delivery_info_id;
         $cs_info['payment_info_id'] = $payment_info_id;
         $retsql = \app\index\model\Admin::addconfirmorder($cs_info);
+        if (!empty($retsql)){
+            $cs_belong['cs_id'] = $cs_info['cs_id'];
+            $cs_belong['cs_belong_create_time'] = date("Y-m-d H:i:s");
+            $retsql = \app\index\model\Admin::addbcsbelong($cs_belong);
+        }else{
+            \app\index\model\Admin::deleterowtableid('custom_info','custom_info_id',$custom_info_id);
+            \app\index\model\Admin::deleterowtableid('delivery_info','delivery_info_id',$delivery_info_id);
+            \app\index\model\Admin::deleterowtableid('return_info','return_info_id',$return_info_id);
+            \app\index\model\Admin::deleterowtableid('payment_info','payment_info_id',$delivery_info_id);
+        }
         return $retsql;
     }
 
