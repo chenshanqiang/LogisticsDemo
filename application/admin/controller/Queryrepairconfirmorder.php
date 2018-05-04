@@ -19,6 +19,32 @@ class Queryrepairconfirmorder extends Controller
 
         $uncProduct = \app\index\model\Admin::getclassinfo('dsp_logistic.unc_product','unc_product_id');
         $this->assign('unclist',$uncProduct);
+
+        /*获取权限设置*/
+        $userinfo = \app\index\model\Admin::getsessioninfo();
+        $role_id = intval($userinfo["role_id"]);
+        $role_info = \app\index\model\Admin::queryroleinfo($role_id);
+
+        $exportgoodspower =0;
+        $exportreplacepower = 0;
+        $exportborrowpower = 0;
+        $exportreturnpower = 0;
+        $exportpartspower = 0;
+        $exportrepairpower = ($role_info[0]['fixing_permission'])&0x10;
+        $exportalternativepower = 0;
+
+        $editrepairpower = ($role_info[0]['fixing_permission'])&0x02;
+        $deleterepairpower = ($role_info[0]['fixing_permission'])&0x04;
+
+        $this->assign('editrepairpower',$editrepairpower);
+        $this->assign('deleterepairpower',$deleterepairpower);
+        $this->assign('exportgoodspower',$exportgoodspower);
+        $this->assign('exportreplacepower',$exportreplacepower);
+        $this->assign('exportborrowpower',$exportborrowpower);
+        $this->assign('exportreturnpower',$exportreturnpower);
+        $this->assign('exportpartspower',$exportpartspower);
+        $this->assign('exportrepairpower',$exportrepairpower);
+        $this->assign('exportalternativepower',$exportalternativepower);
         return $this->fetch();
     }
 

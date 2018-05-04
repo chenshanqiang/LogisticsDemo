@@ -14,8 +14,14 @@
 			<table class="layui-hide" id="queryalternativeorder" lay-filter="queryalternativeorder"></table>
 			<script type="text/html" id="operatebar">
   			  <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">查看</a>
-			  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-			  <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
+			  
+			  {if condition="$editalternativepower eq 2"}
+			  	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+			  {/if}
+				
+			  {if condition="$deletealternativepower eq 4"}
+			  	<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
+			  {/if}
 			</script>
 		</div>
 		<script src="/static/layui/layui.js"></script>

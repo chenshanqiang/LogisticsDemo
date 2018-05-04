@@ -18,6 +18,33 @@ class Queryborrowconfirmorder extends Controller
 
         $uncProduct = \app\index\model\Admin::getclassinfo('dsp_logistic.unc_product','unc_product_id');
         $this->assign('unclist',$uncProduct);
+
+
+        /*获取权限设置*/
+        $userinfo = \app\index\model\Admin::getsessioninfo();
+        $role_id = intval($userinfo["role_id"]);
+        $role_info = \app\index\model\Admin::queryroleinfo($role_id);
+
+        $exportgoodspower = 0;
+        $exportreplacepower = 
+        $exportborrowpower = ($role_info[0]['borrow_sample_permission'])&0x10;
+        $exportreturnpower = 0;
+        $exportpartspower = 0;
+        $exportrepairpower = 0;
+        $exportalternativepower = 0;
+
+        $editborrowpower = ($role_info[0]['borrow_sample_permission'])&0x02;
+        $deleteborrowpower = ($role_info[0]['borrow_sample_permission'])&0x04;
+
+        $this->assign('editborrowpower',$editborrowpower);
+        $this->assign('deleteborrowpower',$deleteborrowpower);
+        $this->assign('exportgoodspower',$exportgoodspower);
+        $this->assign('exportreplacepower',$exportreplacepower);
+        $this->assign('exportborrowpower',$exportborrowpower);
+        $this->assign('exportreturnpower',$exportreturnpower);
+        $this->assign('exportpartspower',$exportpartspower);
+        $this->assign('exportrepairpower',$exportrepairpower);
+        $this->assign('exportalternativepower',$exportalternativepower);
         return $this->fetch();
     }
 
