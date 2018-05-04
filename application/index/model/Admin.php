@@ -626,15 +626,20 @@
                         //$name =
                         $tableobj[$i]["companyname"]=$tableobj[$i]["organize_name"];
                         $tableobj[$i]["organize_name"] = "";
+                        $tableobj[$i]["companyid"] = $tableobj[$i]["organize_id"];
                     }
                     else {
                         $sql ="select * from dsp_logistic.organize where `organize_id` = '{$parentid}'";
 
                         $conpanytalbe = Db::query($sql);
                         if(!empty($conpanytalbe))
-                            $tableobj[$i]["companyname"]=$conpanytalbe[0]["organize_name"];
+                        {
+                            $tableobj[$i]["companyid"] = $conpanytalbe[0]["organize_id"];
+                            $tableobj[$i]["companyname"] = $conpanytalbe[0]["organize_name"];
+                        }
                         else{
                             $tableobj[$i]["companyname"]="";
+                            $tableobj[$i]["companyid"] = "";
                         }
                     }
                     $tableobj[$i]["serialnumber"]=$i+1;
@@ -735,11 +740,6 @@
 
             $job_id = $user["job_id"];
             $role_id = $user["role_id"];
-
-            $sql = "INSERT INTO `dsp_logistic`.`user` (`fullname`, `password`, `phone`, `organize_id`, `job_id`, `role_id`)";
-            $sql.="  VALUES ('{$user["fullname"]}', '{$password}', '{$phone}', '{$organize_id}', '{$job_id}', '{$role_id}');";
-            $result = Db::execute($sql);
-            return $result;
 
             $user_id = $user["user_id"];
             if($user_id != "")
@@ -1033,7 +1033,6 @@
             }
         }
 
-<<<<<<< HEAD
         public static function getcsinfomaxid(){
             $dateymd = date('Ymd');
             $sql ="select * from dsp_logistic.cs_info where cs_id like '%{$dateymd}%'";
@@ -1056,7 +1055,6 @@
                 return $dateymd.$strmaxid;
             }
         }
-=======
 
         public static function getcuruserquerypower($user)
         {
@@ -1085,15 +1083,15 @@
                     $userquerypower["departmentname"] = \app\index\model\Admin::querydepartmentname($user["organize_id"]);
                     $userquerypower["areamanager"] ="";
                     $organize = \app\index\model\Admin::getdepleaderbyuserid($user["user_id"],"总经理");
-                    $userquerypower["organizename"] = \app\index\model\Admin::querydepartmentname($organize["organize_id"]);
+                    $userquerypower["organizename"] = \app\index\model\Admin::querydepartmentname($organize[0]["organize_id"]);
                 }
                 if($rolename == "经理")
                 {
                     $userquerypower["areamanager"] = $user["fullname"];
                     $depart = \app\index\model\Admin::getdepleaderbyuserid($user["user_id"],"总监");
-                    $userquerypower["departmentname"] = \app\index\model\Admin::querydepartmentname($depart["organize_id"]);
+                    $userquerypower["departmentname"] = \app\index\model\Admin::querydepartmentname($depart[0]["organize_id"]);
                     $organize = \app\index\model\Admin::getdepleaderbyuserid($depart[0]["user_id"],"总经理");
-                    $userquerypower["organizename"] = \app\index\model\Admin::querydepartmentname($organize["organize_id"]);
+                    $userquerypower["organizename"] = \app\index\model\Admin::querydepartmentname($organize[0]["organize_id"]);
                 }
             }
             session("user_querypower", $userquerypower);
@@ -1118,7 +1116,5 @@
                 return false;
             }
         }
-
->>>>>>> af080395b629cae694fe8a360293c88aae229d78
     }
 ?>

@@ -139,10 +139,9 @@
             //var form = layui.form;
             document.getElementById('job_id').value = user['job_id'];
             document.getElementById('role_id').value = user['role_id'];
-            document.getElementById('company_id').value = user['organize_id'];
-
+            document.getElementById('company_id').value = user['companyid'];
             //LoadingDepartment(user['companyid']);
-           LoadingDepartmentAndSelected(user['organize_id'],user['organize_id'])
+           LoadingDepartmentAndSelected(user['companyid'],user['organize_id'])
             //document.getElementById('department_id').value = user['organize_id'];
 
             jq('#fullname').attr('value',user['fullname']);
