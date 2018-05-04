@@ -1116,5 +1116,10 @@
                 return false;
             }
         }
+        /*获取非常规产品 unc_product*/
+        public static function getuncproduct(){
+            $sql = "SELECT * FROM dsp_logistic.unc_product";
+            return Db::query($sql);
+        }
     }
 ?>

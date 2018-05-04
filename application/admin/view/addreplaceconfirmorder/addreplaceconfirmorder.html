@@ -438,14 +438,131 @@
                     ,theme: 'molv'
                 });
            
-            //监听提交
+            //监听保存
             form.on('submit(save)', function (uidata) {
+                return saveOrDeliverToSql(uidata,0);
+            });
+                //监听转交
+            form.on('submit(deliver)',function (uidata) {
+                return saveOrDeliverToSql(uidata,1);
+            });
+
+            //监听选择公司
+            form.on('select(company_id)',function (data) {
+                jq.post("{:url('admin/addreplaceconfirmorder/getdepartmentinfo')}",{'param':data.value},function (data) {
+                    //console.log(data);
+                    for (var item in data){
+                        jq('#department_id').append("<option value='" + data[item]['organize_id'] + "'>" + data[item]['organize_name'] + "</option>>");
+                    }
+                    form.render('select');
+                })
+            });
+            //监听选择部门
+            form.on('select(department_id)',function (data) {
+
+                 jq.post("{:url('admin/addreplaceconfirmorder/getdspmanagerinfo')}",{'param':data.value},function (data) {
+                     for (var item in data){
+                          jq('#manager_id').append("<option value='" + data[item]['user_id'] + "' phone='" + data[item]['phone'] + "'>" + data[item]['fullname'] + "</option>>");
+                        }
+                        form.render('select');
+                    })
+            });
+            //监听选中经理自动添加电话
+            form.on('select(manager_id)',function (data) {
+                var options= jq("#manager_id option:selected");
+                var  phone = jq(options[0]).attr('phone');
+                console.log();
+                document.getElementById('areamanagertel').value = phone;
+            });
+            jq('#btn_add_order_item').click(function () {
+                layer.open({
+                    type:2,
+                    title:'新增清单',
+                    area:['800px','90%'],
+                    shade:0,
+                    maxmin:false,
+                    content:"{:url('admin/addconfirmorderitem/addconfirmorderitem')}",
+                    btn:['保存','退出'],
+                    yes:function (index,layero) {
+                        var  iframeWin = window[layero.find('iframe')[0]['name']];
+                        var  orderItem = iframeWin.saveOrderItem();
+                        if(orderItem.model_text == null){
+                            return null;
+                        }
+                        console.log(orderItem);
+                        //+判断
+                        var type_id = orderItem.type_id;
+                        var type_text = orderItem.type_text;
+                        var brand_id = orderItem.brand_id;
+                        var brand_text = orderItem.brand_text;
+                        var model_text = orderItem.model_text;
+                        var model_id = orderItem.model_id;
+                        var model = orderItem.model;
+                        var unit = orderItem.unit;
+                        var place = orderItem.place;
+                        var place_text = orderItem.place_text;
+                        var count =orderItem.count;
+                        var unc_product_text = orderItem.unc_product_text;
+                        var unc_product_id = orderItem.unc_product_id;
+                        var specification = orderItem.specification;
+                        var back_date = orderItem.back_date;
+                        var product_state = orderItem.product_state;
+                        var bar_code = orderItem.bar_code;
+                        var explain = orderItem.explain;
+                        var comment = orderItem.comment;
+                        console.log("length: "+ jq('#tableorder')[0].rows.length);
+                        var rows = jq('#tableorder')[0].rows.length - 2;
+
+                        var new_tr = jq('#tableorder')[0].insertRow(rows);//指定位置插入行
+                        var col_0 = new_tr.insertCell(0);//添加列
+                        col_0.innerHTML = "<td><a>"+ rows+"</a></td>";
+                        var col_1 = new_tr.insertCell(1);//添加列
+                        col_1.innerHTML = "<td><a tag='"+ type_id +"'>"+ type_text +"</a></td>";
+                        var col_2 = new_tr.insertCell(2);//添加列
+                        col_2.innerHTML = "<td><a tag='"+ brand_id +"'>"+ brand_text +"</a></td>";
+                        var col_3 = new_tr.insertCell(3);
+                        col_3.innerHTML = "<td><a>"+ model_text +"</a></td>";//-------产品名称-------
+                        var col_4 = new_tr.insertCell(4);
+                        col_4.innerHTML = "<td><a>"+ specification +"</a></td>";
+                        var col_5 = new_tr.insertCell(5);
+                        col_5.innerHTML = "<td><a tag='" + model_id + "'>"+ model +"</a></td>";
+                        var col_6 = new_tr.insertCell(6);
+                        col_6.innerHTML = "<td><a>"+ unit +"</a></td>";
+                        var col_7 = new_tr.insertCell(7);
+                        col_7.innerHTML = "<td><a>"+ count +"</a></td>";
+                        var col_8 = new_tr.insertCell(8);
+                        col_8.innerHTML = "<td><a>"+ bar_code +"</a></td>";
+                        var col_9 = new_tr.insertCell(9);
+                        col_9.innerHTML = "<td><a>"+ back_date +"</a></td>";
+                        var col_10 = new_tr.insertCell(10);
+                        col_10.innerHTML = "<td><a>"+ explain +"</a></td>";
+                        var col_11 = new_tr.insertCell(11);
+                        col_11.innerHTML = "<td><a tag = '"+ place +"'>"+ place_text +"</a></td>";
+                        var col_12 = new_tr.insertCell(12);
+                        col_12.innerHTML = "<td><a>"+ product_state +"</a></td>";
+                        var col_13 = new_tr.insertCell(13);
+                        col_13.innerHTML = "<td><a tag='" + unc_product_id + "'>"+ unc_product_text +"</a></td>";
+                        var col_14 = new_tr.insertCell(14);
+                        col_14.innerHTML = "<td><a>"+ comment +"</a></td>";
+
+                        layer.closeAll();
+                    },
+                    btn2: function () {
+                        layer.closeAll();
+                    }
+                });
+                return false;
+            })
+            });
+
+            //保存或者转交 新增单  state: 0,保存  1，转交给总监
+            function saveOrDeliverToSql(uidata,state) {
+                jq = layui.jquery;
                 var  tabledata = getTableContent();
                 var exp = getTableExplain();
                 var data = uidata.field;
                 var rows = tabledata.length;
-                var cs_info = new Object();
-                cs_info.payment_info_id = -1;
+
                 //cs_info.cs_id  = data['swiftnumber'];
                 if(data['company_id'] == "" || data['department_id'] == ""){
                     layer.msg('请选择部门！',{icon:2});
@@ -455,11 +572,13 @@
                     layer.msg('请选择经理！',{icon:2});
                     return false;
                 }
+                var cs_info = new Object();
+                cs_info.payment_info_id = -1;
                 cs_info.cur_process_user_id = data['company_id'];                      // 当前处理用户id
-                cs_info.pre_process_user_id = -1;                         //改     上一次处理用户id
+                cs_info.pre_process_user_id = -1;                         //     上一次处理用户id
                 cs_info.cs_info_type = 1;                               //1：更换 详细看数据库
                 cs_info.can_edit = 1;
-                cs_info.write_date = data['date1'];
+                //cs_info.write_date = data['date1'];                   //又服务器创建
                 /*if(data['status'] == ""){
                     layer.msg('请选择是否到账！',{icon:2});
                     return false;
@@ -536,9 +655,9 @@
                 directorExamine['cs_examine_comment'] = null;
                 directorExamine['cs_examine_content'] = data['examinationapprovalcontentfirst'];
                 directorExamine['cs_examine_result'] = 2;
-                directorExamine['cs_examine_state'] = 0;
+                directorExamine['cs_examine_state'] = state;
                 cs_examine[0] = directorExamine;
-                 var generalManagerExamine = {};
+                var generalManagerExamine = {};
                 generalManagerExamine['submit_user_id'] = data['manager_id'];
                 generalManagerExamine['cs_examine_date'] = '2000-1-1';
                 generalManagerExamine['cs_examine_time_stamp'] = '2000-1-1 00:00:00'
@@ -600,11 +719,10 @@
                     type: 'POST',
                     dataType: 'json',
                     success: function(e) {
-                        console.log('以下返回PHP返回数据');
-                        console.log(e);
                         if(e){
                             console.log('订单添加成功！');
-
+                            console.log(e);
+                            location.href = "{:url('admin/addreplaceconfirmorder/addreplaceconfirmorder')}";
                         }else if(!e){
                             console.log('订单提交失败！');
                             console.log(e);
@@ -612,114 +730,8 @@
                     }
                 })
                 return false;
-            });
-            //监听选择公司
-            form.on('select(company_id)',function (data) {
-                jq.post("{:url('admin/addreplaceconfirmorder/getdepartmentinfo')}",{'param':data.value},function (data) {
-                    //console.log(data);
-                    for (var item in data){
-                        jq('#department_id').append("<option value='" + data[item]['organize_id'] + "'>" + data[item]['organize_name'] + "</option>>");
-                    }
-                    form.render('select');
-                })
-            });
-            //监听选择部门
-            form.on('select(department_id)',function (data) {
-
-                 jq.post("{:url('admin/addreplaceconfirmorder/getdspmanagerinfo')}",{'param':data.value},function (data) {
-                     for (var item in data){
-                          jq('#manager_id').append("<option value='" + data[item]['user_id'] + "' phone='" + data[item]['phone'] + "'>" + data[item]['fullname'] + "</option>>");
-                        }
-                        form.render('select');
-                    })
-            });
-            //监听选中经理自动添加电话
-            form.on('select(manager_id)',function (data) {
-                var options= jq("#manager_id option:selected");
-                var  phone = jq(options[0]).attr('phone');
-                console.log();
-                document.getElementById('areamanagertel').value = phone;
-            });
-            jq('#btn_add_order_item').click(function () {
-                layer.open({
-                    type:2,
-                    title:'新增清单',
-                    area:['800px','90%'],
-                    shade:0,
-                    maxmin:false,
-                    content:"{:url('admin/addconfirmorderitem/addconfirmorderitem')}",
-                    btn:['保存','退出'],
-                    yes:function (index,layero) {
-                        var  iframeWin = window[layero.find('iframe')[0]['name']];
-                        var  orderItem = iframeWin.saveOrderItem();
-                        if(orderItem.model_text == null){
-                            return null;
-                        }
-                        console.log(orderItem);
-                        //+判断
-                        var type_id = orderItem.type_id;
-                        var type_text = orderItem.type_text;
-                        var brand_id = orderItem.brand_id;
-                        var brand_text = orderItem.brand_text;
-                        var model_text = orderItem.model_text;
-                        var model_id = orderItem.model_id;
-                        var model = orderItem.model;
-                        var unit = orderItem.unit;
-                        var place = orderItem.place;
-                        var place_text = orderItem.place_text;
-                        var count =orderItem.count;
-                        var isunc = orderItem.isunc;
-                        var specification = orderItem.specification;
-                        var back_date = orderItem.back_date;
-                        var product_state = orderItem.product_state;
-                        var bar_code = orderItem.bar_code;
-                        var explain = orderItem.explain;
-                        var comment = orderItem.comment;
-                        console.log("length: "+ jq('#tableorder')[0].rows.length);
-                        var rows = jq('#tableorder')[0].rows.length - 2;
-
-                        var new_tr = jq('#tableorder')[0].insertRow(rows);//指定位置插入行
-                        var col_0 = new_tr.insertCell(0);//添加列
-                        col_0.innerHTML = "<td><a>"+ rows+"</a></td>";
-                        var col_1 = new_tr.insertCell(1);//添加列
-                        col_1.innerHTML = "<td><a tag='"+ type_id +"'>"+ type_text +"</a></td>";
-                        var col_2 = new_tr.insertCell(2);//添加列
-                        col_2.innerHTML = "<td><a tag='"+ brand_id +"'>"+ brand_text +"</a></td>";
-                        var col_3 = new_tr.insertCell(3);
-                        col_3.innerHTML = "<td><a>"+ model_text +"</a></td>";//-------产品名称-------
-                        var col_4 = new_tr.insertCell(4);
-                        col_4.innerHTML = "<td><a>"+ specification +"</a></td>";
-                        var col_5 = new_tr.insertCell(5);
-                        col_5.innerHTML = "<td><a tag='" + model_id + "'>"+ model +"</a></td>";
-                        var col_6 = new_tr.insertCell(6);
-                        col_6.innerHTML = "<td><a>"+ unit +"</a></td>";
-                        var col_7 = new_tr.insertCell(7);
-                        col_7.innerHTML = "<td><a>"+ count +"</a></td>";
-                        var col_8 = new_tr.insertCell(8);
-                        col_8.innerHTML = "<td><a>"+ bar_code +"</a></td>";
-                        var col_9 = new_tr.insertCell(9);
-                        col_9.innerHTML = "<td><a>"+ back_date +"</a></td>";
-                        var col_10 = new_tr.insertCell(10);
-                        col_10.innerHTML = "<td><a>"+ explain +"</a></td>";
-                        var col_11 = new_tr.insertCell(11);
-                        col_11.innerHTML = "<td><a tag = '"+ place +"'>"+ place_text +"</a></td>";
-                        var col_12 = new_tr.insertCell(12);
-                        col_12.innerHTML = "<td><a>"+ product_state +"</a></td>";
-                        var col_13 = new_tr.insertCell(13);
-                        col_13.innerHTML = "<td><a>"+ isunc +"</a></td>";
-                        var col_14 = new_tr.insertCell(14);
-                        col_14.innerHTML = "<td><a>"+ comment +"</a></td>";
-
-                        layer.closeAll();
-                    },
-                    btn2: function () {
-                        layer.closeAll();
-                    }
-                });
-                return false;
-            })
-          });
-
+            }
+            //获取订购清单明细
             function getTableContent(){
                 var jq = layui.jquery;
                 var mytable = document.getElementById('tableorder');
@@ -728,9 +740,6 @@
                 for(var i = 1,rows = mytable.rows.length - 2; i < rows; i++){
                     var rowdata = {};
                     for(var j = 0,cells=mytable.rows[i].cells.length; j<cells; j++){
-                        /*if(data[index] == null){
-                            data[index] = new Array();
-                        }*/
                         var tag = jq(mytable.rows[i].cells[j].innerHTML).attr('tag');
                         var text = jq(mytable.rows[i].cells[j].innerHTML).text();
                         var mymap = {};
@@ -743,6 +752,7 @@
                 }
                 return data;
             }
+            //获取清单其它说明（经理部分）
             function getTableExplain(){
                 var jq = layui.jquery;
                 var mytable = document.getElementById('tableorder');
