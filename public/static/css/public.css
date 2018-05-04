@@ -6,23 +6,6 @@ h2, h3 {
 	text-align: center;
 	margin-bottom: 20px;
 }
-/*对lable标签和input输入标签颜色的设定开始*/
-label,input,div[pane=""]{
-	border-color:#000000!important;
-}
-.light_gray,.light_gray:hover{
-	background-color:#D3D3D3!important;
-}
-.dark_blue,.dark_blue:hover{
-	background-color:#6495ED!important;
-}
-.light_blue,.light_blue:hover{
-	background-color:#C6E2FF!important;
-}
-.light_green,.light_green:hover {
-	background-color: #90EE90!important;border-color:#000000!important;
-}
-/*对lable标签和input输入标签颜色的设定结束*/
 .Wheat,.Wheat:hover,.Wheat th {
 	background-color: #F5DEB3!important;
 	border-color:#000000!important;
@@ -49,3 +32,20 @@ button[lay-filter="save"], button[lay-filter="deliver"], button[lay-filter="canc
 	float: right;
 	cursor: pointer;
 }
+/*对lable标签和input输入标签颜色的设定开始*/
+label,input,div[pane=""]{
+	border-color:#000000!important;
+}
+.light_gray,.light_gray:hover{
+	background-color:#D3D3D3!important;
+}
+.dark_blue,.dark_blue:hover{
+	background-color:#6495ED!important;
+}
+.light_blue,.light_blue:hover{
+	background-color:#C6E2FF!important;
+}
+.light_green,.light_green:hover {
+	background-color: #90EE90!important;border-color:#000000!important;
+}
+/*对lable标签和input输入标签颜色的设定结束*/
