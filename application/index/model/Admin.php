@@ -1033,10 +1033,6 @@
             }
         }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 33e37034e8774afba65af504c5a322fba6c054ce
         public static function getcsinfomaxid(){
             $dateymd = date('Ymd');
             $sql ="select * from dsp_logistic.cs_info where cs_id like '%{$dateymd}%'";
@@ -1059,10 +1055,6 @@
                 return $dateymd.$strmaxid;
             }
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> 33e37034e8774afba65af504c5a322fba6c054ce
 
         public static function getcuruserquerypower($user)
         {
@@ -1118,7 +1110,7 @@
                 session("user_session", $user);/*创建session,里面只包含用户名，password已经销毁*/
 
 
-                //\app\index\model\Admin::getcuruserquerypower($user);
+                \app\index\model\Admin::getcuruserquerypower($user);
                 return true;
             }else{
                 return false;
