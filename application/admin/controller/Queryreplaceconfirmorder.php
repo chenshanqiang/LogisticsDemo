@@ -82,4 +82,9 @@ class Queryreplaceconfirmorder extends Controller
 
         return $tablelist;
     }
+
+    /*导出更换确认单*/
+    public function exportreplaceconfirmorder(){
+        \app\index\model\Admin::exportreplaceconfirmorder();
+    }
 }

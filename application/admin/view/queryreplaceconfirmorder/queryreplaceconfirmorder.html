@@ -52,16 +52,15 @@
 		  			return false;
 				});
 
-				/*监听导出按钮*/
-				form.on('submit(export)',function(data){
-					var index = top.layer.msg('打开导出参数设置界面');
-					return false;
-				});
-
 				
 				/*监听导出按钮*/
 				form.on('submit(export)',function(data){
-					var index = top.layer.msg('打开导出参数设置界面');
+					// jq.post("{:url('admin/queryreplaceconfirmorder/exportreplaceconfirmorder')}",function(data){
+
+					// });
+
+					/*打印输出信息*/
+					window.open("{:url('admin/queryreplaceconfirmorder/exportreplaceconfirmorder')}","_self");
 					return false;
 				});
 
