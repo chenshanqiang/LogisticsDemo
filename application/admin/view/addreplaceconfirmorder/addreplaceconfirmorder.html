@@ -16,7 +16,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">日期</label>
                     <div class="layui-input-inline">
-                        <input type="text" disabled name="date" id="date1" autocomplete="on" class="layui-input" value="{$date}">
+                        <input type="text" disabled name="date1" id="date1" autocomplete="on" class="layui-input" value="{$date}">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -81,7 +81,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">总部门：</label>
                     <div class="layui-input-inline">
-                        <select id="company_id" name="company_name" lay-filter="company_name">
+                        <select id="company_id" name="company_id" lay-filter="company_id">
                             <option value="" selected>请选择</option>
                             {volist name="companylist" id="vo"}
                             <option value="{$vo.organize_id}">{$vo.organize_name}</option>
@@ -92,14 +92,14 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">子部门：</label>
                     <div class="layui-input-inline">
-                        <select id="department_id" name="dapartment_name" lay-filter="dapartment_name">
+                        <select id="department_id" name="department_id" lay-filter="department_id">
                             <option value="" selected>请选择</option>
                         </select>
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">区域经理</label>
-                    <select id="manager_id" name="manager_name" lay-filter="manager_name">
+                    <select id="manager_id" name="manager_id" lay-filter="manager_id">
                         <option value="" selected>请选择</option>
                     </select>
                     <!--<div class="layui-input-inline">
@@ -183,8 +183,8 @@
             <div class="layui-form-item" pane="">
                 <label class="layui-form-label Wheat">是否买保险</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="purchase" value="1" title="买" checked="">
-                    <input type="radio" name="purchase" value="0" title="不买"> </div>
+                    <input type="radio" name="purchase" value="1" title="买">
+                    <input type="radio" name="purchase" value="0" title="不买" checked=""> </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
@@ -457,9 +457,18 @@
                 var rows = jq('#tableorder')[0].rows.length - 3;
                 console.log(data);
                 var cs_info = new Object();
+                cs_info.payment_info_id = -1;
                 cs_info.cs_id  = data['swiftnumber'];
+                if(data['company_id'] == "" || data['department_id'] == ""){
+                    layer.msg('请选择部门！',{icon:2});
+                    return false;
+                }
+                if(data['manager_id'] == ""){
+                    layer.msg('请选择经理！',{icon:2});
+                    return false;
+                }
                 cs_info.cur_process_user_id = data['company_id'];                      // 当前处理用户id
-                //cs_info.pre_process_user_id =                         //改     上一次处理用户id
+                cs_info.pre_process_user_id = -1;                         //改     上一次处理用户id
                 cs_info.cs_info_type = 1;                               //1：更换 详细看数据库
                 cs_info.can_edit = 1;
                 cs_info.write_date = data['date1'];
@@ -467,8 +476,9 @@
                     layer.msg('请选择是否到账！',{icon:2});
                     return false;
                 }*/
-                //cs_info.cs_info_state = data['status'];
-                //cs_info.complete_date = data['complete_date'];        //新增 无完成日期
+                cs_info.cs_examine_ids = null;
+                cs_info.cs_info_state = -1;
+                cs_info.complete_date = "2000-1-1";        //新增 无完成日期
                 cs_info.product_number = rows;
                 console.log("以下确认单信息：");
                 console.log(cs_info);
@@ -490,6 +500,14 @@
                 delivery_info.receiver_address = data['delivery_receiver_address'];
                 delivery_info.is_insure = data['purchase'];
                 delivery_info.insure_amout = data['coverage'];
+                if(data['purchase'] == 1){
+                    if(data['coverage'] == ""){
+                        layer.msg('请选择填写保额！',{icon:2});
+                        return false;
+                    }
+                }else {
+                    delivery_info.insure_amout = -1;
+                }
                 delivery_info.is_sign = data['signed'];
                 delivery_info.has_contract = data['salescontract'];
                 if(data['freightway'] == ""){
@@ -520,58 +538,66 @@
                 cs_belong.build_user_name = jq("#manager_id").find("option:selected").text();
                 cs_belong.build_organize_name = jq("#department_id").find("option:selected").text();
                 console.log("以下订单所属信息：");
-                console.log(custom_info);
+                console.log(cs_belong);
 
                 var cs_examine = [];
-                cs_examine[0]['submit_user_id'] = data['manager_id'];
+                var directorExamine = {};
+                directorExamine['submit_user_id'] = data['manager_id'];
                 //cs_examine[0]['examine_user_id'] =
                 //cs_examine[0]['cs_examine_name'] =
                 //cs_examine[0]['cs_examine_date'] =
                 //cs_examine[0]['cs_examine_time_stamp'] =
                 //cs_examine[0]['cs_examine_comment'] =
-                cs_examine[0]['cs_examine_content'] = data['examinationapprovalcontentfirst'];
-                cs_examine[0]['cs_examine_result'] = 2;
-                cs_examine[0]['cs_examine_state'] = 0;
-
-                cs_examine[1]['submit_user_id'] = data['manager_id'];
-                cs_examine[1]['cs_examine_content'] = data['examinationapprovalcontentfirst'];
-                cs_examine[1]['cs_examine_result'] = 2;
-                cs_examine[1]['cs_examine_state'] = 0;
-
-                cs_examine[2]['submit_user_id'] = data['manager_id'];
-                cs_examine[2]['cs_examine_content'] = data['examinationapprovalcontentfirst'];
-                cs_examine[2]['cs_examine_result'] = 2;
-                cs_examine[2]['cs_examine_state'] = 0;
-
+                directorExamine['cs_examine_content'] = data['examinationapprovalcontentfirst'];
+                directorExamine['cs_examine_result'] = 2;
+                directorExamine['cs_examine_state'] = 0;
+                cs_examine[0] = directorExamine;
+                 var generalManagerExamine = {};
+                generalManagerExamine['submit_user_id'] = data['manager_id'];
+                generalManagerExamine['cs_examine_content'] = data['examinationapprovalcontentsecond'];
+                generalManagerExamine['cs_examine_result'] = 2;
+                generalManagerExamine['cs_examine_state'] = 0;
+                cs_examine[1] = generalManagerExamine;
+                var financeExamine = {};
+                financeExamine['submit_user_id'] = data['manager_id'];
+                financeExamine['cs_examine_content'] = data['examinationapprovalcontentthird'];
+                financeExamine['cs_examine_result'] = 2;
+                financeExamine['cs_examine_state'] = 0;
+                cs_examine[2] = financeExamine;
+                console.log("以下订单审批信息：");
+                console.log(cs_examine);
                 //处理清单
                 var order_goods_manager= [];
                 var rows = tabledata.length;
                 for(var i = 0; i< rows; i++){
-                    order_goods_manager[i]
-                    order_goods_manager[i]['product_info_id']= tabledata[i][5]['tag'];
-                    order_goods_manager[i]['unit_price'] = tabledata[i][6]['text'];
-                    order_goods_manager[i]['order_goods_manager_count'] = tabledata[i][7]['text'];
-                    order_goods_manager[i]['specification'] = tabledata[i][4]['text'];
-                    //order_goods_manager[i]['explain'] = tabledata[i][10]['text'];
-                    order_goods_manager[i]['type'] = 1;                                             //1：更换 详细看数据库
-                    order_goods_manager[i]['comment'] = tabledata[i][14]['text'];
-                    order_goods_manager[i]['bar_code'] = tabledata[i][8]['text'];
-                    order_goods_manager[i]['back_date'] = tabledata[i][9]['text'];
-                    order_goods_manager[i]['replace_reason'] = tabledata[i][10]['text'];
-                    //order_goods_manager[i]['purchase_date'] = $info['purchase_date'];
-                    //order_goods_manager[i]['deal_date'] = $info['deal_date'];
-                    //order_goods_manager[i]['fault_condition'] = $info['fault_condition'];
+                    var order_goods_manager_item = {};
+                    order_goods_manager_item['product_info_id']= tabledata[i][5]['tag'];
+                    order_goods_manager_item['unit_price'] = tabledata[i][6]['text'];
+                    order_goods_manager_item['order_goods_manager_count'] = tabledata[i][7]['text'];
+                    order_goods_manager_item['specification'] = tabledata[i][4]['text'];
+                    //order_goods_manager_item['explain'] = tabledata[i][10]['text'];
+                    order_goods_manager_item['type'] = 1;                                             //1：更换 详细看数据库
+                    order_goods_manager_item['comment'] = tabledata[i][14]['text'];
+                    order_goods_manager_item['bar_code'] = tabledata[i][8]['text'];
+                    order_goods_manager_item['back_date'] = tabledata[i][9]['text'];
+                    order_goods_manager_item['replace_reason'] = tabledata[i][10]['text'];
+                    //order_goods_manager_item['purchase_date'] = $info['purchase_date'];
+                    //order_goods_manager_item['deal_date'] = $info['deal_date'];
+                    //order_goods_manager_item['fault_condition'] = $info['fault_condition'];
+                    order_goods_manager[i] = order_goods_manager_item;
                 }
-                order_goods_manager[rows]['explain'] = exp;
+                var order_goods_manager_explain = {};
+                order_goods_manager_explain['explain'] = exp;
+                order_goods_manager[rows] = order_goods_manager_explain;
                 console.log("以下清单信息：");
                 console.log(order_goods_manager);
                 jq.ajax({
                     url: "{:url('admin/addreplaceconfirmorder/addconfirmorder')}",//php文件路径
                     data: {cs_info:cs_info,custom_info:custom_info,delivery_info:delivery_info,return_info:return_info,cs_belong:cs_belong,order_goods_manager:order_goods_manager,cs_examine:cs_examine} ,
-                    type: 'GET',
+                    type: 'POST',
                     dataType: 'json',
                     success: function(e) {
-                        console.log('返回');
+                        console.log('以下返回PHP返回数据');
                         console.log(e);
                         if(e){
                             console.log('订单添加成功！');
@@ -585,7 +611,7 @@
                 return false;
             });
             //监听选择公司
-            form.on('select(company_name)',function (data) {
+            form.on('select(company_id)',function (data) {
                 jq.post("{:url('admin/addreplaceconfirmorder/getdepartmentinfo')}",{'param':data.value},function (data) {
                     //console.log(data);
                     for (var item in data){
@@ -595,7 +621,7 @@
                 })
             });
             //监听选择部门
-            form.on('select(dapartment_name)',function (data) {
+            form.on('select(department_id)',function (data) {
 
                  jq.post("{:url('admin/addreplaceconfirmorder/getdspmanagerinfo')}",{'param':data.value},function (data) {
                      for (var item in data){
@@ -605,7 +631,7 @@
                     })
             });
             //监听选中经理自动添加电话
-            form.on('select(manager_name)',function (data) {
+            form.on('select(manager_id)',function (data) {
                 var options= jq("#manager_id option:selected");
                 var  phone = jq(options[0]).attr('phone');
                 console.log();
