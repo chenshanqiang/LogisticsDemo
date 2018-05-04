@@ -25,13 +25,19 @@ class Queryreplaceconfirmorder extends Controller
         $role_id = intval($userinfo["role_id"]);
         $role_info = \app\index\model\Admin::queryroleinfo($role_id);
 
-        $exportgoodspower = ($role_info[0]['order_goods_permission'])&0x10;
+        $exportgoodspower = 0;
         $exportreplacepower = ($role_info[0]['replace_permission'])&0x10;
-        $exportborrowpower = ($role_info[0]['borrow_sample_permission'])&0x10;
-        $exportreturnpower = ($role_info[0]['return_goods_permission'])&0x10;
-        $exportpartspower = ($role_info[0]['maintain_permission'])&0x10;
-        $exportrepairpower = ($role_info[0]['fixing_permission'])&0x10;
-        $exportalternativepower = ($role_info[0]['substitute_permission'])&0x10;
+        $exportborrowpower = 0;
+        $exportreturnpower = 0;
+        $exportpartspower = 0;
+        $exportrepairpower = 0;
+        $exportalternativepower = 0;
+
+        $editreplacepower = ($role_info[0]['replace_permission'])&0x02;
+        $deletereplacepower = ($role_info[0]['replace_permission'])&0x04;
+
+        $this->assign('editreplacepower',$editreplacepower);
+        $this->assign('deletereplacepower',$deletereplacepower);
 
         $this->assign('exportgoodspower',$exportgoodspower);
         $this->assign('exportreplacepower',$exportreplacepower);
@@ -41,6 +47,7 @@ class Queryreplaceconfirmorder extends Controller
         $this->assign('exportrepairpower',$exportrepairpower);
         $this->assign('exportalternativepower',$exportalternativepower);
 
+        $this->assign('exportreplacepower',$exportreplacepower);
         return $this->fetch();
     }
 
