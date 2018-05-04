@@ -19,7 +19,7 @@ class Queryreplaceconfirmorder extends Controller
 
         $uncProduct = \app\index\model\Admin::getclassinfo('dsp_logistic.unc_product','unc_product_id');
         $this->assign('unclist',$uncProduct);
-        
+
         /*获取权限设置*/
         $userinfo = \app\index\model\Admin::getsessioninfo();
         $role_id = intval($userinfo["role_id"]);
