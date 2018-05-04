@@ -43,30 +43,14 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">生产地：</label>
-                <div class="layui-input-inline" style="max-width:120px">
-                    <select id="place_id" name="place_name" lay-filter="place_name">
-                        <option value="" selected>请选择</option>
-                        {volist name="placelist" id="vo"}
-                        <option value={$vo.place_id}>{$vo.place_name}</option>
-                        {/volist}
-                    </select>
-                </div>
-            </div>
+
             <div class="layui-inline">
                 <label class="layui-form-label">数量：</label>
                 <div class="layui-input-inline" style="max-width:120px">
                     <input type="text" id="inputcount" name="inputcount">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">非常规产品：</label>
-                <div class="layui-input-inline" style="max-width:120px">
-                    <input type="radio" name="inputunroutine" title="是" value="是">
-                    <input type="radio" name="inputunroutine" title="否" value="否" checked="">
-                </div>
-            </div>
+
             <div class="layui-inline">
                 <label class="layui-form-label">单位：</label>
                 <div class="layui-input-inline" style="max-width:120px">
@@ -87,13 +71,6 @@
                     <input type="text" name="date" id="back_date" autocomplete="on" class="layui-input">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">状态：</label>
-                <div class="layui-input-inline" style="max-width:120px">
-                    <input type="radio" name="inputstate" title="已更换" value="已更换">
-                    <input type="radio" name="inputstate" title="未更换" value="未更换" checked="">
-                </div>
-            </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
@@ -111,6 +88,38 @@
                 </div>
             </div>
         </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">生产地：</label>
+                <div class="layui-input-inline" style="max-width:120px">
+                    <select id="place_id" name="place_name" lay-filter="place_name">
+                        <option value="" selected>请选择</option>
+                        {volist name="placelist" id="vo"}
+                        <option value={$vo.place_id}>{$vo.place_name}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">非常规产品：</label>
+                <div class="layui-input-inline" style="max-width:120px">
+                    <select id="unc_productid" name="unc_productname" lay-filter="unc_productname">
+                        <option value="" selected>请选择</option>
+                        {volist name="uncproductlist" id="vo1"}
+                        <option value={$vo1.unc_product_id}>{$vo1.unc_product_name}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">状态：</label>
+                <div class="layui-input-inline" style="max-width:120px">
+                    <input type="radio" name="inputstate" title="已更换" value="已更换">
+                    <input type="radio" name="inputstate" title="未更换" value="未更换">
+                </div>
+            </div>
+        </div>
+
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">备注：</label>
@@ -184,13 +193,17 @@
         orderItem.place = jq('#place_id').val();//
         orderItem.count = jq('#inputcount').val();
         orderItem.unit = jq('#inputunit').val();
-        jq("input[name='inputunroutine']").each(function(){
+        orderItem.unc_product_text = jq("#unc_productid").find("option:selected").text();
+        orderItem.unc_product_id = jq("#unc_productid").find("option:selected").val();
+
+        /*jq("input[name='inputunroutine']").each(function(){             //改
             if(jq(this).prop('checked')){
                 orderItem.isunc = jq(this).attr('value');
             }
-        });
+        });*/
         orderItem.specification = jq('#specification').val();
         orderItem.back_date = jq('#back_date').val();
+        orderItem.product_state = null;
         jq("input[name='inputstate']").each(function(){
             if(jq(this).prop('checked')){
                 orderItem.product_state = jq(this).attr('value');
@@ -218,9 +231,6 @@
                 }
             },
         });
-        /*jq.post("{:url('admin/addconfirmorderitem/serachmodelinfo')}",{serrchText:jq("#serachModelinfo").val(),type:jq("#product_type_id").val(),brand:jq('#brand_id').val()},function (data) {
-
-        })*/
         return orderItem;
     }
 </script>

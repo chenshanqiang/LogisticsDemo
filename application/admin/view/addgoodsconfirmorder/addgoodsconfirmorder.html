@@ -14,7 +14,8 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">日期</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="date" id="date1" autocomplete="on" class="layui-input"> </div>
+                        <input type="text" disabled name="date1" id="date1" autocomplete="on" class="layui-input" value="{$date}">
+                    </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">下单时间</label>
@@ -27,7 +28,7 @@
                         <input type="text" name="swiftnumber" id="swiftnumber" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label lightblue">状态</label>
+                    <label class="layui-form-label dark_blue">状态</label>
                     <div class="layui-input-inline">
                         <select name="status">
                             <option value="" disabled="" selected="">选择</option>
@@ -138,7 +139,7 @@
                	</div>
             </div>
            	<div class="layui-form-item">
-           	 	
+
            	</div>
             <h3>已发货产品</h3>
             <div class="layui-form-item">
@@ -247,7 +248,7 @@
                                 <option value="外购">澳斯迪</option>
                                 <option value="智慧科技">智慧科技</option>
                                 <option value="信息科技">信息科技</option>
-                                
+
                             </select>
                         </td>
                         <td></td>
@@ -263,7 +264,7 @@
                                 <option value="备货">备货</option>
                                 <option value="缺货">缺货</option>
                                 <option value="信息科技">信息科技</option>
-                                
+
                             </select>
                         </td>
                         <td></td>
@@ -352,8 +353,8 @@
                     ,position: 'fixed'
                     ,theme: 'molv'
                 });
-                
-                
+
+
                 //监听提交
                 form.on('submit(save)', function (data) {
                     layer.alert(JSON.stringify(data.field), {

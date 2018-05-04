@@ -1114,6 +1114,7 @@
             }
         }
 
+
         /*导出更换确认单*/
         public static function exportreplaceconfirmorder(){
             $root_url = $_SERVER['DOCUMENT_ROOT'];
@@ -1130,6 +1131,12 @@
             header('Content-Disposition: attachment;filename="01simple.xlsx"');
             header('Cache-Control: max-age=0');
             $objWriter->save("php://output");
+        }
+
+        /*获取非常规产品 unc_product*/
+        public static function getuncproduct(){
+            $sql = "SELECT * FROM dsp_logistic.unc_product";
+            return Db::query($sql);
         }
     }
 ?>
