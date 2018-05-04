@@ -108,7 +108,11 @@
                 for(var  item in data){
                     //console.log(data[item]['organize_name']);
                     if(data[item]['organize_id'] == selectValue)
+                    {
+
                         jq("#department_id").append("<option value='"+data[item]['organize_id']+"' selected>"+data[item]['organize_name']+"</option>");
+                    }
+
                     else
                         jq("#department_id").append("<option value='"+data[item]['organize_id']+"'>"+data[item]['organize_name']+"</option>");
                 }
@@ -135,16 +139,15 @@
             //var form = layui.form;
             document.getElementById('job_id').value = user['job_id'];
             document.getElementById('role_id').value = user['role_id'];
-            document.getElementById('company_id').value = user['companyname'];
-
+            document.getElementById('company_id').value = user['companyid'];
             //LoadingDepartment(user['companyid']);
-           //LoadingDepartmentAndSelected(user['companyid'],user['organize_id'])
+           LoadingDepartmentAndSelected(user['companyid'],user['organize_id'])
             //document.getElementById('department_id').value = user['organize_id'];
 
             jq('#fullname').attr('value',user['fullname']);
             jq('#password').attr('value',user['password']);
             jq('#phone').attr('value',user['phone']);
-            console.log(user);
+            //console.log(user);
         }
     </script>
 </body>
