@@ -6,16 +6,7 @@ class Approvereplaceconfirmorder extends Controller
 {
 	/*新增订单渲染方法*/
     public function approvereplaceconfirmorder(){
-        $organizeid = session("user_session");
-        $tablelist = \app\index\model\Admin::querydepartmentinfo($organizeid["organize_id"]);
-        if(!empty($tablelist))
-            $this->assign("departmentlist",$tablelist);
-        else
-        {
-            $tablelist = \app\index\model\Admin::querydepartmentinfo($organizeid["organize_id"],$organizeid["organize_id"]);
-            if(!empty($tablelist))
-                $this->assign("departmentlist",$tablelist);
-        }
+
         return $this->fetch();
     }
 

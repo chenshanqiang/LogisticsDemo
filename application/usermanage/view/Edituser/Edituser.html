@@ -89,7 +89,7 @@
                 if(data.value == "")
                     return false;
                 //LoadingDepartment(data.value);
-                jq.post("{:url('usermanage/adduser/getdepartmentinfo')}",{'param':data.value},function(data){
+                jq.post("{:url('usermanage/Edituser/getdepartmentinfo')}",{'param':data.value},function(data){
                     for(var  item in data){
                         //console.log(data[item]['organize_name']);
                         jq("#department_id").append("<option value='"+data[item]['organize_id']+"'>"+data[item]['organize_name']+"</option>");
@@ -104,7 +104,7 @@
         function LoadingDepartmentAndSelected(value,selectValue) {
             var jq = layui.jquery;
             var form1 = layui.form;
-            jq.post("{:url('usermanage/adduser/getdepartmentinfo')}",{'param':value},function(data){
+            jq.post("{:url('usermanage/Edituser/getdepartmentinfo')}",{'param':value},function(data){
                 for(var  item in data){
                     //console.log(data[item]['organize_name']);
                     if(data[item]['organize_id'] == selectValue)
@@ -135,28 +135,15 @@
             //var form = layui.form;
             document.getElementById('job_id').value = user['job_id'];
             document.getElementById('role_id').value = user['role_id'];
-            document.getElementById('company_id').value = user['companyid'];
-
+            document.getElementById('company_id').value = user['companyname'];
 
             //LoadingDepartment(user['companyid']);
-            LoadingDepartmentAndSelected(user['companyid'],user['organize_id'])
+           //LoadingDepartmentAndSelected(user['companyid'],user['organize_id'])
             //document.getElementById('department_id').value = user['organize_id'];
 
             jq('#fullname').attr('value',user['fullname']);
             jq('#password').attr('value',user['password']);
             jq('#phone').attr('value',user['phone']);
-            //jq('#company_id').attr('value',user['company_id']);
-            //jq('#company_id').value= user['company_id'];
-            //jq("#fullname").attr('name',user["fullname"]);
-            // user.password= jq("#password").val();
-            // user.company_id= jq("#company_id").val();
-            // user.department_id= jq("#department_id").val();
-            // user.job_id= jq("#job_id").val();
-            // user.role_id= jq("#role_id").val();
-            // user.phone= jq("#phone").val();
-            // return user;
-            //form.render('text');
-            //layui.form.render('select');
             console.log(user);
         }
     </script>
