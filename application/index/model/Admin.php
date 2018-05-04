@@ -921,7 +921,7 @@
             return $sqlret;
         }
         /*新增 cs_belong*/
-        public static function addbcsbelong($info){
+        public static function addcsbelong($info){
             $cs_id = $info['cs_id'];
             $build_organize_id = $info['build_organize_id'];
             $build_user_id = $info['build_user_id'];
@@ -941,7 +941,7 @@
             $unit_price = $info['unit_price'];
             $order_goods_manager_count = $info['order_goods_manager_count'];
             $specification = $info['specification'];
-            $explain = $info['explain'];
+            $order_goods_manager_explain = $info['explain'];
             $type = $info['type'];
             $comment = $info['comment'];
             $bar_code = $info['bar_code'];
@@ -950,9 +950,9 @@
             $purchase_date = $info['purchase_date'];
             $deal_date = $info['deal_date'];
             $fault_condition = $info['fault_condition'];
-            $sql_value ="'{$cs_id}','{$product_info_id}','{$unit_price}','{$order_goods_manager_count}','{$specification}','{$explain}','{$type}'";
-            $sql_value .= ",'{$comment}','{$bar_code}','{$back_date}','{$replace_reason}','{$purchase_date}','{$deal_date}',{$fault_condition}";
-            $sql = "INSERT INTO dsp_logistic.cs_belong (cs_id,product_info_id,unit_price,order_goods_manager_count,specification,explain,type";
+            $sql_value ="'{$cs_id}','{$product_info_id}','{$unit_price}','{$order_goods_manager_count}','{$specification}','{$order_goods_manager_explain}','{$type}'";
+            $sql_value .= ",'{$comment}','{$bar_code}','{$back_date}','{$replace_reason}','{$purchase_date}','{$deal_date}','{$fault_condition}'";
+            $sql = "INSERT INTO dsp_logistic.order_goods_manager (cs_id,product_info_id,unit_price,order_goods_manager_count,specification,order_goods_manager_explain,type";
             $sql .= ",comment,bar_code,back_date,replace_reason,purchase_date,deal_date,fault_condition) VALUES ({$sql_value})";
             $sqlret = Db::execute($sql);
             return $sqlret;
@@ -967,7 +967,7 @@
             $ogl_time_stamp = $info['ogl_time_stamp'];
             $ogl_explain = $info['ogl_explain'];
             $sql_value ="'{$order_goods_manager_id}','{$ogl_product_state}','{$ogl_unc_product_id}','{$ogl_comment}','{$user_id}','{$ogl_time_stamp}','{$ogl_explain}'";
-            $sql = "INSERT INTO dsp_logistic.cs_belong (order_goods_manager_id,ogl_product_state,ogl_unc_product_id,ogl_comment,user_id,ogl_time_stamp,ogl_explain) VALUES ({$sql_value})";
+            $sql = "INSERT INTO dsp_logistic.order_goods_logistics (order_goods_manager_id,ogl_product_state,ogl_unc_product_id,ogl_comment,user_id,ogl_time_stamp,ogl_explain) VALUES ({$sql_value})";
             $sqlret = Db::execute($sql);
             return $sqlret;
         }
@@ -984,7 +984,7 @@
             $cs_examine_name = $info['cs_examine_name'];
             $cs_examine_state = $info['cs_examine_state'];
             $sql_value ="'{$cs_id}','{$submit_user_id}','{$examine_user_id}','{$cs_examine_date}','{$cs_examine_content}','{$cs_examine_result}','{$cs_examine_time_stamp}','{$cs_examine_comment}','{$cs_examine_name}','{$cs_examine_state}'";
-            $sql = "INSERT INTO dsp_logistic.cs_belong (cs_id,submit_user_id,examine_user_id,cs_examine_date,cs_examine_content,cs_examine_result,cs_examine_time_stamp,cs_examine_comment,cs_examine_name,cs_examine_state) VALUES ({$sql_value})";
+            $sql = "INSERT INTO dsp_logistic.cs_examine (cs_id,submit_user_id,examine_user_id,cs_examine_date,cs_examine_content,cs_examine_result,cs_examine_time_stamp,cs_examine_comment,cs_examine_name,cs_examine_state) VALUES ({$sql_value})";
             $sqlret = Db::execute($sql);
             return $sqlret;
         }
@@ -1005,32 +1005,58 @@
             $retrole = Db::query($sqlrole);
             $retuserinfo = self::getloginuserinfo($userid);
             if (empty($retuserinfo)){
-                return;
+                return ;
             }
-
             if (empty($retrole)){
-                return;
+                return ;
             }
             $org_id = $retuserinfo[0]['organize_id'];
             $role_id = $retrole[0]['role_id'];
             if ($role_name == '总经理'){
-                 $sqlorg =  "SELECT * FROM dsp_logistic.user WHERE organize_id = '{$org_id}' LIMIT 1";
+                 $sqlorg =  "SELECT * FROM dsp_logistic.organize WHERE organize_id = '{$org_id}' LIMIT 1";
                  $retorg = Db::query($sqlorg);
                  if(empty($retorg)){
-                     return;
+                     //return '改经理公司不存在';
+                     return null;
                  }
-                $org_pid = $retorg['parent_id'];
+                $org_pid = $retorg[0]['parent_id'];
                 $sqlleader = "SELECT * FROM dsp_logistic.user WHERE role_id = '{$role_id}' AND organize_id = '{$org_pid}' LIMIT 1";
                 return Db::query($sqlleader);
             }else if($role_name != '财务部'){
                 $sqlleader = "SELECT * FROM dsp_logistic.user WHERE role_id = '{$role_id}' AND organize_id = '{$org_id}' LIMIT 1";
+                //return $sqlleader;
                 return Db::query($sqlleader);
             }else {
                 $sqlleader = "SELECT * FROM dsp_logistic.user WHERE role_id = '{$role_id}' LIMIT 1";
+                //return $sqlleader;
                 return Db::query($sqlleader);
             }
         }
 
+<<<<<<< HEAD
+        public static function getcsinfomaxid(){
+            $dateymd = date('Ymd');
+            $sql ="select * from dsp_logistic.cs_info where cs_id like '%{$dateymd}%'";
+            $retdb = Db::query($sql);
+            if(empty($retdb)){
+                return $dateymd.'0001';
+            }else{
+                $num = count($retdb);
+                $maxid = 0001;
+                for($i = 0; $i < $num; $i++){
+                    $cs_id = $retdb[$i]['cs_id'];
+                    $cur_id = str_replace($dateymd,'',$cs_id);
+                    if ($cur_id > $maxid){
+                        $maxid = $cur_id;
+                    }
+                }
+
+                $maxid = $maxid + 0001;
+                $strmaxid = $newStr= sprintf('%04s', $maxid);;
+                return $dateymd.$strmaxid;
+            }
+        }
+=======
 
         public static function getcuruserquerypower($user)
         {
@@ -1093,5 +1119,6 @@
             }
         }
 
+>>>>>>> af080395b629cae694fe8a360293c88aae229d78
     }
 ?>

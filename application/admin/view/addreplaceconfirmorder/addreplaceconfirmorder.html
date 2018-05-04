@@ -24,12 +24,7 @@
                     <div class="layui-input-inline">
                         <input type="text" name="orderdate" id="date2" autocomplete="on" class="layui-input"> </div>
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">流水号</label>
-                    <div class="layui-input-inline">
-                        <input type="text" disabled name="swiftnumber" id="swiftnumber" lay-verify="" autocomplete="on" placeholder="" class="layui-input" value="{$orderid}">
-                    </div>
-                </div>
+
                 <div class="layui-inline">
                     <label class="layui-form-label lightblue">状态</label>
                     <div class="layui-input-inline">
@@ -454,11 +449,10 @@
                 var  tabledata = getTableContent();
                 var exp = getTableExplain();
                 var data = uidata.field;
-                var rows = jq('#tableorder')[0].rows.length - 3;
-                console.log(data);
+                var rows = tabledata.length;
                 var cs_info = new Object();
                 cs_info.payment_info_id = -1;
-                cs_info.cs_id  = data['swiftnumber'];
+                //cs_info.cs_id  = data['swiftnumber'];
                 if(data['company_id'] == "" || data['department_id'] == ""){
                     layer.msg('请选择部门！',{icon:2});
                     return false;
@@ -516,7 +510,7 @@
                 }
                 delivery_info.transfer_fee_mode = data['freightway'];//freightway 运费方式
                 console.log("以下发货信息：");
-                console.log(custom_info);
+                console.log(delivery_info);
 
                 var return_info = new Object();
                 return_info.return_info_receiver_name = data['return_receiver_name'];
@@ -526,7 +520,7 @@
                 return_info.return_order_num = data['return_order_num'];
                 return_info.return_info_receiver_address = data['return_receiver_address'];
                 console.log("以下返货信息：");
-                console.log(custom_info);
+                console.log(return_info);
 
                 var cs_belong = new Object();
                 //cs_belong.cs_id = data['cs_id'];
@@ -543,23 +537,27 @@
                 var cs_examine = [];
                 var directorExamine = {};
                 directorExamine['submit_user_id'] = data['manager_id'];
-                //cs_examine[0]['examine_user_id'] =
-                //cs_examine[0]['cs_examine_name'] =
-                //cs_examine[0]['cs_examine_date'] =
-                //cs_examine[0]['cs_examine_time_stamp'] =
-                //cs_examine[0]['cs_examine_comment'] =
+                directorExamine['cs_examine_date'] = '2000-1-1';
+                directorExamine['cs_examine_time_stamp'] = '2000-1-1 00:00:00'
+                directorExamine['cs_examine_comment'] = null;
                 directorExamine['cs_examine_content'] = data['examinationapprovalcontentfirst'];
                 directorExamine['cs_examine_result'] = 2;
                 directorExamine['cs_examine_state'] = 0;
                 cs_examine[0] = directorExamine;
                  var generalManagerExamine = {};
                 generalManagerExamine['submit_user_id'] = data['manager_id'];
+                generalManagerExamine['cs_examine_date'] = '2000-1-1';
+                generalManagerExamine['cs_examine_time_stamp'] = '2000-1-1 00:00:00'
+                generalManagerExamine['cs_examine_comment'] = null;
                 generalManagerExamine['cs_examine_content'] = data['examinationapprovalcontentsecond'];
                 generalManagerExamine['cs_examine_result'] = 2;
                 generalManagerExamine['cs_examine_state'] = 0;
                 cs_examine[1] = generalManagerExamine;
                 var financeExamine = {};
                 financeExamine['submit_user_id'] = data['manager_id'];
+                financeExamine['cs_examine_date'] = '2000-1-1';
+                financeExamine['cs_examine_time_stamp'] = '2000-1-1 00:00:00'
+                financeExamine['cs_examine_comment'] = null;
                 financeExamine['cs_examine_content'] = data['examinationapprovalcontentthird'];
                 financeExamine['cs_examine_result'] = 2;
                 financeExamine['cs_examine_state'] = 0;
@@ -568,27 +566,38 @@
                 console.log(cs_examine);
                 //处理清单
                 var order_goods_manager= [];
-                var rows = tabledata.length;
-                for(var i = 0; i< rows; i++){
+                for(var i = 0; i <= rows; i++){
                     var order_goods_manager_item = {};
-                    order_goods_manager_item['product_info_id']= tabledata[i][5]['tag'];
-                    order_goods_manager_item['unit_price'] = tabledata[i][6]['text'];
-                    order_goods_manager_item['order_goods_manager_count'] = tabledata[i][7]['text'];
-                    order_goods_manager_item['specification'] = tabledata[i][4]['text'];
-                    //order_goods_manager_item['explain'] = tabledata[i][10]['text'];
-                    order_goods_manager_item['type'] = 1;                                             //1：更换 详细看数据库
-                    order_goods_manager_item['comment'] = tabledata[i][14]['text'];
-                    order_goods_manager_item['bar_code'] = tabledata[i][8]['text'];
-                    order_goods_manager_item['back_date'] = tabledata[i][9]['text'];
-                    order_goods_manager_item['replace_reason'] = tabledata[i][10]['text'];
-                    //order_goods_manager_item['purchase_date'] = $info['purchase_date'];
-                    //order_goods_manager_item['deal_date'] = $info['deal_date'];
-                    //order_goods_manager_item['fault_condition'] = $info['fault_condition'];
+                    if (i == rows){
+                        order_goods_manager_item['explain'] = exp;
+
+                        order_goods_manager_item['product_info_id']= -1;
+                        order_goods_manager_item['unit_price'] = -1;
+                        order_goods_manager_item['order_goods_manager_count'] = -1;
+                        order_goods_manager_item['specification'] = null;
+                        order_goods_manager_item['type'] = 1;                                             //1：更换 详细看数据库
+                        order_goods_manager_item['comment'] = null;
+                        order_goods_manager_item['bar_code'] = null;
+                        order_goods_manager_item['back_date'] = '2000-1-1';
+                        order_goods_manager_item['replace_reason'] = null;
+
+                    }else {
+                        order_goods_manager_item['product_info_id']= tabledata[i][5]['tag'];
+                        order_goods_manager_item['unit_price'] = tabledata[i][6]['text'];
+                        order_goods_manager_item['order_goods_manager_count'] = tabledata[i][7]['text'];
+                        order_goods_manager_item['specification'] = tabledata[i][4]['text'];
+                        order_goods_manager_item['type'] = 1;                                             //1：更换 详细看数据库
+                        order_goods_manager_item['comment'] = tabledata[i][14]['text'];
+                        order_goods_manager_item['bar_code'] = tabledata[i][8]['text'];
+                        order_goods_manager_item['back_date'] = tabledata[i][9]['text'];
+                        order_goods_manager_item['replace_reason'] = tabledata[i][10]['text'];
+                        order_goods_manager_item['explain'] = null;
+                    }
+                    order_goods_manager_item['purchase_date'] = '2000-1-1';
+                    order_goods_manager_item['deal_date'] = '2000-1-1';
+                    order_goods_manager_item['fault_condition'] = null;
                     order_goods_manager[i] = order_goods_manager_item;
                 }
-                var order_goods_manager_explain = {};
-                order_goods_manager_explain['explain'] = exp;
-                order_goods_manager[rows] = order_goods_manager_explain;
                 console.log("以下清单信息：");
                 console.log(order_goods_manager);
                 jq.ajax({
@@ -721,19 +730,22 @@
                 var jq = layui.jquery;
                 var mytable = document.getElementById('tableorder');
                 var data = [];
+                var index = 0;
                 for(var i = 1,rows = mytable.rows.length - 2; i < rows; i++){
+                    var rowdata = {};
                     for(var j = 0,cells=mytable.rows[i].cells.length; j<cells; j++){
-                        if(!data[i]){
-                            data[i] = new Array();
-                        }
+                        /*if(data[index] == null){
+                            data[index] = new Array();
+                        }*/
                         var tag = jq(mytable.rows[i].cells[j].innerHTML).attr('tag');
                         var text = jq(mytable.rows[i].cells[j].innerHTML).text();
                         var mymap = {};
                         mymap['tag'] = tag;
                         mymap['text'] = text;
-                        data[i][j] = mymap;
-                        //data[i][j] = mytable.rows[i].cells[j].innerHTML;
+                        rowdata[j] = mymap;
                     }
+                    data[index] = rowdata;
+                    index++;
                 }
                 return data;
             }
