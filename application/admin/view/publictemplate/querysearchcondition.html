@@ -78,7 +78,7 @@
 							<input type="text" name="couriernumber" lay-filter="couriernumber" placeholder="请输入运单号" autocomplete="off" class="layui-input">
 						</div>
 					</div>
-<!-- 					{if condition="($exportgoodspower eq 16) OR ($exportreplacepower eq 16) OR ($exportborrowpower eq 16) OR ($exportreturnpower eq 16) OR ($exportpartspower eq 16) OR ($exportrepairpower eq 16) OR ($exportalternativepower eq 16)"} -->
+					{if condition="($exportgoodspower eq 16) OR ($exportreplacepower eq 16) OR ($exportborrowpower eq 16) OR ($exportreturnpower eq 16) OR ($exportpartspower eq 16) OR ($exportrepairpower eq 16) OR ($exportalternativepower eq 16)"}
 						<div class="layui-inline">
 							<label class="layui-form-label">运费方式：</label>
 							<div class="layui-input-inline">
@@ -91,11 +91,11 @@
 								</select>
 							</div>
 						</div>
-<!-- 						{/if} -->
+					{/if}
 
 				</div>
 				
-<!-- 				{if condition="($exportgoodspower eq 16) OR ($exportreplacepower eq 16) OR ($exportborrowpower eq 16) OR ($exportreturnpower eq 16) OR ($exportpartspower eq 16) OR ($exportrepairpower eq 16) OR ($exportalternativepower eq 16)"} -->
+ 				{if condition="($exportgoodspower eq 16) OR ($exportreplacepower eq 16) OR ($exportborrowpower eq 16) OR ($exportreturnpower eq 16) OR ($exportpartspower eq 16) OR ($exportrepairpower eq 16) OR ($exportalternativepower eq 16)"}
 				<div class="layui-form-item">
 					<div class="layui-inline">
 						<label class="layui-form-label">产品分类：</label>
@@ -152,12 +152,12 @@
 						</div>
 					</div>
 				</div>
-<!-- 				{/if} -->
+ 				{/if}
 
 				<div class="layui-form-item">
-<!-- 				{if condition="($exportgoodspower eq 16) OR ($exportreplacepower eq 16) OR ($exportborrowpower eq 16) OR ($exportreturnpower eq 16) OR ($exportpartspower eq 16) OR ($exportrepairpower eq 16) OR ($exportalternativepower eq 16)"} -->
+ 				{if condition="($exportgoodspower eq 16) OR ($exportreplacepower eq 16) OR ($exportborrowpower eq 16) OR ($exportreturnpower eq 16) OR ($exportpartspower eq 16) OR ($exportrepairpower eq 16) OR ($exportalternativepower eq 16)"}
 					<button class="layui-btn" lay-submit="" lay-filter="export" style="float: right;margin-right: 10px;">导出</button>
-<!-- 				{/if} -->
+ 				{/if}
 					<button class="layui-btn" lay-submit="" lay-filter="query" style="float: right;margin-right: 10px;">查询</button>
 				</div>
 			</form>
