@@ -1033,7 +1033,7 @@
             }
         }
 
-<<<<<<< HEAD
+
         public static function getcsinfomaxid(){
             $dateymd = date('Ymd');
             $sql ="select * from dsp_logistic.cs_info where cs_id like '%{$dateymd}%'";
@@ -1056,7 +1056,7 @@
                 return $dateymd.$strmaxid;
             }
         }
-=======
+
 
         public static function getcuruserquerypower($user)
         {
@@ -1118,7 +1118,5 @@
                 return false;
             }
         }
-
->>>>>>> af080395b629cae694fe8a360293c88aae229d78
     }
 ?>
