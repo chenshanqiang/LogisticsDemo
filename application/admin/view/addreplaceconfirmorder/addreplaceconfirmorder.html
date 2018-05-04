@@ -3,21 +3,18 @@
     <head>
         <meta charset="UTF-8">
         <title></title>
-        <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css"> 
-    	<link rel="stylesheet" type="text/css" href="/static/css/public.css">
-    </head>
-   
+        <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/public.css"> </head>
     <body>
         <form class="layui-form layui-form-pane" action="">
-        	<div class="toph2">
-            	<h2>更换确认单</h2>
-           	</div>
+            <div class="toph2">
+                <h2>更换确认单</h2>
+            </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">日期</label>
+                    <label class="layui-form-label light_gray">日期</label>
                     <div class="layui-input-inline">
-                        <input type="text" disabled name="date" id="date1" autocomplete="on" class="layui-input" value="{$date}">
-                    </div>
+                        <input type="text" disabled name="date" id="date1" autocomplete="on" class="layui-input light_gray" value="{$date}"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">接收时间</label>
@@ -25,13 +22,12 @@
                         <input type="text" name="orderdate" id="date2" autocomplete="on" class="layui-input"> </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">流水号</label>
+                    <label class="layui-form-label light_gray">流水号</label>
                     <div class="layui-input-inline">
-                        <input type="text" disabled name="swiftnumber" id="swiftnumber" lay-verify="" autocomplete="on" placeholder="" class="layui-input" value="{$orderid}">
-                    </div>
+                        <input type="text" disabled name="swiftnumber" id="swiftnumber" lay-verify="" autocomplete="on" placeholder="" class="layui-input light_gray" value="{$orderid}"> </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label lightblue">状态</label>
+                    <label class="layui-form-label dark_blue">状态</label>
                     <div class="layui-input-inline">
                         <select name="status">
                             <option value="" disabled="" selected="">选择</option>
@@ -44,53 +40,45 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">部门编号</label>
+                    <label class="layui-form-label light_gray">部门编号</label>
                     <div class="layui-input-inline">
-                        <input type="text" disabled name="departmentnumber" id="departmentnumber" autocomplete="on" class="layui-input" value="{$depid}"> </div>
+                        <input type="text" disabled name="departmentnumber" id="departmentnumber" autocomplete="on" class="layui-input light_gray" value="{$depid}"> </div>
                 </div>
             </div>
             <h3>物流信息</h3>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">发货日期</label>
+                    <label class="layui-form-label Wheat">发货日期</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="deliverydate" id="date3" autocomplete="on" class="layui-input"> </div>
+                        <input type="text" name="deliverydate" id="date3" autocomplete="on" class="layui-input Wheat"> </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">货场</label>
+                    <label class="layui-form-label Wheat">货场</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="goodsyard" id="goodsyard" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="goodsyard" id="goodsyard" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">物流单号</label>
+                    <label class="layui-form-label Wheat">物流单号</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="trackingnumber" id="trackingnumber" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="trackingnumber" id="trackingnumber" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">件数</label>
+                    <label class="layui-form-label Wheat">件数</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="packagesnumber" id="packagesnumber" id lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="packagesnumber" id="packagesnumber" id lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <!--<div class="layui-inline">
-                    <label class="layui-form-label Wheat">部门</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="department" id="department" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
-                </div>-->
                 <div class="layui-inline">
-                    <label class="layui-form-label">总部门：</label>
+                    <label class="layui-form-label Wheat">总部门：</label>
                     <div class="layui-input-inline">
                         <select id="company_id" name="company_name" lay-filter="company_name">
-                            <option value="" selected>请选择</option>
-                            {volist name="companylist" id="vo"}
-                            <option value="{$vo.organize_id}">{$vo.organize_name}</option>
-                            {/volist}
-                        </select>
+                            <option value="" selected>请选择</option> {volist name="companylist" id="vo"}
+                            <option value="{$vo.organize_id}">{$vo.organize_name}</option> {/volist} </select>
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">子部门：</label>
+                    <label class="layui-form-label Wheat">子部门：</label>
                     <div class="layui-input-inline">
                         <select id="department_id" name="dapartment_name" lay-filter="dapartment_name">
                             <option value="" selected>请选择</option>
@@ -99,17 +87,16 @@
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">区域经理</label>
-                    <select id="manager_id" name="manager_name" lay-filter="manager_name">
-                        <option value="" selected>请选择</option>
-                    </select>
-                    <!--<div class="layui-input-inline">
-                        <input type="text" name="areamanager" id="areamanager" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
-                    -->
+                    <div class="layui-input-inline">
+                        <select id="manager_id" name="manager_name" lay-filter="manager_name">
+                            <option value="" selected>请选择</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat label_change">区域经理电话</label>
                     <div class="layui-input-inline">
-                        <input type="text" disabled name="areamanagertel" id="areamanagertel" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" disabled name="areamanagertel" id="areamanagertel" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
             </div>
             <h3>客户信息</h3>
@@ -117,39 +104,39 @@
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">公司名称</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="companyname" id="companyname" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="companyname" id="companyname" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat label_change">公司电话/传真</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="companytel" id="companytel" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="companytel" id="companytel" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label Wheat">公司地址</label>
                 <div class="layui-input-block">
-                    <input type="text" name="companyaddress" id="companyaddress" autocomplete="on" placeholder="" class="layui-input"> </div>
+                    <input type="text" name="companyaddress" id="companyaddress" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">法人代表</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="legalrepresentative" id="legalrepresentative" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="legalrepresentative" id="legalrepresentative" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">法人电话</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="legalpersontel" id="legalpersontel" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="legalpersontel" id="legalpersontel" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">公司联系人</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="companycontact" id="companycontact" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="companycontact" id="companycontact" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">联系人电话</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="contacttel" id="contacttel" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="contacttel" id="contacttel" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
             </div>
             <h3>发货信息</h3>
@@ -157,30 +144,30 @@
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">收货人姓名</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="deliveryreceiver_name" id="deliveryreceiver_name" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="deliveryreceiver_name" id="deliveryreceiver_name" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">收货人电话</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="deliveryreceiver_phone" id="deliveryreceiver_phone" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="deliveryreceiver_phone" id="deliveryreceiver_phone" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">货场名称</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="delivery_goods_yard_name" id="delivery_goods_yard_name" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="delivery_goods_yard_name" id="delivery_goods_yard_name" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">货场电话</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="delivery_goods_yard_phone" id="delivery_goods_yard_phone" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="delivery_goods_yard_phone" id="delivery_goods_yard_phone" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label Wheat">收货地址</label>
                 <div class="layui-input-block">
-                    <input type="text" name="delivery_receiver_address" id="delivery_receiver_address" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                    <input type="text" name="delivery_receiver_address" id="delivery_receiver_address" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
             </div>
-            <div class="layui-form-item" pane="">
+            <div class="layui-form-item Wheat" pane="">
                 <label class="layui-form-label Wheat">是否买保险</label>
                 <div class="layui-input-block">
                     <input type="radio" name="purchase" value="1" title="买" checked="">
@@ -190,16 +177,16 @@
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">保额</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="coverage" id="coverage" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="coverage" id="coverage" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
             </div>
-            <div class="layui-form-item" pane="">
+            <div class="layui-form-item Wheat" pane="">
                 <label class="layui-form-label Wheat">客户性质</label>
                 <div class="layui-input-block">
                     <input type="radio" name="signed" value="1" title="签约" checked="">
                     <input type="radio" name="signed" value="0" title="非签约"> </div>
             </div>
-            <div class="layui-form-item" pane="">
+            <div class="layui-form-item Wheat" pane="">
                 <label class="layui-form-label Wheat">销售合同</label>
                 <div class="layui-input-block">
                     <input type="radio" name="salescontract" value="1" title="有" checked="">
@@ -222,150 +209,149 @@
             <div class="layui-form-item">
                 <label class="layui-form-label Wheat label_change">订单发货要求</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="ordershipmentsrequest" id="ordershipmentsrequest" lay-verify="" autocomplete="on" placeholder="" class="layui-input input_change"> </div>
+                    <input type="text" name="ordershipmentsrequest" id="ordershipmentsrequest" lay-verify="" autocomplete="on" placeholder="" class="layui-input input_change Wheat"> </div>
             </div>
             <h3>返货信息</h3>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">收货人姓名</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="return_receiver_name" id="return_receiver_name" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="return_receiver_name" id="return_receiver_name" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">收货人电话</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="return_receiver_phone" id="return_receiver_phone" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="return_receiver_phone" id="return_receiver_phone" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">货场名称</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="return_goods_yard_name" id="return_goods_yard_name" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="return_goods_yard_name" id="return_goods_yard_name" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">货场电话</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="return_goods_yard_phone" id="return_goods_yard_phone" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="return_goods_yard_phone" id="return_goods_yard_phone" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label Wheat">返货单号</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="return_order_num" id="return_order_num" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="return_order_num" id="return_order_num" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label Wheat">收货地址</label>
                 <div class="layui-input-block">
-                    <input type="text" name="return_receiver_address" id="return_receiver_address" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                    <input type="text" name="return_receiver_address" id="return_receiver_address" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
             </div>
             <h3>部门总监审批</h3>
             <div class="layui-form-item">
                 <label class="layui-form-label Wheat">审批内容</label>
                 <div class="layui-input-block">
-                    <input type="text" name="examinationapprovalcontentfirst" id="examinationapprovalcontentfirst" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                    <input type="text" name="examinationapprovalcontentfirst" id="examinationapprovalcontentfirst" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
             </div>
-            <div class="layui-form-item" pane="">
-                <label class="layui-form-label lightgreen">审批意见</label>
+            <div class="layui-form-item light_green" pane="">
+                <label class="layui-form-label light_green">审批意见</label>
                 <div class="layui-input-block">
                     <input type="radio" name="departmentdirectoradvice" value="同意" title="同意" checked="">
                     <input type="radio" name="departmentdirectoradvice" value="不同意" title="不同意"> </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label lightgreen">审批日期</label>
+                    <label class="layui-form-label light_green">审批日期</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="examinationapprovaldatefirst" id="date4" autocomplete="on" class="layui-input"> </div>
+                        <input type="text" name="examinationapprovaldatefirst" id="date4" autocomplete="on" class="layui-input light_green"> </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label lightgreen">备注</label>
+                    <label class="layui-form-label light_green">备注</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="remarkfirst" id="remarkfirst" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="remarkfirst" id="remarkfirst" lay-verify="" autocomplete="on" placeholder="" class="layui-input light_green"> </div>
                 </div>
             </div>
             <h3>执行总经理审批</h3>
             <div class="layui-form-item">
                 <label class="layui-form-label Wheat">审批内容</label>
                 <div class="layui-input-block">
-                    <input type="text" name="examinationapprovalcontentsecond" id="examinationapprovalcontentsecond" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                    <input type="text" name="examinationapprovalcontentsecond" id="examinationapprovalcontentsecond" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
             </div>
-            <div class="layui-form-item" pane="">
-                <label class="layui-form-label lightgreen">审批意见</label>
+            <div class="layui-form-item light_green" pane="">
+                <label class="layui-form-label light_green">审批意见</label>
                 <div class="layui-input-block">
                     <input type="radio" name="executivegeneralmanageradvice" value="同意" title="同意" checked="">
                     <input type="radio" name="executivegeneralmanageradvice" value="不同意" title="不同意"> </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label lightgreen">审批日期</label>
+                    <label class="layui-form-label light_green">审批日期</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="examinationapprovaldatesecond" id="date5" autocomplete="on" class="layui-input"> </div>
+                        <input type="text" name="examinationapprovaldatesecond" id="date5" autocomplete="on" class="layui-input light_green"> </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label lightgreen">备注</label>
+                    <label class="layui-form-label light_green">备注</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="remarksecond" id="remarksecond" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="remarksecond" id="remarksecond" lay-verify="" autocomplete="on" placeholder="" class="layui-input light_green"> </div>
                 </div>
             </div>
             <h3>财务审批</h3>
             <div class="layui-form-item">
                 <label class="layui-form-label Wheat">审批内容</label>
                 <div class="layui-input-block">
-                    <input type="text" name="examinationapprovalcontentthird" id="examinationapprovalcontentthird" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                    <input type="text" name="examinationapprovalcontentthird" id="examinationapprovalcontentthird" lay-verify="" autocomplete="on" placeholder="" class="layui-input Wheat"> </div>
             </div>
-            <div class="layui-form-item" pane="">
-                <label class="layui-form-label lightgreen">审批意见</label>
+            <div class="layui-form-item light_green" pane="">
+                <label class="layui-form-label light_green">审批意见</label>
                 <div class="layui-input-block">
                     <input type="radio" name="financedirectoradvice" value="同意" title="同意" checked="">
                     <input type="radio" name="financedirectoradvice" value="不同意" title="不同意"> </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label lightgreen">审批日期</label>
+                    <label class="layui-form-label light_green">审批日期</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="examinationapprovaldatethird" id="date6" autocomplete="on" class="layui-input"> </div>
+                        <input type="text" name="examinationapprovaldatethird" id="date6" autocomplete="on" class="layui-input light_green"> </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label lightgreen">备注</label>
+                    <label class="layui-form-label light_green">备注</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="remarkthird" id="remarkthird" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="remarkthird" id="remarkthird" lay-verify="" autocomplete="on" placeholder="" class="layui-input light_green"> </div>
                 </div>
             </div>
             <h3>款项情况</h3>
-            <div class="layui-form-item" pane="">
-                <label class="layui-form-label lightblue">是否到账</label>
+            <div class="layui-form-item dark_blue" pane="">
+                <label class="layui-form-label dark_blue">是否到账</label>
                 <div class="layui-input-block">
                     <input type="radio" name="accountstatus" value="是" title="是" checked="">
                     <input type="radio" name="accountstatus" value="否" title="否"> </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label lightblue">到账日期</label>
+                    <label class="layui-form-label dark_blue">到账日期</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="date" id="date7" autocomplete="on" class="layui-input"> </div>
+                        <input type="text" name="date" id="date7" autocomplete="on" class="layui-input dark_blue"> </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label lightblue">订制费用</label>
+                    <label class="layui-form-label dark_blue">订制费用</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="custommoney" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="custommoney" lay-verify="" autocomplete="on" placeholder="" class="layui-input dark_blue"> </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label lightblue">运费</label>
+                    <label class="layui-form-label dark_blue">运费</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="transportationexpense" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                        <input type="text" name="transportationexpense" lay-verify="" autocomplete="on" placeholder="" class="layui-input dark_blue"> </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label lightblue">备注</label>
+                <label class="layui-form-label dark_blue">备注</label>
                 <div class="layui-input-block">
-                    <input type="text" name="remarkforth" id="remarkforth" lay-verify="" autocomplete="on" placeholder="" class="layui-input"> </div>
+                    <input type="text" name="remarkforth" id="remarkforth" lay-verify="" autocomplete="on" placeholder="" class="layui-input dark_blue"> </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-btn-container">
                     <button id="btn_add_order_item" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="add_order_item">添加清单</button>
                 </div>
             </div>
-
             <h3>订购清单</h3>
             <table class="layui-table" id="tableorder">
                 <thead>
@@ -382,18 +368,39 @@
                         <th>归还日期</th>
                         <th>归跟换代用原因</th>
                         <th>生产地</th>
-                        <th class="lightblue">产品状态</th>
-                        <th class="lightblue">非常规产品</th>
-                        <th class="lightblue">备注</th>
+                        <th class="dark_blue">产品状态</th>
+                        <th class="dark_blue">非常规产品</th>
+                        <th class="dark_blue">备注</th>
                     </tr>
                 </thead>
                 <tbody>
+                	<tr>
+                		<td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                		
+                		
+                	</tr>
+                	
+                	
                     <tr>
                         <td class="Wheat">其它说明</td>
                         <td colspan="14"></td>
                     </tr>
                     <tr>
-                        <td class="lightblue">情况说明</td>
+                        <td class="dark_blue">情况说明</td>
                         <td colspan="14"></td>
                     </tr>
                 </tbody>
@@ -402,256 +409,250 @@
                 <div class="layui-btn-container">
                     <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="save">保存</button>
                     <button class="layui-btn" lay-submit="" lay-filter="deliver">转交</button>
-                    <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="cancel">取消</button>                </div>
+                    <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="cancel">取消</button>
+                </div>
             </div>
         </form>
         <script type="text/javascript" src="/static/layui/layui.js"></script>
         <script type="text/javascript">
-            layui.use(['form', 'jquery', 'layer','laydate'], function () {
+            layui.use(['form', 'jquery', 'layer', 'laydate'], function () {
                 var form = layui.form,
                     laydate = layui.laydate,
                     jq = layui.jquery,
                     layer = layui.layer;
                 /*日期*/
                 laydate.render({
-                    elem: '#date1'
-                    ,position: 'fixed'
-                    ,theme: 'molv'
+                    elem: '#date1',
+                    position: 'fixed',
+                    theme: 'molv'
                 });
                 laydate.render({
-                    elem: '#date2'
-                    ,position: 'fixed'
-                    ,theme: 'molv'
+                    elem: '#date2',
+                    position: 'fixed',
+                    theme: 'molv'
                 });
                 laydate.render({
-                    elem: '#date3'
-                    ,position: 'fixed'
-                    ,theme: 'molv'
+                    elem: '#date3',
+                    position: 'fixed',
+                    theme: 'molv'
                 });
                 laydate.render({
-                    elem: '#date4'
-                    ,position: 'fixed'
-                    ,theme: 'molv'
+                    elem: '#date4',
+                    position: 'fixed',
+                    theme: 'molv'
                 });
                 laydate.render({
-                    elem: '#date5'
-                    ,position: 'fixed'
-                    ,theme: 'molv'
+                    elem: '#date5',
+                    position: 'fixed',
+                    theme: 'molv'
                 });
                 laydate.render({
-                    elem: '#date6'
-                    ,position: 'fixed'
-                    ,theme: 'molv'
+                    elem: '#date6',
+                    position: 'fixed',
+                    theme: 'molv'
                 });
                 laydate.render({
-                    elem: '#date7'
-                    ,position: 'fixed'
-                    ,theme: 'molv'
+                    elem: '#date7',
+                    position: 'fixed',
+                    theme: 'molv'
                 });
-           
-            //监听提交
-            form.on('submit(save)', function (uidata) {
-                var  tabledata = getTableContent();
-                var data = uidata.field;
-                var rows = jq('#tableorder')[0].rows.length - 3;
-                console.log(data);
-                var cs_info = new Object();
-                cs_info.cs_id  = data['swiftnumber'];
-                //cs_info.cur_process_user_id =                         //改     当前处理用户id
-                //cs_info.pre_process_user_id =                         //改     上一次处理用户id
-                cs_info.cs_info_type = 1;                               //1：更换 详细看数据库
-                cs_info.can_edit = 1;
-                cs_info.write_date = data['date1'];
-                if(data['status'] == ""){
-                    layer.msg('请选择是否到账！',{icon:2});
+                //监听提交
+                form.on('submit(save)', function (uidata) {
+                    var tabledata = getTableContent();
+                    var data = uidata.field;
+                    var rows = jq('#tableorder')[0].rows.length - 3;
+                    console.log(data);
+                    var cs_info = new Object();
+                    cs_info.cs_id = data['swiftnumber'];
+                    //cs_info.cur_process_user_id =                         //改     当前处理用户id
+                    //cs_info.pre_process_user_id =                         //改     上一次处理用户id
+                    cs_info.cs_info_type = 1; //1：更换 详细看数据库
+                    cs_info.can_edit = 1;
+                    cs_info.write_date = data['date1'];
+                    if(data['status'] == "") {
+                        layer.msg('请选择是否到账！', { icon: 2 });
+                        return false;
+                    }
+                    cs_info.cs_info_state = data['status'];
+                    //cs_info.complete_date = data['complete_date'];        //新增 无完成日期
+                    cs_info.product_number = rows;
+                    console.log("以下确认单信息：");
+                    console.log(cs_info);
+                    var custom_info = new Object();
+                    custom_info.company_name = data['companyname'];
+                    custom_info.company_phone = data['companytel'];
+                    custom_info.company_address = data['companyaddress'];
+                    custom_info.legal_representative = data['legalrepresentative'];
+                    custom_info.legal_phone = data['legalpersontel'];
+                    custom_info.company_contact = data['companycontact'];
+                    custom_info.company_contact_phone = data['contacttel'];
+                    console.log("以下客户信息：");
+                    console.log(custom_info);
+                    var delivery_info = new Object();
+                    delivery_info.delivery_info_receiver_name = data['deliveryreceiver_name'];
+                    delivery_info.receiver_phone = data['deliveryreceiver_phone'];
+                    delivery_info.goods_yard_name = data['delivery_goods_yard_name'];
+                    delivery_info.goods_yard_phone = data['delivery_goods_yard_phone'];
+                    delivery_info.receiver_address = data['delivery_receiver_address'];
+                    delivery_info.is_insure = data['purchase'];
+                    delivery_info.insure_amout = data['coverage'];
+                    delivery_info.is_sign = data['signed'];
+                    delivery_info.has_contract = data['salescontract'];
+                    if(data['freightway'] == "") {
+                        layer.msg('请选择运费方式！', { icon: 2 });
+                        return false;
+                    }
+                    delivery_info.transfer_fee_mode = data['freightway']; //freightway 运费方式
+                    console.log("以下发货信息：");
+                    console.log(custom_info);
+                    var return_info = new Object();
+                    return_info.return_info_receiver_name = data['return_receiver_name'];
+                    return_info.return_info_receiver_phone = data['return_receiver_phone'];
+                    return_info.return_info_goods_yard_name = data['return_goods_yard_name'];
+                    return_info.return_info_goods_yard_phone = data['return_goods_yard_phone'];
+                    return_info.return_order_num = data['return_order_num'];
+                    return_info.return_info_receiver_address = data['return_receiver_address'];
+                    console.log("以下返货信息：");
+                    console.log(custom_info);
+                    var cs_belong = new Object();
+                    //cs_belong.cs_id = data['cs_id'];
+                    cs_belong.build_organize_id = data['department_id'];
+                    cs_belong.build_user_id = data['manager_id'];
+                    //cs_belong.cs_belong_create_time = data['cs_belong_create_time'];
+                    cs_belong.build_user_name = jq("#manager_id").find("option:selected").text();
+                    cs_belong.build_organize_name = jq("#department_id").find("option:selected").text();
+                    console.log("以下订单所属信息：");
+                    console.log(custom_info);
+                    //缺 3项审批
+                    //处理清单
                     return false;
-                }
-                cs_info.cs_info_state = data['status'];
-                //cs_info.complete_date = data['complete_date'];        //新增 无完成日期
-                cs_info.product_number = rows;
-                console.log("以下确认单信息：");
-                console.log(cs_info);
-                var custom_info = new Object();
-                custom_info.company_name = data['companyname'];
-                custom_info.company_phone = data['companytel'];
-                custom_info.company_address = data['companyaddress'];
-                custom_info.legal_representative = data['legalrepresentative'];
-                custom_info.legal_phone = data['legalpersontel'];
-                custom_info.company_contact = data['companycontact'];
-                custom_info.company_contact_phone = data['contacttel'];
-                console.log("以下客户信息：");
-                console.log(custom_info);
-                var delivery_info = new Object();
-                delivery_info.delivery_info_receiver_name = data['deliveryreceiver_name'];
-                delivery_info.receiver_phone = data['deliveryreceiver_phone'];
-                delivery_info.goods_yard_name = data['delivery_goods_yard_name'];
-                delivery_info.goods_yard_phone = data['delivery_goods_yard_phone'];
-                delivery_info.receiver_address = data['delivery_receiver_address'];
-                delivery_info.is_insure = data['purchase'];
-                delivery_info.insure_amout = data['coverage'];
-                delivery_info.is_sign = data['signed'];
-                delivery_info.has_contract = data['salescontract'];
-                if(data['freightway'] == ""){
-                    layer.msg('请选择运费方式！',{icon:2});
-                    return false;
-                }
-                delivery_info.transfer_fee_mode = data['freightway'];//freightway 运费方式
-                console.log("以下发货信息：");
-                console.log(custom_info);
-
-                var return_info = new Object();
-                return_info.return_info_receiver_name = data['return_receiver_name'];
-                return_info.return_info_receiver_phone = data['return_receiver_phone'];
-                return_info.return_info_goods_yard_name = data['return_goods_yard_name'];
-                return_info.return_info_goods_yard_phone = data['return_goods_yard_phone'];
-                return_info.return_order_num = data['return_order_num'];
-                return_info.return_info_receiver_address = data['return_receiver_address'];
-                console.log("以下返货信息：");
-                console.log(custom_info);
-
-                var cs_belong = new Object();
-                //cs_belong.cs_id = data['cs_id'];
-                cs_belong.build_organize_id = data['department_id'];
-                cs_belong.build_user_id = data['manager_id'];
-                //cs_belong.cs_belong_create_time = data['cs_belong_create_time'];
-                cs_belong.build_user_name = jq("#manager_id").find("option:selected").text();
-                cs_belong.build_organize_name = jq("#department_id").find("option:selected").text();
-                console.log("以下订单所属信息：");
-                console.log(custom_info);
-                                                                    //缺 3项审批
-
-                //处理清单
-                return false;
-                jq.ajax({
-                    url: "{:url('admin/addreplaceconfirmorder/addconfirmorder')}",//php文件路径
-                    data: {cs_info:cs_info,custom_info:custom_info} ,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(e) {
-                        console.log(e);
-                        if(e){
-                            console.log('订单添加成功！');
-                        }else if(!e){
-                            console.log('订单提交失败！');
+                    jq.ajax({
+                        url: "{:url('admin/addreplaceconfirmorder/addconfirmorder')}", //php文件路径
+                        data: { cs_info: cs_info, custom_info: custom_info },
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (e) {
+                            console.log(e);
+                            if(e) {
+                                console.log('订单添加成功！');
+                            } else if(!e) {
+                                console.log('订单提交失败！');
+                            }
                         }
-                    }
-                })
-                return false;
-            });
-            //监听选择公司
-            form.on('select(company_name)',function (data) {
-                jq.post("{:url('admin/addreplaceconfirmorder/getdepartmentinfo')}",{'param':data.value},function (data) {
-                    //console.log(data);
-                    for (var item in data){
-                        jq('#department_id').append("<option value='" + data[item]['organize_id'] + "'>" + data[item]['organize_name'] + "</option>>");
-                    }
-                    form.render('select');
-                })
-            });
-            //监听选择部门
-            form.on('select(dapartment_name)',function (data) {
-
-                 jq.post("{:url('admin/addreplaceconfirmorder/getdspmanagerinfo')}",{'param':data.value},function (data) {
-                     for (var item in data){
-                          jq('#manager_id').append("<option value='" + data[item]['user_id'] + "' phone='" + data[item]['phone'] + "'>" + data[item]['fullname'] + "</option>>");
+                    })
+                    return false;
+                });
+                //监听选择公司
+                form.on('select(company_name)', function (data) {
+                    jq.post("{:url('admin/addreplaceconfirmorder/getdepartmentinfo')}", { 'param': data.value }, function (data) {
+                        //console.log(data);
+                        for(var item in data) {
+                            jq('#department_id').append("<option value='" + data[item]['organize_id'] + "'>" + data[item]['organize_name'] + "</option>>");
                         }
                         form.render('select');
                     })
-            });
-            //监听选中经理自动添加电话
-            form.on('select(manager_name)',function (data) {
-                var options= jq("#manager_id option:selected");
-                var  phone = jq(options[0]).attr('phone');
-                console.log();
-                document.getElementById('areamanagertel').value = phone;
-            });
-            jq('#btn_add_order_item').click(function () {
-                layer.open({
-                    type:2,
-                    title:'新增清单',
-                    area:['800px','90%'],
-                    shade:0,
-                    maxmin:false,
-                    content:"{:url('admin/addconfirmorderitem/addconfirmorderitem')}",
-                    btn:['保存','退出'],
-                    yes:function (index,layero) {
-                        var  iframeWin = window[layero.find('iframe')[0]['name']];
-                        var  orderItem = iframeWin.saveOrderItem();
-                        if(orderItem.model_text == null){
-                            return null;
-                        }
-                        console.log(orderItem);
-                        //+判断
-                        var type_id = orderItem.type_id;
-                        var type_text = orderItem.type_text;
-                        var brand_id = orderItem.brand_id;
-                        var brand_text = orderItem.brand_text;
-                        var model_text = orderItem.model_text;
-                        var model_id = orderItem.model_id;
-                        var model = orderItem.model;
-                        var unit = orderItem.unit;
-                        var place = orderItem.place;
-                        var place_text = orderItem.place_text;
-                        var count =orderItem.count;
-                        var isunc = orderItem.isunc;
-                        var specification = orderItem.specification;
-                        var back_date = orderItem.back_date;
-                        var product_state = orderItem.product_state;
-                        var bar_code = orderItem.bar_code;
-                        var explain = orderItem.explain;
-                        var comment = orderItem.comment;
-                        console.log("length: "+ jq('#tableorder')[0].rows.length);
-                        var rows = jq('#tableorder')[0].rows.length - 2;
-
-                        var new_tr = jq('#tableorder')[0].insertRow(rows);//指定位置插入行
-                        var col_0 = new_tr.insertCell(0);//添加列
-                        col_0.innerHTML = "<td><a>"+ rows+"</a></td>";
-                        var col_1 = new_tr.insertCell(1);//添加列
-                        col_1.innerHTML = "<td><a tag='"+ type_id +"'>"+ type_text +"</a></td>";
-                        var col_2 = new_tr.insertCell(2);//添加列
-                        col_2.innerHTML = "<td><a tag='"+ brand_id +"'>"+ brand_text +"</a></td>";
-                        var col_3 = new_tr.insertCell(3);
-                        col_3.innerHTML = "<td><a>"+ model_text +"</a></td>";//-------产品名称-------
-                        var col_4 = new_tr.insertCell(4);
-                        col_4.innerHTML = "<td><a>"+ specification +"</a></td>";
-                        var col_5 = new_tr.insertCell(5);
-                        col_5.innerHTML = "<td><a tag='" + model_id + "'>"+ model +"</a></td>";
-                        var col_6 = new_tr.insertCell(6);
-                        col_6.innerHTML = "<td><a>"+ unit +"</a></td>";
-                        var col_7 = new_tr.insertCell(7);
-                        col_7.innerHTML = "<td><a>"+ count +"</a></td>";
-                        var col_8 = new_tr.insertCell(8);
-                        col_8.innerHTML = "<td><a>"+ bar_code +"</a></td>";
-                        var col_9 = new_tr.insertCell(9);
-                        col_9.innerHTML = "<td><a>"+ back_date +"</a></td>";
-                        var col_10 = new_tr.insertCell(10);
-                        col_10.innerHTML = "<td><a>"+ explain +"</a></td>";
-                        var col_11 = new_tr.insertCell(11);
-                        col_11.innerHTML = "<td><a tag = '"+ place +"'>"+ place_text +"</a></td>";
-                        var col_12 = new_tr.insertCell(12);
-                        col_12.innerHTML = "<td><a>"+ product_state +"</a></td>";
-                        var col_13 = new_tr.insertCell(13);
-                        col_13.innerHTML = "<td><a>"+ isunc +"</a></td>";
-                        var col_14 = new_tr.insertCell(14);
-                        col_14.innerHTML = "<td><a>"+ comment +"</a></td>";
-
-                        layer.closeAll();
-                    },
-                    btn2: function () {
-                        layer.closeAll();
-                    }
                 });
-                return false;
-            })
-          });
+                //监听选择部门
+                form.on('select(dapartment_name)', function (data) {
+                    jq.post("{:url('admin/addreplaceconfirmorder/getdspmanagerinfo')}", { 'param': data.value }, function (data) {
+                        for(var item in data) {
+                            jq('#manager_id').append("<option value='" + data[item]['user_id'] + "' phone='" + data[item]['phone'] + "'>" + data[item]['fullname'] + "</option>>");
+                        }
+                        form.render('select');
+                    })
+                });
+                //监听选中经理自动添加电话
+                form.on('select(manager_name)', function (data) {
+                    var options = jq("#manager_id option:selected");
+                    var phone = jq(options[0]).attr('phone');
+                    console.log();
+                    document.getElementById('areamanagertel').value = phone;
+                });
+                jq('#btn_add_order_item').click(function () {
+                    layer.open({
+                        type: 2,
+                        title: '新增清单',
+                        area: ['800px', '90%'],
+                        shade: 0,
+                        maxmin: false,
+                        content: "{:url('admin/addconfirmorderitem/addconfirmorderitem')}",
+                        btn: ['保存', '退出'],
+                        yes: function (index, layero) {
+                            var iframeWin = window[layero.find('iframe')[0]['name']];
+                            var orderItem = iframeWin.saveOrderItem();
+                            if(orderItem.model_text == null) {
+                                return null;
+                            }
+                            console.log(orderItem);
+                            //+判断
+                            var type_id = orderItem.type_id;
+                            var type_text = orderItem.type_text;
+                            var brand_id = orderItem.brand_id;
+                            var brand_text = orderItem.brand_text;
+                            var model_text = orderItem.model_text;
+                            var model_id = orderItem.model_id;
+                            var model = orderItem.model;
+                            var unit = orderItem.unit;
+                            var place = orderItem.place;
+                            var place_text = orderItem.place_text;
+                            var count = orderItem.count;
+                            var isunc = orderItem.isunc;
+                            var specification = orderItem.specification;
+                            var back_date = orderItem.back_date;
+                            var product_state = orderItem.product_state;
+                            var bar_code = orderItem.bar_code;
+                            var explain = orderItem.explain;
+                            var comment = orderItem.comment;
+                            console.log("length: " + jq('#tableorder')[0].rows.length);
+                            var rows = jq('#tableorder')[0].rows.length - 2;
+                            var new_tr = jq('#tableorder')[0].insertRow(rows); //指定位置插入行
+                            var col_0 = new_tr.insertCell(0); //添加列
+                            col_0.innerHTML = "<td><a>" + rows + "</a></td>";
+                            var col_1 = new_tr.insertCell(1); //添加列
+                            col_1.innerHTML = "<td><a tag='" + type_id + "'>" + type_text + "</a></td>";
+                            var col_2 = new_tr.insertCell(2); //添加列
+                            col_2.innerHTML = "<td><a tag='" + brand_id + "'>" + brand_text + "</a></td>";
+                            var col_3 = new_tr.insertCell(3);
+                            col_3.innerHTML = "<td><a>" + model_text + "</a></td>"; //-------产品名称-------
+                            var col_4 = new_tr.insertCell(4);
+                            col_4.innerHTML = "<td><a>" + specification + "</a></td>";
+                            var col_5 = new_tr.insertCell(5);
+                            col_5.innerHTML = "<td><a tag='" + model_id + "'>" + model + "</a></td>";
+                            var col_6 = new_tr.insertCell(6);
+                            col_6.innerHTML = "<td><a>" + unit + "</a></td>";
+                            var col_7 = new_tr.insertCell(7);
+                            col_7.innerHTML = "<td><a>" + count + "</a></td>";
+                            var col_8 = new_tr.insertCell(8);
+                            col_8.innerHTML = "<td><a>" + bar_code + "</a></td>";
+                            var col_9 = new_tr.insertCell(9);
+                            col_9.innerHTML = "<td><a>" + back_date + "</a></td>";
+                            var col_10 = new_tr.insertCell(10);
+                            col_10.innerHTML = "<td><a>" + explain + "</a></td>";
+                            var col_11 = new_tr.insertCell(11);
+                            col_11.innerHTML = "<td><a tag = '" + place + "'>" + place_text + "</a></td>";
+                            var col_12 = new_tr.insertCell(12);
+                            col_12.innerHTML = "<td><a>" + product_state + "</a></td>";
+                            var col_13 = new_tr.insertCell(13);
+                            col_13.innerHTML = "<td><a>" + isunc + "</a></td>";
+                            var col_14 = new_tr.insertCell(14);
+                            col_14.innerHTML = "<td><a>" + comment + "</a></td>";
+                            layer.closeAll();
+                        },
+                        btn2: function () {
+                            layer.closeAll();
+                        }
+                    });
+                    return false;
+                })
+            });
 
-            function getTableContent(){
+            function getTableContent() {
                 var jq = layui.jquery;
                 var mytable = document.getElementById('tableorder');
                 var data = [];
-                for(var i = 1,rows = mytable.rows.length - 2; i < rows; i++){
-                    for(var j = 0,cells=mytable.rows[i].cells.length; j<cells; j++){
-                        if(!data[i]){
+                for(var i = 1, rows = mytable.rows.length - 2; i < rows; i++) {
+                    for(var j = 0, cells = mytable.rows[i].cells.length; j < cells; j++) {
+                        if(!data[i]) {
                             data[i] = new Array();
                         }
                         var tag = jq(mytable.rows[i].cells[j].innerHTML).attr('tag');
@@ -665,7 +666,6 @@
                 }
                 return data;
             }
-
         </script>
     </body>
 </html>
