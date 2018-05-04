@@ -26,4 +26,11 @@ class Edituser extends Controller
             $this->assign("companylist",$companytable);
         return $this->fetch();
     }
+    public function getdepartmentinfo()
+    {
+        $param = $_POST;
+        $result = \app\index\model\Admin::querydepartmentinfo($param['param']);
+        return $result;
+
+    }
 }

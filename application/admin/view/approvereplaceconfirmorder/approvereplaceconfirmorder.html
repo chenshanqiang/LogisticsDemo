@@ -55,7 +55,7 @@
                         ,{field: 'cs_id', title: '流水号', minWidth: 150}
                         ,{field: 'receiver_name', title: '收件人', minWidth: 100}
                         ,{field: 'cs_info_state', title: '状态', minWidth: 100}
-                        ,{field: 'build_organize_name', title: '部门', minWidth: 150}
+                        ,{field: 'build_department_name', title: '部门', minWidth: 150}
                         ,{field: 'build_user_name', title: '区域经理', minWidth: 100}
                         ,{field: 'product_number', title: '项数', width: 80}
 				      	,{fixed: 'right', title:'操作', width:150, align:'center', toolbar: '#operatebar'}
@@ -77,25 +77,6 @@
 				    	layer.msg('下单日期：'+ data.date + ' 的查看操作');
 				    }
 			  	});
-                /*监听部门选择*/
-                form.on('select(department)',function (obj) {
-                    var ops=document.getElementById("areamanager");
-                    ops.innerHTML = "";
-                    ops.options.length = 0;
-                    form.render('select');
-
-                    jq("#areamanager").append("<option value=''>请选择</option>");
-                    form.render('select');
-
-                    if(obj.value == "")
-                        return ;
-                    jq.post("{:url('admin/Approvereplaceconfirmorder/getareamanager')}",{'param':obj.value},function(data){
-                        for(var  item in data){
-                            jq("#areamanager").append("<option value='"+data[item]['user_id']+"'>"+data[item]['fullname']+"</option>");
-                        }
-                        form.render('select');
-                    });
-                });
 			});
 		</script>
 	</body>

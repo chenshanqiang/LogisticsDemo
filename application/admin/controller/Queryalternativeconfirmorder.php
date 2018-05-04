@@ -7,7 +7,7 @@ class Queryalternativeconfirmorder extends Controller
 {
 	/*查询订单渲染方法*/
     public function queryalternativeconfirmorder(){
-        
+
         $producttype = \app\index\model\Admin::getclassinfo('dsp_logistic.product_type ','product_type_id ');
         $this->assign('productlist',$producttype);
 
@@ -21,16 +21,14 @@ class Queryalternativeconfirmorder extends Controller
         $this->assign('unclist',$uncProduct);
         return $this->fetch();
     }
-    protected $isSales = false; //是否是销售人员（总经理、总监、经理）
-    protected $organizename = ""; //总经理name
-    protected $departmentname = "";//总监名
-    protected $areamanager = "";//经理名
+
 
     public function getexamineorder(){
+        $queryuserinfo = session("user_querypower");
     	$page = $_GET['page'];
     	$limit = $_GET['limit'];
         $type = 0x06;
-        if(!$this->isSales)
+        if($queryuserinfo["isSales"])
         {
             if(isset($_GET['queryInfo'])){
                 $queryInfo = $_GET['queryInfo'];
@@ -41,11 +39,16 @@ class Queryalternativeconfirmorder extends Controller
         }
         else
         {
+            $organizename = $queryuserinfo["organizename"];
+            $departmentname = $queryuserinfo["departmentname"];
+            $areamanager = $queryuserinfo["areamanager"];
             if(isset($_GET['queryInfo'])){
                 $queryInfo = $_GET['queryInfo'];
-                $tablelist = \app\index\model\Admin::querycsinfobysales($this->organizename,$this->departmentname,$this->areamanager,$type,$page,$limit,$queryInfo);
+                $queryInfo["organizename"] = $queryInfo["departname"];
+                $queryInfo["departmentname"] = $queryInfo["departname"];
+                $tablelist = \app\index\model\Admin::querycsinfobysales($organizename,$departmentname,$areamanager,$type,$page,$limit,$queryInfo);
             }else{
-                $tablelist = \app\index\model\Admin::querycsinfobysales($this->organizename,$this->departmentname,$this->areamanager,$type,$page,$limit);
+                $tablelist = \app\index\model\Admin::querycsinfobysales($organizename,$departmentname,$areamanager,$type,$page,$limit);
             }
         }
 

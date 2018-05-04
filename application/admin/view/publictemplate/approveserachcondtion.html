@@ -54,21 +54,14 @@
 	 				<div class="layui-inline">
 						<label class="layui-form-label">部门：</label>
 						<div class="layui-input-inline" style="width: 200px;">
-					      <select id = "department" name="department" lay-filter="department">
-							  <option value = ""  selected>请选择</option>
-							  {volist name="departmentlist" id="vo"}
-							  <option value={$vo.organize_id}>{$vo.organize_name}</option>
-							  {/volist}
-					      </select>
+							<input type="text" name="departname" lay-filter="departname" placeholder="请输入部门" autocomplete="off" class="layui-input">
 					    </div>
 					</div> 
 
 					<div class="layui-inline">
 						<label class="layui-form-label">区域经理：</label>
 						<div class="layui-input-inline" style="width: 200px;">
-							<select id = "areamanager" name="areamanager" lay-filter="areamanager">
-								<option value="">请选择</option>
-							</select>
+							<input type="text" name="areamanager" lay-filter="areamanager" placeholder="请输入区域经理" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 				</div>

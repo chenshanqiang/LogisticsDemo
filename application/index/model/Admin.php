@@ -8,20 +8,9 @@
 	class Admin extends \think\Model
 	{
 		/*登录验证*/
-		public static function login($username,$password){
-			$where['fullname'] = $username;
-			$where['password'] = $password;
 
-			$user = Db::name('dsp_logistic.user')->where($where)->find();   /*用户信息检测*/
-			if($user){
-           	 	unset($user["password"]);      	   					       /*销毁password*/
-            	session_start();
-                session("user_session", $user);	   					       /*创建session,里面只包含用户名，password已经销毁*/
-				return true;
-			}else{
-				return false;
-			}
-		}
+
+
 
 		/*退出登录*/
 		public static function logout(){
@@ -63,8 +52,13 @@
 			$length = intval($args[5]);
 
 			$sqlone = "select count(*) from dsp_logistic.cs_info ";
+            $sqlone .= "left join dsp_logistic.custom_info on dsp_logistic.custom_info.custom_info_id = dsp_logistic.cs_info.custom_info_id ";
+            $sqlone .= "left join dsp_logistic.delivery_info on dsp_logistic.delivery_info.delivery_info_id = dsp_logistic.cs_info.delivery_info_id ";
+            $sqlone .= "left join dsp_logistic.return_info on dsp_logistic.return_info.return_info_id = dsp_logistic.cs_info.return_info_id ";
+            //   $sqltwo .= "left join dsp_logistic.payment_info on dsp_logistic.payment_info.payment_info_id = dsp_logistic.cs_info.payment_info_id ";
+            $sqlone .= "left join dsp_logistic.logistics_info on dsp_logistic.logistics_info.cs_id = dsp_logistic.cs_info.cs_id ";
             $sqlone .= "left join dsp_logistic.cs_belong on dsp_logistic.cs_belong.cs_id = dsp_logistic.cs_info.cs_id ";
-            $sqlone .= "where cs_info_type='$type'";
+            $sqlone .= "where dsp_logistic.cs_info.cs_info_type='$type' ";
 			if($organizename != "")
             {
                 $sqlone .= "and build_organize_name='$organizename' ";
@@ -91,34 +85,34 @@
                     $organizename1 = $args[6]['organizename'];
                     $sqlone.= " and build_organize_name ='$organizename1'";
                 }
-                $startdate = $args[4]['startdate'];
-                $enddate = $args[4]['enddate'];
+                $startdate = $args[6]['startdate'];
+                $enddate = $args[6]['enddate'];
                 if($startdate != "" && $enddate != "" ){
                     $sqlone.= " and write_date >='$startdate' and write_date <='$enddate'";
                 }
-                if($args[4]['order_id'] != "")
+                if($args[6]['order_id'] != "")
                 {
-                    $cs_id = $args[4]['order_id'];
+                    $cs_id = $args[6]['order_id'];
                     $sqlone.= " and dsp_logistic.cs_info.cs_id ='$cs_id'";
                 }
-                if($args[4]['orderstate'] != "")
+                if($args[6]['orderstate'] != "")
                 {
-                    $cs_info_state = $args[4]['orderstate'];
+                    $cs_info_state = $args[6]['orderstate'];
                     $sqlone.= " and cs_info_state ='$cs_info_state'";
                 }
                 if($type == 2||$type == 5) //借样和配件没有返货信息
                 {
-                    if($args[4]['receiver_name'] != "")
+                    if($args[6]['receiver_name'] != "")
                     {
-                        $delivery_info_receiver_name = $args[4]['receiver_name'];
+                        $delivery_info_receiver_name = $args[6]['receiver_name'];
                         $sqlone.= " and delivery_info_receiver_name ='$delivery_info_receiver_name'";
                     }
                 }
                 else
                 {
-                    if($args[4]['receiver_name'] != "")
+                    if($args[6]['receiver_name'] != "")
                     {
-                        $return_info_receiver_name = $args[4]['receiver_name'];
+                        $return_info_receiver_name = $args[6]['receiver_name'];
                         $sqlone.= " and return_info_receiver_name ='$return_info_receiver_name'";
                     }
                 }
@@ -168,41 +162,84 @@
                     $organizename1 = $args[6]['organizename'];
                     $sqltwo.= " and build_organize_name ='$organizename1'";
                 }
-                $startdate = $args[4]['startdate'];
-                $enddate = $args[4]['enddate'];
+                $startdate = $args[6]['startdate'];
+                $enddate = $args[6]['enddate'];
                 if($startdate != "" && $enddate != "" ){
                     $sqltwo.= " and write_date >='$startdate' and write_date <='$enddate'";
                 }
-                if($args[4]['order_id'] != "")
+                if($args[6]['order_id'] != "")
                 {
-                    $cs_id = $args[4]['order_id'];
+                    $cs_id = $args[6]['order_id'];
                     $sqltwo.= " and dsp_logistic.cs_info.cs_id ='$cs_id'";
                 }
-                if($args[4]['orderstate'] != "")
+                if($args[6]['orderstate'] != "")
                 {
-                    $cs_info_state = $args[4]['orderstate'];
+                    $cs_info_state = $args[6]['orderstate'];
                     $sqltwo.= " and cs_info_state ='$cs_info_state'";
                 }
                 if($type == 2||$type == 5) //借样和配件没有返货信息
                 {
-                    if($args[4]['receiver_name'] != "")
+                    if($args[6]['receiver_name'] != "")
                     {
-                        $delivery_info_receiver_name = $args[4]['receiver_name'];
+                        $delivery_info_receiver_name = $args[6]['receiver_name'];
                         $sqltwo.= " and delivery_info_receiver_name ='$delivery_info_receiver_name'";
                     }
                 }
                 else
                 {
-                    if($args[4]['receiver_name'] != "")
+                    if($args[6]['receiver_name'] != "")
                     {
-                        $return_info_receiver_name = $args[4]['receiver_name'];
+                        $return_info_receiver_name = $args[6]['receiver_name'];
                         $sqltwo.= " and return_info_receiver_name ='$return_info_receiver_name'";
                     }
                 }
 			}
-			$sqltwo .= "order By dsp_logistic.cs_info.write_data DESC limit {$offset},{$length} ;";
+			$sqltwo .= "order By dsp_logistic.cs_info.write_date DESC limit {$offset},{$length} ;";
 			$tableobj = Db::query($sqltwo);
 			if(!empty($tableobj)){
+                for ($i = 0;$i < $count;$i++)
+                {
+                    if($type == 2||$type == 5) //借样和配件没有返货信息
+                    {
+                        $tableobj[$i]["receiver_name"] = $tableobj[$i]["delivery_info_receiver_name"];
+                    }
+                    else
+                    {
+                        //$tableobj[$i]["receiver_name"] = $tableobj[$i]["return_info_receiver_name"];
+                        $tableobj[$i]["receiver_name"] = $tableobj[$i]["return_info_receiver_name"];
+                    }
+                    $state = $tableobj[$i]["cs_info_state"];
+                    $mode =  $tableobj[$i]["transfer_fee_mode"];
+                    if($state == 0)
+                        $tableobj[$i]["cs_info_state"] = "空";
+                    elseif ($state == 1)
+                    {
+                        $tableobj[$i]["cs_info_state"] = "处理中";
+                    }
+                    elseif ($state == 2)
+                    {
+                        $tableobj[$i]["cs_info_state"] = "已完成";
+                    }
+                    elseif ($state == 3)
+                    {
+                        $tableobj[$i]["cs_info_state"] = "取消";
+                    }
+                    elseif ($state == 4)
+                    {
+                        $tableobj[$i]["cs_info_state"] = "备货";
+                    }
+
+                    if ($mode == 1)
+                    $tableobj[$i]["transfer_fee_mode"] = "到付";
+                    elseif ($mode == 2)
+                    $tableobj[$i]["transfer_fee_mode"] = "现金";
+                    elseif ($mode == 3)
+                    $tableobj[$i]["transfer_fee_mode"] = "现付";
+                    elseif ($mode == 4)
+                    $tableobj[$i]["transfer_fee_mode"] = "公司付";
+
+
+                }
 				return (array('code'=>0,'msg'=>'','count'=>$count,'data'=>$tableobj));
 			}
 		}
@@ -217,43 +254,44 @@
             $length = intval($args[2]);
 
             $sqlone = "select count(*) from dsp_logistic.cs_info ";
+            $sqlone .= "left join dsp_logistic.custom_info on dsp_logistic.custom_info.custom_info_id = dsp_logistic.cs_info.custom_info_id ";
+            $sqlone .= "left join dsp_logistic.delivery_info on dsp_logistic.delivery_info.delivery_info_id = dsp_logistic.cs_info.delivery_info_id ";
+            $sqlone .= "left join dsp_logistic.return_info on dsp_logistic.return_info.return_info_id = dsp_logistic.cs_info.return_info_id ";
+            //   $sqltwo .= "left join dsp_logistic.payment_info on dsp_logistic.payment_info.payment_info_id = dsp_logistic.cs_info.payment_info_id ";
+            $sqlone .= "left join dsp_logistic.logistics_info on dsp_logistic.logistics_info.cs_id = dsp_logistic.cs_info.cs_id ";
             $sqlone .= "left join dsp_logistic.cs_belong on dsp_logistic.cs_belong.cs_id = dsp_logistic.cs_info.cs_id ";
-            $sqlone .= "where cs_info_type='$type'";
+            $sqlone .= "where dsp_logistic.cs_info.cs_info_type='$type' ";
 
             if($totalargs == 4){
                 if($args[3]['areamanager'] != "" ){
                     $areamanger1 = $args[3]['areamanager'];
                     $sqlone.= " and build_user_name ='$areamanger1'";
                 }
-                if($args[3]['departmentname'] ){
-                    $departmentname1 = $args[3]['departmentname'];
-                    $sqlone.= " and build_department_name ='$departmentname1'";
-                }
-                if($args[3]['organizename'] != ""){
-                    $organizename1 = $args[3]['organizename'];
-                    $sqlone.= " and build_organize_name ='$organizename1'";
+                if($args[3]['departname'] ){
+                    $departmentname1 = $args[3]['departname'];
+                    $sqlone.= " and (build_department_name ='$departmentname1' or build_organize_name ='$departmentname1') ";
                 }
                 $startdate = $args[3]['startdate'];
                 $enddate = $args[3]['enddate'];
                 if($startdate != "" && $enddate != "" ){
-                    $sqlone.= " and write_date >='$startdate' and write_date <='$enddate'";
+                    $sqlone.= " and write_date >='$startdate' and write_date <='$enddate' ";
                 }
                 if($args[3]['order_id'] != "")
                 {
                     $cs_id = $args[3]['order_id'];
-                    $sqlone.= " and dsp_logistic.cs_info.cs_id ='$cs_id'";
+                    $sqlone.= " and dsp_logistic.cs_info.cs_id ='$cs_id' ";
                 }
                 if($args[3]['orderstate'] != "")
                 {
                     $cs_info_state = $args[3]['orderstate'];
-                    $sqlone.= " and cs_info_state ='$cs_info_state'";
+                    $sqlone.= " and cs_info_state ='$cs_info_state' ";
                 }
                 if($type == 2||$type == 5) //借样和配件没有返货信息
                 {
                     if($args[3]['receiver_name'] != "")
                     {
                         $delivery_info_receiver_name = $args[3]['receiver_name'];
-                        $sqlone.= " and delivery_info_receiver_name ='$delivery_info_receiver_name'";
+                        $sqlone.= " and delivery_info_receiver_name ='$delivery_info_receiver_name' ";
                     }
                 }
                 else
@@ -261,7 +299,7 @@
                     if($args[3]['receiver_name'] != "")
                     {
                         $return_info_receiver_name = $args[3]['receiver_name'];
-                        $sqlone.= " and return_info_receiver_name ='$return_info_receiver_name'";
+                        $sqlone.= " and return_info_receiver_name ='$return_info_receiver_name' ";
                     }
                 }
             }
@@ -285,66 +323,92 @@
             $sqltwo .= "left join dsp_logistic.logistics_info on dsp_logistic.logistics_info.cs_id = dsp_logistic.cs_info.cs_id ";
             $sqltwo .= "left join dsp_logistic.cs_belong on dsp_logistic.cs_belong.cs_id = dsp_logistic.cs_info.cs_id ";
             $sqltwo .= "where dsp_logistic.cs_info.cs_info_type='$type' ";
-            if($organizename != "")
-            {
-                $sqltwo .= "and build_organize_name='$organizename' ";
-            }
-            if($departmentname != "")
-            {
-                $sqltwo .= "and build_department_name='$departmentname' ";
-            }
-            if($areamanager != "")
-            {
-                $sqltwo .= "and build_user_name='$areamanager' ";
-            }
-            if($totalargs == 7){
-                if($args[6]['areamanager'] != "" && $areamanager == ""){
-                    $areamanger1 = $args[6]['areamanager'];
-                    $sqltwo.= " and build_user_name ='$areamanger1'";
+            if($totalargs == 4){
+                if($args[3]['areamanager'] != ""){
+                    $areamanger1 = $args[3]['areamanager'];
+                    $sqltwo.= " and build_user_name ='$areamanger1' ";
                 }
-                if($args[6]['departmentname'] != "" && $departmentname == ""){
-                    $departmentname1 = $args[6]['departmentname'];
-                    $sqltwo.= " and build_department_name ='$departmentname1'";
+                if($args[3]['departname'] != "" ){
+                    $departmentname1 = $args[3]['departname'];
+                    $sqltwo.= " and (build_department_name ='$departmentname1' or build_organize_name ='$departmentname1') ";
                 }
-                if($args[6]['organizename'] != "" && $organizename == ""){
-                    $organizename1 = $args[6]['organizename'];
-                    $sqltwo.= " and build_organize_name ='$organizename1'";
-                }
-                $startdate = $args[4]['startdate'];
-                $enddate = $args[4]['enddate'];
+
+                $startdate = $args[3]['startdate'];
+                $enddate = $args[3]['enddate'];
                 if($startdate != "" && $enddate != "" ){
-                    $sqltwo.= " and write_date >='$startdate' and write_date <='$enddate'";
+                    $sqltwo.= " and write_date >='$startdate' and write_date <='$enddate' ";
                 }
-                if($args[4]['order_id'] != "")
+                if($args[3]['order_id'] != "")
                 {
-                    $cs_id = $args[4]['order_id'];
-                    $sqltwo.= " and dsp_logistic.cs_info.cs_id ='$cs_id'";
+                    $cs_id = $args[3]['order_id'];
+                    $sqltwo.= " and dsp_logistic.cs_info.cs_id ='$cs_id' ";
                 }
-                if($args[4]['orderstate'] != "")
+                if($args[3]['orderstate'] != "")
                 {
-                    $cs_info_state = $args[4]['orderstate'];
-                    $sqltwo.= " and cs_info_state ='$cs_info_state'";
+                    $cs_info_state = $args[3]['orderstate'];
+                    $sqltwo.= " and cs_info_state ='$cs_info_state' ";
                 }
                 if($type == 2||$type == 5) //借样和配件没有返货信息
                 {
-                    if($args[4]['receiver_name'] != "")
+                    if($args[3]['receiver_name'] != "")
                     {
-                        $delivery_info_receiver_name = $args[4]['receiver_name'];
-                        $sqltwo.= " and delivery_info_receiver_name ='$delivery_info_receiver_name'";
+                        $delivery_info_receiver_name = $args[3]['receiver_name'];
+                        $sqltwo.= " and delivery_info_receiver_name ='$delivery_info_receiver_name' ";
                     }
                 }
                 else
                 {
-                    if($args[4]['receiver_name'] != "")
+                    if($args[3]['receiver_name'] != "")
                     {
-                        $return_info_receiver_name = $args[4]['receiver_name'];
-                        $sqltwo.= " and return_info_receiver_name ='$return_info_receiver_name'";
+                        $return_info_receiver_name = $args[3]['receiver_name'];
+                        $sqltwo.= " and return_info_receiver_name ='$return_info_receiver_name' ";
                     }
                 }
             }
-            $sqltwo .= "order By dsp_logistic.cs_info.write_data DESC limit {$offset},{$length} ;";
+            $sqltwo .= "order By dsp_logistic.cs_info.write_date DESC limit {$offset},{$length} ;";
             $tableobj = Db::query($sqltwo);
             if(!empty($tableobj)){
+                for ($i = 0;$i < $count;$i++)
+                {
+                    if($type == 2||$type == 5) //借样和配件没有返货信息
+                    {
+                        $tableobj[$i]["receiver_name"] = $tableobj[$i]["delivery_info_receiver_name"];
+                    }
+                    else
+                    {
+                        //$tableobj[$i]["receiver_name"] = $tableobj[$i]["return_info_receiver_name"];
+                        $tableobj[$i]["receiver_name"] = $tableobj[$i]["return_info_receiver_name"];
+                    }
+                    $state = $tableobj[$i]["cs_info_state"];
+                    $mode =  $tableobj[$i]["transfer_fee_mode"];
+                    if($state == 0)
+                        $tableobj[$i]["cs_info_state"] = "空";
+                    elseif ($state == 1)
+                    {
+                        $tableobj[$i]["cs_info_state"] = "处理中";
+                    }
+                    elseif ($state == 2)
+                    {
+                        $tableobj[$i]["cs_info_state"] = "已完成";
+                    }
+                    elseif ($state == 3)
+                    {
+                        $tableobj[$i]["cs_info_state"] = "取消";
+                    }
+                    elseif ($state == 4)
+                    {
+                        $tableobj[$i]["cs_info_state"] = "备货";
+                    }
+
+                    if ($mode == 1)
+                        $tableobj[$i]["transfer_fee_mode"] = "到付";
+                    elseif ($mode == 2)
+                        $tableobj[$i]["transfer_fee_mode"] = "现金";
+                    elseif ($mode == 3)
+                        $tableobj[$i]["transfer_fee_mode"] = "现付";
+                    elseif ($mode == 4)
+                        $tableobj[$i]["transfer_fee_mode"] = "公司付";
+                }
                 return (array('code'=>0,'msg'=>'','count'=>$count,'data'=>$tableobj));
             }
         }
@@ -369,24 +433,24 @@
                 $startdate = $args[4]['startdate'];
                 $enddate = $args[4]['enddate'];
                 if($startdate != "" && $enddate != "" ){
-                    $sqlone.= " and write_date >='$startdate' and write_date <='$enddate'";
+                    $sqlone.= " and write_date >='$startdate' and write_date <='$enddate' ";
                 }
                 if($args[4]['order_id'] != "")
                 {
                     $cs_id = $args[4]['order_id'];
-                    $sqlone.= " and dsp_logistic.cs_info.cs_id ='$cs_id'";
+                    $sqlone.= " and dsp_logistic.cs_info.cs_id ='$cs_id' ";
                 }
                 if($args[4]['orderstate'] != "")
                 {
                     $cs_info_state = $args[4]['orderstate'];
-                    $sqlone.= " and cs_info_state ='$cs_info_state'";
+                    $sqlone.= " and cs_info_state ='$cs_info_state' ";
                 }
                 if($type == 2||$type == 5) //借样和配件没有返货信息
                 {
                     if($args[4]['receiver_name'] != "")
                     {
                         $delivery_info_receiver_name = $args[4]['receiver_name'];
-                        $sqlone.= " and delivery_info_receiver_name ='$delivery_info_receiver_name'";
+                        $sqlone.= " and delivery_info_receiver_name ='$delivery_info_receiver_name' ";
                     }
                 }
                 else
@@ -394,20 +458,20 @@
                     if($args[4]['receiver_name'] != "")
                     {
                         $return_info_receiver_name = $args[4]['receiver_name'];
-                        $sqlone.= " and return_info_receiver_name ='$return_info_receiver_name'";
+                        $sqlone.= " and return_info_receiver_name ='$return_info_receiver_name' ";
                     }
                 }
-                if($args[4]['department'] != "")
+                if($args[4]['departname'] != "")
                 {
-                    $organize_id = $args[4]['department'];
-                    $sqlone.= " and build_organize_id ='$organize_id'";
+                    $departmentname1 = $args[4]['departname'];
+                    $sqlone.= " and (build_department_name ='$departmentname1' or build_organize_name ='$departmentname1') ";
 
                 }
 
                 if($args[4]['areamanager'] != "")
                 {
-                    $user_id = $args[4]['areamanager'];
-                    $sqlone.= " and build_user_id ='$user_id'";
+                    $user_name = $args[4]['areamanager'];
+                    $sqlone.= " and build_user_name ='$user_name' ";
 
                 }
             }
@@ -437,24 +501,24 @@
                 $startdate = $args[4]['startdate'];
                 $enddate = $args[4]['enddate'];
                 if($startdate != "" && $enddate != "" ){
-                    $sqltwo.= " and write_date >='$startdate' and write_date <='$enddate'";
+                    $sqltwo.= " and write_date >='$startdate' and write_date <='$enddate' ";
                 }
                 if($args[4]['order_id'] != "")
                 {
                     $cs_id = $args[4]['order_id'];
-                    $sqltwo.= " and dsp_logistic.cs_info.cs_id ='$cs_id'";
+                    $sqltwo.= " and dsp_logistic.cs_info.cs_id ='$cs_id' ";
                 }
                 if($args[4]['orderstate'] != "")
                 {
                     $cs_info_state = $args[4]['orderstate'];
-                    $sqltwo.= " and cs_info_state ='$cs_info_state'";
+                    $sqltwo.= " and cs_info_state ='$cs_info_state' ";
                 }
                 if($type == 2||$type == 5) //借样和配件没有返货信息
                 {
                     if($args[4]['receiver_name'] != "")
                     {
                         $delivery_info_receiver_name = $args[4]['receiver_name'];
-                        $sqltwo.= " and delivery_info_receiver_name ='$delivery_info_receiver_name'";
+                        $sqltwo.= " and delivery_info_receiver_name ='$delivery_info_receiver_name' ";
                     }
                 }
                 else
@@ -462,20 +526,20 @@
                     if($args[4]['receiver_name'] != "")
                     {
                         $return_info_receiver_name = $args[4]['receiver_name'];
-                        $sqltwo.= " and return_info_receiver_name ='$return_info_receiver_name'";
+                        $sqltwo.= " and return_info_receiver_name ='$return_info_receiver_name' ";
                     }
                 }
-                if($args[4]['department'] != "")
+                if($args[4]['departname'] != "")
                 {
-                    $organize_id = $args[4]['department'];
-                    $sqltwo.= " and build_organize_id ='$organize_id'";
+                    $departmentname1 = $args[4]['departname'];
+                    $sqltwo.= " and (build_department_name ='$departmentname1' or build_organize_name ='$departmentname1') ";
 
                 }
 
                 if($args[4]['areamanager'] != "")
                 {
-                    $user_id = $args[4]['areamanager'];
-                    $sqltwo.= " and build_user_id ='$user_id'";
+                    $user_name = $args[4]['areamanager'];
+                    $sqltwo.= " and build_user_name ='$user_name' ";
 
                 }
             }
@@ -626,7 +690,15 @@
                 return $tableorganize;
             return null;
         }
-
+        /*根据部门id那名字*/
+        public static function querydepartmentname($param)
+        {
+            $sql = "select * from  dsp_logistic.organize where organize_id = '$param'";
+            $tableorganize = Db::query($sql);
+            if(!empty($tableorganize))
+                return $tableorganize[0]["organize_name"];
+            return "";
+        }
 
         /*根据增加和更新组织架构*/
         public static function updatedepartment($department){
@@ -961,6 +1033,7 @@
             }
         }
 
+<<<<<<< HEAD
         public static function getcsinfomaxid(){
             $dateymd = date('Ymd');
             $sql ="select * from dsp_logistic.cs_info where cs_id like '%{$dateymd}%'";
@@ -983,5 +1056,69 @@
                 return $dateymd.$strmaxid;
             }
         }
+=======
+
+        public static function getcuruserquerypower($user)
+        {
+            if(empty($user))
+                return;
+            $role = \app\index\model\Admin::queryroleinfo($user["role_id"]);
+            if(empty($role))
+                return ;
+            $rolename = $role[0]["role_name"];
+            $userquerypower = array();
+            $userquerypower["isSales"] = false;
+            if( $rolename == "管理人员" || $rolename == "部长/主管"||$rolename == "物流部人员"||$rolename == "财务部")
+            {
+                $userquerypower["isSales"] = true;
+            }
+            else
+            {
+                if($rolename == "总经理")
+                {
+                    $userquerypower["organizename"] = \app\index\model\Admin::querydepartmentname($user["organize_id"]);
+                    $userquerypower["departmentname"] ="";
+                    $userquerypower["areamanager"] ="";
+                }
+                if($rolename == "总监")
+                {
+                    $userquerypower["departmentname"] = \app\index\model\Admin::querydepartmentname($user["organize_id"]);
+                    $userquerypower["areamanager"] ="";
+                    $organize = \app\index\model\Admin::getdepleaderbyuserid($user["user_id"],"总经理");
+                    $userquerypower["organizename"] = \app\index\model\Admin::querydepartmentname($organize["organize_id"]);
+                }
+                if($rolename == "经理")
+                {
+                    $userquerypower["areamanager"] = $user["fullname"];
+                    $depart = \app\index\model\Admin::getdepleaderbyuserid($user["user_id"],"总监");
+                    $userquerypower["departmentname"] = \app\index\model\Admin::querydepartmentname($depart["organize_id"]);
+                    $organize = \app\index\model\Admin::getdepleaderbyuserid($depart[0]["user_id"],"总经理");
+                    $userquerypower["organizename"] = \app\index\model\Admin::querydepartmentname($organize["organize_id"]);
+                }
+            }
+            session("user_querypower", $userquerypower);
+
+        }
+
+
+        public static function login($username,$password){
+            $where['fullname'] = $username;
+            $where['password'] = $password;
+
+            $user = Db::name('dsp_logistic.user')->where($where)->find();   /*用户信息检测*/
+            if($user){
+                unset($user["password"]);      	   					       /*销毁password*/
+                session_start();
+                session("user_session", $user);/*创建session,里面只包含用户名，password已经销毁*/
+
+
+                \app\index\model\Admin::getcuruserquerypower($user);
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+>>>>>>> af080395b629cae694fe8a360293c88aae229d78
     }
 ?>

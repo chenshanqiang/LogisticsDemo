@@ -6,23 +6,15 @@ class Approvepartsconfirmorder extends Controller
 {
 	/*新增订单渲染方法*/
     public function approvepartsconfirmorder(){
-        $organizeid = session("user_session");
-        $tablelist = \app\index\model\Admin::querydepartmentinfo($organizeid["organize_id"]);
-        if(!empty($tablelist))
-            $this->assign("departmentlist",$tablelist);
-        else
-        {
-            $tablelist = \app\index\model\Admin::querydepartmentinfo($organizeid["organize_id"],$organizeid["organize_id"]);
-            if(!empty($tablelist))
-                $this->assign("departmentlist",$tablelist);
-        }
+
         return $this->fetch();
     }
 
     public function getexamineorder(){
     	$page = $_GET['page'];
     	$limit = $_GET['limit'];
-        $user_id = 1;
+        $user = session("user_session");
+        $user_id = $user["user_id"];
         $orderType = 5;
         if(isset($_GET['queryInfo'])){
             $queryInfo = $_GET['queryInfo'];
