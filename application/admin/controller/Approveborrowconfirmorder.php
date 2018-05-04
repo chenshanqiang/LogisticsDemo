@@ -22,7 +22,8 @@ class Approveborrowconfirmorder extends Controller
     public function getexamineorder(){
     	$page = $_GET['page'];
     	$limit = $_GET['limit'];
-        $user_id = 1;
+        $user = session("user_session");
+        $user_id = $user["user_id"];
         $orderType = 2;
         if(isset($_GET['queryInfo'])){
             $queryInfo = $_GET['queryInfo'];
