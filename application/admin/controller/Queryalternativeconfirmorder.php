@@ -79,4 +79,9 @@ class Queryalternativeconfirmorder extends Controller
 
     	return $tablelist;
     }
+
+    /*导出代用确认单确认单*/
+    public function exportalternativeconfirmorder(){
+        return '导出代用确认单';
+    }
 }

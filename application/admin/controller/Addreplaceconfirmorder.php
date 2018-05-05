@@ -26,6 +26,7 @@ class Addreplaceconfirmorder extends Controller
     /**新增订单（包含审批 清单）**/
     public function addconfirmorder()
     {
+        $date_now = date("Y-m-d H:i:s");
         $cs_info = $_POST['cs_info'];
         $custom_info = $_POST['custom_info'];
         $delivery_info = $_POST['delivery_info'];
@@ -35,27 +36,27 @@ class Addreplaceconfirmorder extends Controller
         $order_goods_manager = $_POST['order_goods_manager'];
 
         $cs_info_id = \app\index\model\Admin::getcsinfomaxid();
+        $cs_info['write_date'] = $date_now;
         $cs_info['cs_id'] = $cs_info_id;
         $cs_belong['cs_id'] = $cs_info['cs_id'];
-        $cs_belong['cs_belong_create_time'] = date("Y-m-d H:i:s");
+        $cs_belong['cs_belong_create_time'] = $date_now;
 
-        $retsql = \app\index\model\Admin::addcsbelong($cs_belong);
+        $ret_cs_belog = \app\index\model\Admin::addcsbelong($cs_belong);
+        if (empty($ret_cs_belog)) {
+            return false;
+        }
+        $ret_custom_info = \app\index\model\Admin::addcustominfo($custom_info);
 
-        $retsql = \app\index\model\Admin::addcustominfo($custom_info);
-        if (empty($retsql)) {
-            return null;//添加失败删除    cs_belong
+        if (empty($ret_custom_info)) {
+            return false;//添加失败删除
         }
-        $retsql = \app\index\model\Admin::adddeliveryinfo($delivery_info);
-        if (empty($retsql)) {
-            \app\index\model\Admin::deleterowtableid('custom_info', 'custom_info_id', $custom_info_id);
-            return null;
-            return '-------------------52----------------------';
+        $ret_delivery_info = \app\index\model\Admin::adddeliveryinfo($delivery_info);
+        if (empty($ret_delivery_info)) {
+            return false;
         }
-        $retsql = \app\index\model\Admin::addreturninfo($return_info);
+        $ret_return_info = \app\index\model\Admin::addreturninfo($return_info);
         if (empty($retsql)) {
-            \app\index\model\Admin::deleterowtableid('delivery_info', 'delivery_info_id', $delivery_info_id);
-            return null;
-            return '------------------58-----------------------';
+            return false;
         }
         $num = count($order_goods_manager);
         for ($i = 0; $i < $num; $i++) {
@@ -69,14 +70,14 @@ class Addreplaceconfirmorder extends Controller
             if ($i == 0) {
                 $dbleader = \app\index\model\Admin::getdepleaderbyuserid($user_id, '总监');
                 if (empty($dbleader)) {
-                    return '总监';
+                    return false;
                 }
                 $cs_examine[$i]['examine_user_id'] = $dbleader[0]['user_id'];
                 $cs_examine[$i]['cs_examine_name'] = $dbleader[0]['fullname'];
             } else if ($i == 1) {
                 $dbleader = \app\index\model\Admin::getdepleaderbyuserid($user_id, '总经理');
                 if (empty($dbleader)) {
-                    return '总经理';
+                    return false;
                     //return false;
                 }
                 $cs_examine[$i]['examine_user_id'] = $dbleader[0]['user_id'];
@@ -84,7 +85,6 @@ class Addreplaceconfirmorder extends Controller
             } else if ($i == 2) {
                 $dbleader = \app\index\model\Admin::getdepleaderbyuserid($user_id, '财务部');
                 if (empty($dbleader)) {
-                    return '财务部';
                     return false;
                 }
                 $cs_examine[$i]['examine_user_id'] = $dbleader[0]['user_id'];
@@ -92,7 +92,6 @@ class Addreplaceconfirmorder extends Controller
             }
             $rettest = \app\index\model\Admin::addcsexamine($cs_examine[$i]);
         }
-
         $custom_info_id = \app\index\model\Admin::getmaxtableidretid('custom_info', 'custom_info_id');
         $delivery_info_id = \app\index\model\Admin::getmaxtableidretid('delivery_info', 'delivery_info_id');
         $cs_examine_id = \app\index\model\Admin::getmaxtableidretid('cs_examine', 'cs_examine_id');
@@ -105,18 +104,19 @@ class Addreplaceconfirmorder extends Controller
         $cs_info['custom_info_id'] = $custom_info_id;
         $cs_info['delivery_info_id'] = $delivery_info_id;
         $cs_info['cs_examine_ids'] = ($cs_examine_id - 3) . ',' . ($cs_examine_id - 2) . ',' . ($cs_examine_id - 1);
-        $retsql = \app\index\model\Admin::addconfirmorder($cs_info);
-        if (!empty($retsql)) {
-            //删除上面的表
-        } else {
-            return '订单写入出错';
+        $ret_confirm_order = \app\index\model\Admin::addconfirmorder($cs_info);
+        if (empty($ret_confirm_order)) {
+            $cs_belong_id = \app\index\model\Admin::getmaxtableidretid('cs_belong', 'cs_belong_id');
+
+            \app\index\model\Admin::deleterowtableid('cs_belong', 'cs_belong_id', $cs_belong_id);
             \app\index\model\Admin::deleterowtableid('custom_info', 'custom_info_id', $custom_info_id);
             \app\index\model\Admin::deleterowtableid('delivery_info', 'delivery_info_id', $delivery_info_id);
             \app\index\model\Admin::deleterowtableid('return_info', 'return_info_id', $return_info_id);
-            //\app\index\model\Admin::deleterowtableid('payment_info','payment_info_id',$delivery_info_id);
+            //删除上面的表
+            //还有 order_goods_manager  cs_examine
+            return false;
         }
-        return '成功了！！！！';
-        return $retsql;
+        return $cs_info_id;
     }
 
 

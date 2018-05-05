@@ -16,6 +16,7 @@ class Addconfirmorderitem extends Controller
         $producttype = \app\index\model\Admin::getclassinfo('product_type','product_type_id');
         $brand = \app\index\model\Admin::getclassinfo('product_brand','brand_id');
         $place = \app\index\model\Admin::getclassinfo('product_place','place_id');
+        $uncproduct = \app\index\model\Admin::getuncproduct();
         if (!empty($brand)){
             $this->assign('producttypelist',$producttype);
         }
@@ -24,6 +25,9 @@ class Addconfirmorderitem extends Controller
         }
         if (!empty($place)){
             $this->assign('placelist',$place);
+        }
+        if (!empty($uncproduct)){
+            $this->assign('uncproductlist',$uncproduct);
         }
         return $this->fetch();
     }

@@ -9,9 +9,6 @@
 	{
 		/*登录验证*/
 
-
-
-
 		/*退出登录*/
 		public static function logout(){
 			session("user_session", NULL);        					/*user_session置空，表示注销当前用户*/
@@ -1114,6 +1111,31 @@
             }else{
                 return false;
             }
+        }
+
+
+        /*导出更换确认单*/
+        public static function exportreplaceconfirmorder(){
+            $root_url = $_SERVER['DOCUMENT_ROOT'];
+            $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+            $objPHPExcel = $objReader->load($root_url."/templates/26template.xlsx");
+            $objPHPExcel->getActiveSheet()->setTitle('sheetone');
+            $objPHPExcel->setActiveSheetIndex(0);
+            $objPHPExcel->getActiveSheet()->setCellValue('C3', '研发一部');
+            $objPHPExcel->getActiveSheet()->getStyle('C3')->getFont()->setName('Candara');
+            $objPHPExcel->getActiveSheet()->getStyle('C3')->getFont()->setSize(16);
+            $objPHPExcel->getActiveSheet()->getStyle('C3')->getFont()->setBold(true);
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007'); 
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="01simple.xlsx"');
+            header('Cache-Control: max-age=0');
+            $objWriter->save("php://output");
+        }
+
+        /*获取非常规产品 unc_product*/
+        public static function getuncproduct(){
+            $sql = "SELECT * FROM dsp_logistic.unc_product";
+            return Db::query($sql);
         }
     }
 ?>

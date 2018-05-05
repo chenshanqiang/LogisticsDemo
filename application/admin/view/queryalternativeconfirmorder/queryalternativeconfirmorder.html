@@ -56,7 +56,9 @@
 
 				/*监听导出按钮*/
 				form.on('submit(export)',function(data){
-					var index = top.layer.msg('打开导出参数设置界面');
+					jq.post("{:url('admin/queryalternativeconfirmorder/exportalternativeconfirmorder')}",function(data){
+						console.log(data);
+					});
 					return false;
 				});
 
