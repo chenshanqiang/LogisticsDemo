@@ -1138,5 +1138,59 @@
             $sql = "SELECT * FROM dsp_logistic.unc_product";
             return Db::query($sql);
         }
+        /*新增订货确认单 order_goods_cs_info*/
+        public static function addordergoodscsinfo($info){
+            $cs_id = $info['cs_id'];
+            $ofg_info_id = $info['ofg_info_id'];
+            $fee_info_id = $info['fee_info_id'];
+            $delivery_date_reply = $info['delivery_date_reply'];
+            $unc_ofg_info_id = $info['unc_ofg_info_id'];
+            $consult_sheet_file = $info['consult_sheet_file'];
+            $delivered_total = $info['delivered_total'];
+            $delivered_pa = $info['delivered_pa'];
+            $delivered_conference = $info['delivered_conference'];
+            $delivered_customization = $info['delivered_customization'];
+            $delivered_record = $info['delivered_record'];
+            $delivered_metro = $info['delivered_metro'];
+            $delivered_aux = $info['delivered_aux'];
+            $delivered_gift = $info['delivered_gift'];
+            $delivered_album = $info['delivered_album'];
+            $product_number = $info['product_number'];
+            $sql_value ="'{$cs_id}','{$ofg_info_id}','{$fee_info_id}','{$delivery_date_reply}','{$unc_ofg_info_id}','{$consult_sheet_file}','{$delivered_total}',";
+            $sql_value .= "'{$delivered_pa}','{$delivered_conference}','{$delivered_customization}','{$delivered_record}','{$delivered_metro}','{$delivered_aux}',";
+            $sql_value .= "'{$delivered_gift}','{$delivered_album}','{$product_number}'";
+            $sql = "INSERT INTO dsp_logistic.order_goods_cs_info (cs_id,ofg_info_id,fee_info_id,delivery_date_reply,unc_ofg_info_id,consult_sheet_file,";
+            $sql .= "delivered_total,delivered_pa,delivered_conference,delivered_customization,delivered_record,delivered_metro,delivered_aux,";
+            $sql .= "delivered_gift,delivered_album,product_number) VALUES ({$sql_value})";
+            $sqlret = Db::execute($sql);
+            return $sqlret;
+        }
+        /*新增订单信息 ofg_info*/
+        public static function addofginfo($info){
+            $ofg_info_id = $info['ofg_info_id'];
+            $receiver_name = $info['receiver_name'];
+            $receiver_phone = $info['receiver_phone'];
+            $receiver_address = $info['receiver_address'];
+            $user_id = $info['user_id'];
+
+            $sql_value ="'{$ofg_info_id}','{$receiver_name}','{$receiver_phone}','{$receiver_address}','{$user_id}'";
+            $sql = "INSERT INTO dsp_logistic.ofg_info (ofg_info_id,receiver_name,receiver_phone,receiver_address,user_id) VALUES ({$sql_value})";
+            $sqlret = Db::execute($sql);
+            return $sqlret;
+        }
+
+        /*新增费用情况 fee_info*/
+        public static function addfeeinfo($info){
+            $ofg_info_id = $info['ofg_info_id'];
+            $receiver_name = $info['receiver_name'];
+            $receiver_phone = $info['receiver_phone'];
+            $receiver_address = $info['receiver_address'];
+            $user_id = $info['user_id'];
+
+            $sql_value ="'{$ofg_info_id}','{$receiver_name}','{$receiver_phone}','{$receiver_address}','{$user_id}'";
+            $sql = "INSERT INTO dsp_logistic.ofg_info (ofg_info_id,receiver_name,receiver_phone,receiver_address,user_id) VALUES ({$sql_value})";
+            $sqlret = Db::execute($sql);
+            return $sqlret;
+        }
     }
 ?>
