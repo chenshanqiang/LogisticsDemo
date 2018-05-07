@@ -1105,7 +1105,6 @@
                 session_start();
                 session("user_session", $user);/*创建session,里面只包含用户名，password已经销毁*/
 
-
                 \app\index\model\Admin::getcuruserquerypower($user);
                 return true;
             }else{
