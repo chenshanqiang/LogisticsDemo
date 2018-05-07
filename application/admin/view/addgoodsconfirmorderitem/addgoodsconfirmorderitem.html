@@ -60,28 +60,6 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">生产地：</label>
-                <div class="layui-input-inline" style="max-width:120px">
-                    <select id="place_id" name="place_id" lay-filter="place_id">
-                        <option value="" selected>请选择</option>
-                        {volist name="placelist" id="vo"}
-                        <option value={$vo.place_id}>{$vo.place_name}</option>
-                        {/volist}
-                    </select>
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">非常规产品：</label>
-                <div class="layui-input-inline" style="max-width:120px">
-                    <select id="unc_productid" name="unc_productname" lay-filter="unc_productname">
-                        <option value="" selected>请选择</option>
-                        {volist name="uncproductlist" id="vo1"}
-                        <option value={$vo1.unc_product_id}>{$vo1.unc_product_name}</option>
-                        {/volist}
-                    </select>
-                </div>
-            </div>
-            <div class="layui-inline">
                 <label class="layui-form-label">状态：</label>
                 <div class="layui-input-inline" style="max-width:120px">
                     <select id="productstate" name="productstate" lay-filter="productstate">
@@ -121,10 +99,6 @@
        var form = layui.form,
            laydate = layui.laydate;
         jq = layui.jquery;
-       form.on('select(type_name)',function(typedata){
-           //jq.post("{:url('admin/addconfirmorderitem/getbrand')}",{})
-       })
-       //brand_id
         jq("#serachModelinfo").autocomplete({
             source:function(request,response){
                 jq.ajax({
@@ -193,34 +167,27 @@
         orderItem.brand_text = obj1.options[obj1.selectedIndex].text;
         orderItem.model = modeltext;
         var obj2 = document.getElementById("place_id");
-        orderItem.place_text = obj2.options[obj2.selectedIndex].text;
-        orderItem.place = place_id
+        //orderItem.place_text = obj2.options[obj2.selectedIndex].text;
+        //orderItem.place = place_id
         orderItem.count = count;
         orderItem.unit = jq('#inputunit').val();
-        var unc_productid = jq("#unc_productid").find("option:selected").val();
-        var unc_product_text = "";
-        if(unc_productid == ""){
-            unc_product_text = "";
-        }else {
-            unc_product_text = jq("#unc_productid").find("option:selected").text();
-        }
-        orderItem.unc_product_text = unc_product_text;
-        orderItem.unc_product_id = unc_productid;
 
         orderItem.product_state_text = jq("#productstate").find("option:selected").text();
         orderItem.product_state_id = product_state_id;
         orderItem.comment = jq('#comment').val();
         //+判断 型号是否存在，不存在禁止录入
         jq.ajax({
-            url:"{:url('admin/addgoodsconfirmorderitem/serachmodelinfo')}",
+            url:"{:url('admin/addgoodsconfirmorderitem/serachproductinfo')}",
             type:"POST",
             dataType:"json",
             async:false,
             data:{serrchText:jq("#serachModelinfo").val(),type:jq("#product_type_id").val(),brand:jq('#brand_id').val()},
             success:function(data){
                 if(data != null){
-                    orderItem.model_text = data[0].product_info_name;
-                    orderItem.model_id = data[0].product_info_id;
+                    orderItem.place_text = data.place_info.place_name;
+                    orderItem.place_id = data.place_info.place_id
+                    orderItem.model_text = data.product_info.product_info_name;
+                    orderItem.product_info_id = data.product_info.product_info_id;
                 }else {
                     layui.use('layer', function(){
                         var layer = layui.layer;

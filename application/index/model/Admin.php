@@ -1029,10 +1029,9 @@
                 return Db::query($sqlleader);
             }
         }
-
-        public static function getcsinfomaxid(){
+        public static function getcsinfomaxid($tableName,$tableID){
             $dateymd = date('Ymd');
-            $sql ="select * from dsp_logistic.cs_info where cs_id like '%{$dateymd}%'";
+            $sql ="select * from dsp_logistic.{$tableName} where {$tableID} like '%{$dateymd}%'";
             $retdb = Db::query($sql);
             if(empty($retdb)){
                 return $dateymd.'0001';
@@ -1191,6 +1190,25 @@
             $sql = "INSERT INTO dsp_logistic.ofg_info (ofg_info_id,receiver_name,receiver_phone,receiver_address,user_id) VALUES ({$sql_value})";
             $sqlret = Db::execute($sql);
             return $sqlret;
+        }
+        /*新增 订货确认单 清单 order_goods_cs_undeliver_goods_info*/
+        public static function addogcugi($info){
+            $ogcugi_id = $info['ogcugi_id'];
+            $cs_id = $info['cs_id'];
+            $product_info_id = $info['product_info_id'];
+            $ogcugi_count = $info['ogcugi_count'];
+            $ogcugi_product_state = $info['ogcugi_product_state'];
+            $ogcugi_comment = $info['ogcugi_comment'];
+            $ogcugi_unit = $info['ogcugi_unit'];
+            $sql_value ="'{$ogcugi_id}','{$cs_id}','{$product_info_id}','{$ogcugi_count}','{$ogcugi_product_state}','{$ogcugi_comment}','{$ogcugi_unit}'";
+            $sql = "INSERT INTO dsp_logistic.order_goods_cs_undeliver_goods_info (ogcugi_id,cs_id,product_info_id,ogcugi_count,ogcugi_product_state,ogcugi_comment,ogcugi_unit) VALUES ({$sql_value})";
+            $sqlret = Db::execute($sql);
+            return $sqlret;
+        }
+
+        public static function getproductplace($place_id){
+            $sqlleader = "SELECT * FROM dsp_logistic.product_place WHERE place_id = '{$place_id}'LIMIT 1";
+            return Db::query($sqlleader);
         }
     }
 ?>
