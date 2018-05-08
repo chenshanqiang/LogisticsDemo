@@ -6,6 +6,7 @@ class Addborrowconfirmorder extends Controller
 {
 	/*新增订单渲染方法*/
     public function addborrowconfirmorder(){
-    	return $this->fetch();
+    	//return $this->fetch();
+    	return '123';
     }
 }
