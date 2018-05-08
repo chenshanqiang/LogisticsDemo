@@ -49,7 +49,7 @@ class Addreplaceconfirmorder extends Controller
         $cs_examine = $_POST['cs_examine'];
         $order_goods_manager = $_POST['order_goods_manager'];
 
-        $cs_info_id = \app\index\model\Admin::getcsinfomaxid();
+        $cs_info_id = \app\index\model\Admin::getcsinfomaxid('cs_info','cs_id');
         $cs_info['write_date'] = $date_now;
         $cs_info['cs_id'] = $cs_info_id;
         $cs_belong['cs_id'] = $cs_info['cs_id'];
