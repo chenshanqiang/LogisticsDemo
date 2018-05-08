@@ -821,9 +821,13 @@
             $sql = "SELECT max({$tableID}) FROM dsp_logistic.{$tablename}";
             $organizeID = Db::query($sql);
             if (!empty($organizeID)){
-                return $organizeID[0]["max({$tableID})"];
+                $id = $organizeID[0]["max({$tableID})"];
+                if (empty($id)){
+                    return 0;
+                }
+                return $id;
             }else{
-                return -1;
+                //return -1;
             }
         }
 
@@ -1209,6 +1213,23 @@
         public static function getproductplace($place_id){
             $sqlleader = "SELECT * FROM dsp_logistic.product_place WHERE place_id = '{$place_id}'LIMIT 1";
             return Db::query($sqlleader);
+        }
+        /*物流信息 logistics_info*/
+        public static function updatelogisticsinfo($info){
+            $logistics_id = $info['logistics_id'];
+            $cs_id = $info['cs_id'];
+            $goods_yard_name = $info['goods_yard_name'];
+            $transfer_order_num = $info['transfer_order_num'];
+            $delivery_date = $info['delivery_date'];
+            $count = $info['count'];
+            $user_id = $info['user_id'];
+            $time_stamp = $info['time_stamp'];
+            $sql_value ="'{$logistics_id}','{$cs_id}','{$goods_yard_name}','{$transfer_order_num}','{$delivery_date}','{$count}','{$user_id}','{$time_stamp}'";
+            $sql = "INSERT INTO dsp_logistic.logistics_info (logistics_id,cs_id,goods_yard_name,transfer_order_num,delivery_date,count,user_id,time_stamp) VALUES ({$sql_value})";
+            $sql .= " ON DUPLICATE KEY UPDATE cs_id = '{$cs_id}',goods_yard_name = '{$goods_yard_name}',transfer_order_num = '{$transfer_order_num}',delivery_date = '{$delivery_date}'";
+            $sql .= ",count = '{$count}',user_id = '{$user_id}',time_stamp = '{$time_stamp}'";
+            $sqlret = Db::execute($sql);
+            return $sqlret;
         }
     }
 ?>

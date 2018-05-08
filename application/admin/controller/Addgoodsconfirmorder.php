@@ -41,8 +41,12 @@ class Addgoodsconfirmorder extends Controller
         return $result;
     }
 
+                                                                                            //改
     public function addcs(){
+        $user_session = session("user_session");
+        $login_user_id = $user_session['user_id'];
         $date_now = date("Y-m-d H:i:s");
+        $logistics_info = $_POST['logistics_info'];
         $order_goods_cs_info = $_POST['order_goods_cs_info'];
         $ofg_info = $_POST['ofg_info'];
         $fee_info = $_POST['fee_info'];
@@ -69,7 +73,14 @@ class Addgoodsconfirmorder extends Controller
         $order_goods_cs_info['fee_info_id'] = $fee_info_id;
         $cs_info_id = \app\index\model\Admin::getcsinfomaxid('order_goods_cs_info','cs_id');
         $order_goods_cs_info['cs_id'] = $cs_info_id;
-
+        $logistics_id = \app\index\model\Admin::getmaxtableidretid('logistics_info', 'logistics_id');
+        $logistics_info['logistics_id'] = $logistics_id + 1;
+        $logistics_info['user_id'] = $login_user_id;
+        $logistics_info['cs_id'] = $cs_info_id;
+        $ret_logistics =\app\index\model\Admin::updatelogisticsinfo($logistics_info);
+        if (empty($ret_logistics)) {
+            return false;
+        }
         if (!empty($order_goods_cs_undeliver_goods_info)){
             for ($i = 0; $i < $ogcugi_length; $i++){
                 $order_goods_cs_undeliver_goods_info[$i]['cs_id'] = $cs_info_id;
