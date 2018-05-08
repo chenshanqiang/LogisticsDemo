@@ -947,18 +947,13 @@
             $cs_belong_create_time = $info['cs_belong_create_time'];
             $build_user_name = $info['build_user_name'];
             $build_organize_name = $info['build_organize_name'];
-<<<<<<< HEAD
-            $sql_value ="'$cs_belong_id','{$cs_id}','{$build_organize_id}','{$build_user_id}','{$cs_belong_create_time}','{$build_user_name}','{$build_organize_name}'";
+            $build_department_id = $info['build_department_id'];
+            $build_department_name = $info['build_department_name'];
+            $sql_value ="'$cs_belong_id','{$cs_id}','{$build_organize_id}','{$build_user_id}','{$cs_belong_create_time}','{$build_user_name}','{$build_organize_name}','{$build_department_id}','{$build_department_name}'";
             $sql = "INSERT INTO dsp_logistic.cs_belong (cs_belong_id,cs_id,build_organize_id,build_user_id,cs_belong_create_time,build_user_name,build_organize_name) VALUES ({$sql_value})";
             $sql.= "ON DUPLICATE KEY UPDATE cs_id = '$cs_id',build_organize_id = '$build_organize_id',build_user_id = '$build_user_id',";
-            $sql.= "cs_belong_create_time= '$cs_belong_create_time',build_user_name= '$build_user_name',build_organize_name= '$build_organize_name'";
-=======
-
-            $build_dspartment_id = $info['build_dspartment_id'];
-            $build_department_name = $info['build_department_name'];
-            $sql_value ="'{$cs_id}','{$build_organize_id}','{$build_user_id}','{$cs_belong_create_time}','{$build_user_name}','{$build_organize_name}','{$build_dspartment_id}','{$build_department_name}'";
-            $sql = "INSERT INTO dsp_logistic.cs_belong (cs_id,build_organize_id,build_user_id,cs_belong_create_time,build_user_name,build_organize_name,build_dspartment_id,build_department_name) VALUES ({$sql_value})";
->>>>>>> 5b5a9a36db08a67817a341940ddde7867e7f8291
+            $sql.= "cs_belong_create_time= '$cs_belong_create_time',build_user_name= '$build_user_name',build_organize_name= '$build_organize_name',";
+            $sql.= "build_department_id='{$build_department_id}',build_department_name='{$build_department_name}';";
             $sqlret = Db::execute($sql);
             return $sqlret;
         }
@@ -1180,11 +1175,6 @@
             $sql = "SELECT * FROM dsp_logistic.unc_product";
             return Db::query($sql);
         }
-<<<<<<< HEAD
-
-
-
-=======
         /*新增订货确认单 order_goods_cs_info*/
         public static function addordergoodscsinfo($info){
             $cs_id = $info['cs_id'];
@@ -1276,6 +1266,5 @@
             $sqlret = Db::execute($sql);
             return $sqlret;
         }
->>>>>>> 5b5a9a36db08a67817a341940ddde7867e7f8291
     }
 ?>
