@@ -23,6 +23,20 @@ class Addreplaceconfirmorder extends Controller
         return $this->fetch();
     }
 
+    public function editreplaceconfirmorder()
+    {
+        $organizeid = session("user_session");
+        $depid = $organizeid["organize_id"];  //部门id
+        $this->assign("depid", $depid);
+        $date = date('Ymd');
+        $this->assign("date", $date);
+        /*$orderid = \app\index\model\Admin::getcsinfomaxid();
+        $this->assign("orderid", $orderid);*/
+        $companytable = \app\index\model\Admin::querydepartmentinfo(0);
+        if (!empty($companytable))
+            $this->assign("companylist", $companytable);
+        return $this->fetch('addreplaceconfirmorder');
+    }
     /**新增订单（包含审批 清单）**/
     public function addconfirmorder()
     {
